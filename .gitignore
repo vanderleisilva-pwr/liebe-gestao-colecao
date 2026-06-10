@@ -1,0 +1,21 @@
+# Configuração local do Claude Code / preview (não relevante para deploy ou TI)
+.claude/
+
+# Backups exportados pelo app
+liebe-backup-*.json
+liebe-gestao-colecao-*.xlsx
+liebe-gestao-colecao-*.csv
+
+# Sistema operacional
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Vercel
+.vercel/
+
+# Python (caso rode o gerador de seed)
+__pycache__/
+*.pyc
+.venv/
+venv/

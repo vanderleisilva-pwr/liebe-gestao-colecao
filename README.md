@@ -4,6 +4,9 @@ Sistema online de gestão do cronograma de coleção do setor de **Estilo & Prod
 
 **Protótipo de validação:** arquivo único HTML + JS vanilla, sem build, dados no navegador (localStorage). Após aprovação de Cairo/Joice, migra para Next.js + Supabase (ver "Migração" abaixo).
 
+🔗 **Link online (para a Joice testar):** _será preenchido após o deploy na Vercel_
+🛠️ **Manutenção (time de TI):** ver [docs/HANDOVER-TI.md](docs/HANDOVER-TI.md)
+
 ## Estrutura
 
 | Arquivo | O que é |
