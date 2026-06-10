@@ -244,7 +244,7 @@ function agoraIso(){return new Date().toISOString()}
 function diffDias(a,b){const[x,y,z]=a.split('-').map(Number),[p,q,r]=b.split('-').map(Number);return Math.round((Date.UTC(p,q-1,r)-Date.UTC(x,y-1,z))/864e5)}
 function fmtBR(d){if(!d)return'—';const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0].slice(2)}
 function fmtBRfull(d){if(!d)return'—';const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
-function iniciais(n){return n.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
+function iniciais(n){return n.split(/\s+/).map(x=>x.replace(/[^\p{L}]/gu,'')).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._x);toast._x=setTimeout(()=>t.classList.remove('show'),2600)}
 
 /* ---------------------------- store ---------------------------- */
@@ -665,7 +665,7 @@ function vRituais(){
 /* =================================================================
    MODAIS
    ================================================================= */
-function openModal(html){$('#modal').innerHTML=`<div class="modal-card" onclick="event.stopPropagation()">${html}</div>`;$('#modal').classList.add('open')}
+function openModal(html){$('#modal').innerHTML=`<div class="modal-card">${html}</div>`;$('#modal').classList.add('open')}
 function closeModal(){$('#modal').classList.remove('open');$('#modal').innerHTML=''}
 function selUsers(id,val,filtro){return `<select id="${id}">${db.users.filter(u=>u.active&&(!filtro||u.role!=='leitura')).map(u=>`<option value="${u.id}" ${val===u.id?'selected':''}>${esc(u.name)} — ${esc(u.job_title)}</option>`).join('')}</select>`}
 
