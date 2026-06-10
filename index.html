@@ -49,7 +49,7 @@ h1,h2,h3{font-weight:600}
 /* ============================ SHELL ============================ */
 .shell{display:flex;min-height:100vh}
 .sidebar{width:232px;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;height:100vh;z-index:40;transition:transform .2s;overflow:hidden}
-.side-brand{padding:22px 20px 14px;text-align:center;border-bottom:1px solid var(--line);flex-shrink:0}
+.side-brand{padding:22px 20px 14px;text-align:center;border-bottom:1px solid var(--line);flex-shrink:0;position:relative}
 .side-brand .brand{font-size:24px}
 .side-brand .brand-sub{margin:4px 0 0;font-size:10px}
 .nav{padding:14px 10px;flex:1 1 auto;overflow-y:auto;min-height:0}
@@ -64,12 +64,19 @@ h1,h2,h3{font-weight:600}
 .side-user .nm{font-size:12.5px;font-weight:600}
 .side-user .jt{font-size:10.5px;color:var(--muted)}
 .side-user button{margin-left:auto;color:var(--muted);font-size:11px;text-decoration:underline}
-.main{flex:1;margin-left:232px;display:flex;flex-direction:column;min-width:0}
+.main{flex:1;margin-left:232px;display:flex;flex-direction:column;min-width:0;transition:margin-left .2s}
+/* estado recolhido (vale para desktop e mobile) */
+body.nav-collapsed .sidebar{transform:translateX(-100%)}
+body.nav-collapsed .main{margin-left:0}
+body.nav-collapsed .burger{display:inline-flex;align-items:center;justify-content:center}
 .topbar{display:flex;align-items:center;gap:12px;padding:14px 26px;background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
 .topbar h1{font-size:17px;font-weight:600}
 .topbar .sub{font-size:11.5px;color:var(--muted)}
 .topbar .sp{flex:1}
-.burger{display:none;font-size:20px;padding:4px 8px}
+.burger{display:none;font-size:20px;padding:2px 10px;border-radius:8px;color:var(--rose-dark)}
+.burger:hover{background:var(--blush)}
+.side-hide{position:absolute;top:14px;right:12px;width:30px;height:30px;border-radius:8px;background:var(--blush);color:var(--rose-dark);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
+.side-hide:hover{background:var(--rose);color:#fff}
 .content{padding:22px 26px 60px;max-width:1500px;width:100%}
 
 /* ============================ COMPONENTES ============================ */
@@ -252,10 +259,9 @@ body[data-role="leitura"] .w{display:none!important}
 
 /* ============================ MOBILE ============================ */
 @media(max-width:860px){
-  .sidebar{transform:translateX(-100%)}
-  .sidebar.open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,.3)}
   .main{margin-left:0}
-  .burger{display:block}
+  .burger{display:inline-flex;align-items:center;justify-content:center}
+  body:not(.nav-collapsed) .sidebar{box-shadow:0 0 40px rgba(0,0,0,.35)}
   .content{padding:14px 12px 60px}
   .kanban{grid-template-columns:1fr}
   .hero .big{margin-left:0}
@@ -292,8 +298,13 @@ function iniciais(n){return n.split(/\s+/).map(x=>x.replace(/[^\p{L}]/gu,'')).fi
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._x);toast._x=setTimeout(()=>t.classList.remove('show'),2600)}
 
 /* ---------------------------- store ---------------------------- */
-const LS_DB='liebe_db', LS_SESS='liebe_session', LS_TOUR='liebe_tour_seen', LS_EXP='liebe_last_export', LS_SEEDDISMISS='liebe_seed_dismissed';
+const LS_DB='liebe_db', LS_SESS='liebe_session', LS_TOUR='liebe_tour_seen', LS_EXP='liebe_last_export', LS_SEEDDISMISS='liebe_seed_dismissed', LS_NAV='liebe_nav_collapsed';
 let db=null;
+/* ---------------------------- menu lateral (recolher/mostrar) ---------------------------- */
+function isMobile(){return window.matchMedia('(max-width:860px)').matches}
+let navCollapsed=(()=>{const s=localStorage.getItem(LS_NAV);return s===null?isMobile():s==='1'})();
+function applyNav(){document.body.classList.toggle('nav-collapsed',navCollapsed)}
+function setNav(v){navCollapsed=v;localStorage.setItem(LS_NAV,v?'1':'0');applyNav()}
 let seedUpdate=false; // true quando o data.js traz uma planilha mais recente que a salva
 const clone=o=>JSON.parse(JSON.stringify(o));
 const MIGRATIONS=[]; // futuras migrações de schema (mesmo padrão no Supabase)
@@ -443,7 +454,7 @@ function render(){
   $('#app').innerHTML=`
   <div class="shell">
     <aside class="sidebar" id="sidebar">
-      <div class="side-brand"><div class="brand">li<b>e</b>be</div><div class="brand-sub">gestão de coleção</div></div>
+      <div class="side-brand"><button class="side-hide" data-action="nav-hide" title="Ocultar menu" aria-label="Ocultar menu">«</button><div class="brand">li<b>e</b>be</div><div class="brand-sub">gestão de coleção</div></div>
       <nav class="nav">${Object.entries(ROUTES).map(([k,v])=>`<a href="${k}" class="${k===h?'on':''}"><span class="ic">${v.ic}</span>${v.t}</a>`).join('')}</nav>
       <div class="regra-ouro"><b>Regra de Ouro</b>Prazo cobra-se com a <b style="display:inline">JOICE</b><br>Estilo cobra-se com a <b style="display:inline">ANNA</b></div>
       <div class="side-user">
@@ -454,7 +465,7 @@ function render(){
     </aside>
     <div class="main">
       <div class="topbar">
-        <button class="burger" data-action="burger">☰</button>
+        <button class="burger" data-action="burger" title="Mostrar/ocultar menu" aria-label="Mostrar ou ocultar menu">☰</button>
         <div><h1>${r.t}</h1><div class="sub">${r.sub}</div></div>
         <div class="sp"></div>
         ${h==='#/manual'?'':`<button class="btn btn-g btn-sm" data-action="tour">✦ Tour guiado</button>`}
@@ -465,6 +476,7 @@ function render(){
       <div class="content" id="page">${r.fn()}</div>
     </div>
   </div>`;
+  applyNav();
   autoTour(h);
 }
 
@@ -1057,7 +1069,8 @@ function mDados(){
    AÇÕES (event delegation)
    ================================================================= */
 const ACTIONS={
-  'burger':()=>$('#sidebar').classList.toggle('open'),
+  'burger':()=>setNav(!navCollapsed),
+  'nav-hide':()=>setNav(true),
   'logout':()=>{localStorage.removeItem(LS_SESS);render()},
   'pick-user':d=>{vLogin._sel=d.id;render();setTimeout(()=>$('#pin')?.focus(),50)},
   'do-login':()=>{
@@ -1298,7 +1311,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closeModal();endTour()}
   if(e.key==='Enter'&&$('#pin')&&document.activeElement===$('#pin'))ACTIONS['do-login']();
 });
-window.addEventListener('hashchange',()=>{$('#sidebar')?.classList.remove('open');render()});
+window.addEventListener('hashchange',()=>{if(isMobile())setNav(true);render()});
 window.addEventListener('resize',()=>{if(tourState)tourStep(tourState.i)});
 
 /* ---------------------------- init ---------------------------- */
