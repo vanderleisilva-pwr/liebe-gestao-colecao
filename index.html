@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Liebe · Gestão de Coleção</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================ IDENTIDADE LIEBE ============================ */
+:root{
+  --rose:#b76b79; --rose-dark:#9e5462; --rose-soft:#c4838f; --rose-pale:#e9cdd2;
+  --cream:#faf9f5; --blush:#f3ebe9; --beige:#d4d0be; --ink:#1a1a1a;
+  --muted:#8a8378; --line:#e7e0d8; --white:#ffffff;
+  --ok:#4e8a63; --ok-bg:#e9f2ec; --warn:#b8862e; --warn-bg:#f7efdd;
+  --late:#9e5462; --late-bg:#f5e4e7; --na:#aaa49a;
+  --shadow:0 2px 14px rgba(26,26,26,.07); --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Montserrat',-apple-system,'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(--ink);font-size:14px;line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;background:none;font-size:13px}
+input,select,textarea{font-family:inherit;font-size:13px;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--rose-pale);border-color:var(--rose-soft)}
+a{color:var(--rose-dark)}
+h1,h2,h3{font-weight:600}
+::-webkit-scrollbar{height:10px;width:10px}::-webkit-scrollbar-thumb{background:var(--beige);border-radius:6px}::-webkit-scrollbar-track{background:transparent}
+
+/* ============================ LOGIN ============================ */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--blush) 0%,var(--cream) 55%);padding:24px}
+.login-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:40px 36px;max-width:680px;width:100%}
+.brand{font-size:34px;font-weight:300;letter-spacing:.35em;text-transform:lowercase;color:var(--ink);text-align:center}
+.brand b{color:var(--rose);font-weight:300}
+.brand-sub{text-align:center;color:var(--rose-dark);font-size:12px;letter-spacing:.22em;text-transform:uppercase;margin:6px 0 26px}
+.login-note{background:var(--blush);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--muted);text-align:center;margin-bottom:22px}
+.user-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.user-card{border:1.5px solid var(--line);border-radius:12px;padding:14px 10px;text-align:center;transition:.15s;background:var(--white)}
+.user-card:hover{border-color:var(--rose);transform:translateY(-2px)}
+.user-card.sel{border-color:var(--rose);background:var(--blush)}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--rose);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;margin:0 auto 8px}
+.user-card .nm{font-weight:600;font-size:13px}
+.user-card .jt{font-size:11px;color:var(--muted);margin-top:2px}
+.role-chip{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:99px;margin-top:6px;background:var(--blush);color:var(--rose-dark)}
+.pin-row{display:flex;gap:10px;margin-top:22px;align-items:center;justify-content:center}
+.pin-row input{max-width:140px;text-align:center;letter-spacing:.3em;font-size:16px}
+
+/* ============================ SHELL ============================ */
+.shell{display:flex;min-height:100vh}
+.sidebar{width:232px;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:40;transition:transform .2s}
+.side-brand{padding:22px 20px 14px;text-align:center;border-bottom:1px solid var(--line)}
+.side-brand .brand{font-size:24px}
+.side-brand .brand-sub{margin:4px 0 0;font-size:10px}
+.nav{padding:14px 10px;flex:1}
+.nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:500;font-size:13.5px;margin-bottom:3px}
+.nav a:hover{background:var(--blush)}
+.nav a.on{background:var(--rose);color:#fff}
+.nav a .ic{width:20px;text-align:center;font-size:15px}
+.regra-ouro{margin:10px;background:var(--blush);border:1px dashed var(--rose-soft);border-radius:12px;padding:12px;font-size:11.5px;color:var(--rose-dark);text-align:center;line-height:1.6}
+.regra-ouro b{display:block;letter-spacing:.12em;font-size:10px;text-transform:uppercase;margin-bottom:4px;color:var(--rose)}
+.side-user{padding:12px 14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.side-user .avatar{width:34px;height:34px;font-size:13px;margin:0}
+.side-user .nm{font-size:12.5px;font-weight:600}
+.side-user .jt{font-size:10.5px;color:var(--muted)}
+.side-user button{margin-left:auto;color:var(--muted);font-size:11px;text-decoration:underline}
+.main{flex:1;margin-left:232px;display:flex;flex-direction:column;min-width:0}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 26px;background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.topbar h1{font-size:17px;font-weight:600}
+.topbar .sub{font-size:11.5px;color:var(--muted)}
+.topbar .sp{flex:1}
+.burger{display:none;font-size:20px;padding:4px 8px}
+.content{padding:22px 26px 60px;max-width:1500px;width:100%}
+
+/* ============================ COMPONENTES ============================ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-weight:600;font-size:12.5px;transition:.15s;white-space:nowrap}
+.btn-p{background:var(--rose);color:#fff}.btn-p:hover{background:var(--rose-dark)}
+.btn-o{border:1.5px solid var(--rose);color:var(--rose-dark);background:var(--white)}.btn-o:hover{background:var(--blush)}
+.btn-g{border:1px solid var(--line);color:var(--muted);background:var(--white)}.btn-g:hover{border-color:var(--beige);color:var(--ink)}
+.btn-sm{padding:4px 10px;font-size:11.5px;border-radius:8px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.card h3{font-size:13px;letter-spacing:.04em;margin-bottom:12px;color:var(--ink)}
+.badge{display:inline-block;font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.b-ok{background:var(--ok-bg);color:var(--ok)}.b-warn{background:var(--warn-bg);color:var(--warn)}
+.b-late{background:var(--late-bg);color:var(--late)}.b-na{background:#efece6;color:var(--na)}
+.b-rose{background:var(--blush);color:var(--rose-dark)}
+.b-anna{background:#ece4f3;color:#7c5e9e}.b-joice{background:var(--blush);color:var(--rose-dark)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:16px}
+.toolbar .f{display:flex;flex-direction:column;gap:3px}
+.toolbar label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.toolbar select,.toolbar input{width:auto;min-width:120px;padding:7px 9px}
+.empty{padding:34px;text-align:center;color:var(--muted);font-size:13px;background:var(--blush);border-radius:12px;line-height:1.7}
+.empty b{color:var(--rose-dark)}
+table{border-collapse:collapse;width:100%}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;text-align:left;padding:8px 10px;border-bottom:2px solid var(--line);background:var(--white)}
+td{padding:8px 10px;border-bottom:1px solid var(--line);font-size:12.5px;vertical-align:middle}
+tr:hover td{background:#fdfcf9}
+
+/* ============================ DASHBOARD ============================ */
+.hero{display:flex;flex-wrap:wrap;gap:18px;align-items:center;background:linear-gradient(120deg,var(--rose) 0%,var(--rose-soft) 100%);color:#fff;border-radius:var(--radius);padding:22px 26px;margin-bottom:20px}
+.hero h2{font-size:19px;font-weight:600}
+.hero .meta{font-size:12px;opacity:.92;margin-top:3px}
+.hero .big{margin-left:auto;text-align:center;background:rgba(255,255,255,.16);border-radius:12px;padding:10px 22px}
+.hero .big .n{font-size:26px;font-weight:700}.hero .big .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:14px;margin-bottom:22px}
+.kpi{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--na);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+.kpi.s-ok{border-left-color:var(--ok)}.kpi.s-warn{border-left-color:var(--warn)}.kpi.s-late{border-left-color:var(--late)}
+.kpi .t{font-size:11.5px;font-weight:600;letter-spacing:.03em;color:var(--muted);text-transform:uppercase}
+.kpi .v{font-size:26px;font-weight:700;margin:4px 0 2px}
+.kpi .v small{font-size:13px;font-weight:500;color:var(--muted)}
+.kpi .m{font-size:11px;color:var(--muted);line-height:1.6}
+.kpi .resp{font-size:10.5px;margin-top:6px}
+.alert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.alert-list li{list-style:none;display:flex;gap:8px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+.alert-list li:last-child{border-bottom:0}
+.alert-list .d{margin-left:auto;white-space:nowrap}
+
+/* ============================ CRONOGRAMA ============================ */
+.seg{display:inline-flex;border:1.5px solid var(--rose);border-radius:10px;overflow:hidden}
+.seg button{padding:7px 16px;font-weight:600;color:var(--rose-dark);font-size:12px}
+.seg button.on{background:var(--rose);color:#fff}
+.gantt{position:relative;overflow-x:auto;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:14px 0}
+.g-row{display:flex;align-items:center;height:30px;position:relative}
+.g-label{width:290px;min-width:290px;font-size:11.5px;padding:0 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--white);z-index:2}
+.g-track{position:relative;flex:1;height:100%;border-left:1px solid var(--line)}
+.g-bar{position:absolute;top:7px;height:16px;border-radius:8px;background:var(--rose-pale);overflow:hidden;min-width:6px}
+.g-bar .fill{height:100%;background:var(--rose)}
+.g-bar.late{background:var(--late-bg);outline:1.5px solid var(--late)}
+.g-bar.done{background:var(--ok-bg)}.g-bar.done .fill{background:var(--ok)}
+.g-today{position:absolute;top:0;bottom:0;width:2px;background:var(--rose-dark);z-index:1}
+.g-today::after{content:'hoje';position:absolute;top:-2px;left:4px;font-size:9px;color:var(--rose-dark);font-weight:700}
+.pct-cell{display:flex;align-items:center;gap:8px}
+.pct-bar{flex:1;height:7px;background:var(--blush);border-radius:6px;min-width:60px;overflow:hidden}
+.pct-bar .f{height:100%;background:var(--rose);border-radius:6px}
+
+/* ============================ GRID COLEÇÃO ============================ */
+.grid-wrap{overflow:auto;max-height:calc(100vh - 290px);background:var(--white);border:1px solid var(--line);border-radius:var(--radius)}
+.cgrid{border-collapse:separate;border-spacing:0;min-width:1700px}
+.cgrid th{position:sticky;top:0;z-index:5;background:var(--white);border-bottom:2px solid var(--line);font-size:9.5px;padding:6px;text-align:center;min-width:84px;vertical-align:bottom}
+.cgrid th.fix,.cgrid td.fix{position:sticky;z-index:6;background:var(--white)}
+.cgrid th.fix{z-index:8}
+.cgrid .c1{left:0;min-width:34px}.cgrid .c2{left:34px;min-width:78px}.cgrid .c3{left:112px;min-width:108px;border-right:2px solid var(--line)}
+.cgrid td{padding:3px;border-bottom:1px solid var(--line);text-align:center;font-size:10.5px}
+.cgrid td.fix{text-align:left;font-size:11px;padding:3px 8px}
+.cgrid .ref-code{font-weight:700}
+.cgrid .ref-fam{font-size:9.5px;color:var(--muted)}
+.cell{display:block;width:100%;border-radius:7px;padding:5px 2px;font-weight:600;font-size:10px;min-height:25px}
+.cell.done{background:var(--ok-bg);color:var(--ok)}
+.cell.donelate{background:var(--warn-bg);color:var(--warn)}
+.cell.late{background:var(--late-bg);color:var(--late)}
+.cell.pend{background:#f6f4ef;color:var(--na)}
+.cell.na{background:repeating-linear-gradient(45deg,#f3f1ec 0 5px,#fbfaf7 5px 10px);color:transparent;cursor:default}
+.cgrid .dl-chip{display:block;font-size:9px;color:var(--rose-dark);background:var(--blush);border-radius:6px;padding:2px 3px;margin-top:3px;font-weight:700}
+.cgrid .cnt{font-size:9px;font-weight:700;line-height:1.5;display:block;margin-top:2px}
+.cnt .g{color:var(--ok)}.cnt .r{color:var(--late)}.cnt .p{color:var(--na)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:10px 2px;font-size:11px;color:var(--muted);align-items:center}
+.legend .sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:5px}
+
+/* ============================ KANBAN ============================ */
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.kcol{background:var(--blush);border-radius:var(--radius);padding:12px;min-height:200px}
+.kcol h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--rose-dark);margin-bottom:10px;display:flex;justify-content:space-between}
+.kcard{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:9px;box-shadow:0 1px 5px rgba(26,26,26,.05)}
+.kcard .ti{font-weight:600;font-size:12.5px;margin-bottom:5px}
+.kcard .ms{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:10.5px;color:var(--muted)}
+.kcard .acts{display:flex;gap:6px;margin-top:8px}
+.kcard .acts button{font-size:10.5px;padding:3px 9px;border-radius:7px;border:1px solid var(--line);color:var(--muted)}
+.kcard .acts button:hover{border-color:var(--rose);color:var(--rose-dark)}
+.kcard.late{border-left:4px solid var(--late)}
+
+/* ============================ RITUAIS ============================ */
+.rit-cad{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-bottom:18px}
+.rit-cad .card{padding:13px 15px}
+.rit-cad .freq{font-size:10.5px;color:var(--rose-dark);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.rit-cad .nm{font-weight:600;font-size:13px;margin:3px 0}
+.rit-cad .ds{font-size:11px;color:var(--muted);line-height:1.55}
+.rit-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--white);margin-bottom:9px}
+.rit-item .ti{font-weight:600;font-size:13px}
+.rit-item .ms{font-size:11px;color:var(--muted)}
+.charge-item{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+.charge-item:last-child{border:0}
+
+/* ============================ MODAL / TOAST / TOUR ============================ */
+.modal{position:fixed;inset:0;background:rgba(26,26,26,.45);display:none;align-items:flex-start;justify-content:center;z-index:90;padding:40px 16px;overflow:auto}
+.modal.open{display:flex}
+.modal-card{background:var(--white);border-radius:16px;max-width:560px;width:100%;padding:24px;box-shadow:0 10px 40px rgba(26,26,26,.25)}
+.modal-card h3{font-size:15px;margin-bottom:4px}
+.modal-card .sub{font-size:11.5px;color:var(--muted);margin-bottom:16px}
+.frm{display:flex;flex-direction:column;gap:12px}
+.frm label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:4px}
+.frm-row{display:flex;gap:10px}.frm-row>div{flex:1}
+.modal-acts{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 22px;border-radius:99px;font-size:12.5px;z-index:99;opacity:0;transition:.25s;pointer-events:none}
+#toast.show{opacity:1}
+#tour{position:fixed;inset:0;z-index:95;display:none}
+#tour.open{display:block}
+.tour-spot{position:absolute;border-radius:12px;box-shadow:0 0 0 9999px rgba(26,26,26,.55);transition:all .3s ease;pointer-events:none}
+.tour-tip{position:absolute;background:var(--white);border-radius:14px;padding:18px;max-width:330px;box-shadow:0 8px 30px rgba(26,26,26,.3);transition:all .3s ease}
+.tour-tip h4{font-size:14px;color:var(--rose-dark);margin-bottom:6px}
+.tour-tip p{font-size:12.5px;line-height:1.65;color:#444}
+.tour-tip .ta{display:flex;align-items:center;gap:8px;margin-top:14px}
+.tour-tip .step-n{font-size:11px;color:var(--muted);margin-right:auto}
+.banner{background:var(--warn-bg);border:1px solid #e8d9b5;color:var(--warn);border-radius:10px;padding:9px 16px;font-size:12px;margin-bottom:16px;display:flex;gap:10px;align-items:center}
+.banner button{margin-left:auto}
+
+/* leitura = sem escrita */
+body[data-role="leitura"] .w{display:none!important}
+
+/* ============================ MOBILE ============================ */
+@media(max-width:860px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,.3)}
+  .main{margin-left:0}
+  .burger{display:block}
+  .content{padding:14px 12px 60px}
+  .kanban{grid-template-columns:1fr}
+  .hero .big{margin-left:0}
+  .topbar{padding:10px 12px}
+  .grid-wrap{max-height:none}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal" class="modal" data-action="modal-bg"></div>
+<div id="tour"></div>
+<div id="toast"></div>
+<input type="file" id="file-import" accept=".json" style="display:none">
+
+<script src="data.js"></script>
+<script>
+'use strict';
+/* =================================================================
+   Liebe · Gestão de Coleção — protótipo single-file (PWR Gestão)
+   data.js (seed) → STORE → SELECTORS → RENDER → ROUTER
+   ================================================================= */
+
+/* ---------------------------- helpers ---------------------------- */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=t=>t==null?'':String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uuid=()=>(crypto.randomUUID?crypto.randomUUID():'id-'+Math.random().toString(36).slice(2)+Date.now());
+function hojeStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function agoraIso(){return new Date().toISOString()}
+function diffDias(a,b){const[x,y,z]=a.split('-').map(Number),[p,q,r]=b.split('-').map(Number);return Math.round((Date.UTC(p,q-1,r)-Date.UTC(x,y-1,z))/864e5)}
+function fmtBR(d){if(!d)return'—';const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0].slice(2)}
+function fmtBRfull(d){if(!d)return'—';const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
+function iniciais(n){return n.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._x);toast._x=setTimeout(()=>t.classList.remove('show'),2600)}
+
+/* ---------------------------- store ---------------------------- */
+const LS_DB='liebe_db', LS_SESS='liebe_session', LS_TOUR='liebe_tour_seen', LS_EXP='liebe_last_export';
+let db=null;
+const MIGRATIONS=[]; // futuras migrações de schema (mesmo padrão no Supabase)
+function migrate(d){let v=d.schema_version||1;while(v<MIGRATIONS.length+1){MIGRATIONS[v-1](d);v++;d.schema_version=v}return d}
+function loadDb(){
+  try{const raw=localStorage.getItem(LS_DB);if(raw){db=migrate(JSON.parse(raw));return}}catch(e){console.error('loadDb',e)}
+  if(!window.LIEBE_SEED){document.body.innerHTML='<div class="login-wrap"><div class="login-card"><p style="text-align:center">Erro: data.js não encontrado. Rode <b>python scripts/gerar_seed.py</b>.</p></div></div>';throw new Error('seed ausente')}
+  db=migrate(JSON.parse(JSON.stringify(window.LIEBE_SEED)));saveDbNow();
+}
+let saveT=null;
+function saveDb(){clearTimeout(saveT);saveT=setTimeout(saveDbNow,400)}
+function saveDbNow(){try{localStorage.setItem(LS_DB,JSON.stringify(db))}catch(e){toast('⚠ Não foi possível salvar (armazenamento cheio). Exporte um backup!')}}
+function commit(fn){if(!can('write')){toast('Seu perfil é somente leitura.');return}fn(db);saveDb();render()}
+
+/* ---------------------------- sessão ---------------------------- */
+function session(){try{return JSON.parse(localStorage.getItem(LS_SESS))}catch(e){return null}}
+function currentUser(){const s=session();return s?db.users.find(u=>u.id===s.user_id):null}
+function can(p){const u=currentUser();if(!u)return false;if(p==='write')return u.role!=='leitura';if(p==='admin')return u.role==='admin';return true}
+
+/* ---------------------------- índices / seletores ---------------------------- */
+const ix={};
+function reindex(){
+  ix.userById=Object.fromEntries(db.users.map(u=>[u.id,u]));
+  ix.phaseById=Object.fromEntries(db.phases.map(p=>[p.id,p]));
+  ix.refById=Object.fromEntries(db.references.map(r=>[r.id,r]));
+  ix.dlByPhase={};db.phase_deadlines.forEach(d=>ix.dlByPhase[d.phase_id]=d.deadline_date);
+  ix.rpByKey={};db.reference_phases.forEach(rp=>ix.rpByKey[rp.reference_id+'|'+rp.phase_id]=rp);
+}
+function phaseApplies(ref,ph){return ph.flow_type==='ambos'||ph.flow_type===ref.flow_type}
+function statusProcesso(p,hoje){
+  if(p.completed_at)return{k:'done',late:p.end_date&&p.completed_at>p.end_date}
+  if(p.end_date&&p.end_date<hoje)return{k:'late',days:diffDias(p.end_date,hoje)}
+  return{k:'ok'}
+}
+function statusCelula(ref,ph,hoje){
+  if(!phaseApplies(ref,ph))return{k:'na'};
+  const rp=ix.rpByKey[ref.id+'|'+ph.id], dl=ix.dlByPhase[ph.id];
+  if(rp&&rp.completed_at)return{k:(dl&&rp.completed_at>dl)?'donelate':'done',date:rp.completed_at,rp};
+  if(dl&&dl<hoje)return{k:'late',days:diffDias(dl,hoje)};
+  return{k:'pend'};
+}
+function contadoresFase(refs,hoje){
+  const out={};
+  db.phases.forEach(ph=>{
+    const c={done:0,late:0,pend:0,total:0};
+    refs.forEach(r=>{const s=statusCelula(r,ph,hoje);if(s.k==='na')return;c.total++;
+      if(s.k==='done'||s.k==='donelate')c.done++;else if(s.k==='late')c.late++;else c.pend++});
+    out[ph.id]=c;
+  });
+  return out;
+}
+/* ---------------------------- KPIs ---------------------------- */
+function kpis(){
+  const hoje=hojeStr(),mes=hoje.slice(0,7);
+  // % cumprimento do cronograma macro (processos vencidos concluídos no prazo)
+  const vencidos=db.macro_processes.filter(p=>p.end_date&&p.end_date<hoje);
+  const noPrazo=vencidos.filter(p=>p.completed_at&&p.completed_at<=p.end_date).length;
+  const macro=vencidos.length?{v:Math.round(noPrazo/vencidos.length*100),n:noPrazo,d:vencidos.length}:null;
+  // % peças no prazo (células: concluídas no prazo ÷ (concluídas + vencidas em aberto))
+  let pOk=0,pTot=0;
+  db.references.forEach(r=>db.phases.forEach(ph=>{const s=statusCelula(r,ph,hoje);
+    if(s.k==='done'){pOk++;pTot++} else if(s.k==='donelate'||s.k==='late')pTot++}));
+  const pecas=pTot?{v:Math.round(pOk/pTot*100),n:pOk,d:pTot}:null;
+  // Tempo de Piloto (modelagem → pilotagem)
+  const phMod=db.phases.find(p=>p.key==='modelagem'),phPil=db.phases.find(p=>p.key==='pilotagem');
+  const tempos=[];
+  if(phMod&&phPil)db.references.forEach(r=>{const a=ix.rpByKey[r.id+'|'+phMod.id],b=ix.rpByKey[r.id+'|'+phPil.id];
+    if(a&&b&&a.completed_at&&b.completed_at)tempos.push(diffDias(a.completed_at,b.completed_at))});
+  const piloto=tempos.length?{v:Math.round(tempos.reduce((s,x)=>s+x,0)/tempos.length),n:tempos.length}:null;
+  // Atas em 24h
+  const reunioes=db.rituals.filter(r=>r.scheduled_at&&r.scheduled_at.slice(0,10)<=hoje);
+  const em24=reunioes.filter(r=>r.minutes_published_at&&(new Date(r.minutes_published_at)-new Date(r.scheduled_at))<=864e5).length;
+  const atas=reunioes.length?{v:Math.round(em24/reunioes.length*100),n:em24,d:reunioes.length}:null;
+  // manuais (mês corrente; senão, último lançado)
+  const manual=k=>{const es=db.kpi_entries.filter(e=>e.kpi_key===k).sort((a,b)=>b.period.localeCompare(a.period));
+    if(!es.length)return null;const e=es.find(x=>x.period===mes)||es[0];return{v:e.value,period:e.period}};
+  return{macro,pecas,piloto,atas,rnc:manual('rnc'),otif:manual('otif_mp'),hoje};
+}
+function kpiClass(val,meta,alerta,inverso){
+  if(val==null)return'';
+  if(inverso)return val<=meta?'s-ok':'s-late';
+  return val>=meta?'s-ok':(val>=alerta?'s-warn':'s-late');
+}
+
+/* ---------------------------- pauta automática ---------------------------- */
+function gerarPauta(){
+  const hoje=hojeStr();
+  const atras=db.macro_processes.map(p=>({p,s:statusProcesso(p,hoje)})).filter(x=>x.s.k==='late')
+    .sort((a,b)=>b.s.days-a.s.days);
+  const cont=contadoresFase(db.references,hoje);
+  const fasesCrit=db.phases.map(ph=>({ph,c:cont[ph.id]})).filter(x=>x.c.late>0).sort((a,b)=>b.c.late-a.c.late);
+  const tVenc=db.tasks.filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
+  const cobertas=db.charges.filter(c=>c.status==='aberta');
+  let s='PAUTA — gerada automaticamente em '+fmtBRfull(hoje)+'\n\n';
+  s+='1. CRONOGRAMA MACRO — processos em atraso ('+atras.length+')\n';
+  atras.slice(0,10).forEach(x=>s+='   • '+x.p.name+' — '+x.s.days+' dias de atraso (prazo '+fmtBR(x.p.end_date)+')\n');
+  if(!atras.length)s+='   • Nenhum processo em atraso ✔\n';
+  s+='\n2. COLEÇÃO — fases com referências em atraso\n';
+  fasesCrit.slice(0,6).forEach(x=>s+='   • '+x.ph.name+': '+x.c.late+' referência(s) em atraso\n');
+  if(!fasesCrit.length)s+='   • Nenhuma fase com atraso ✔\n';
+  s+='\n3. TAREFAS VENCIDAS ('+tVenc.length+')\n';
+  tVenc.slice(0,8).forEach(t=>s+='   • '+t.title+' — '+(ix.userById[t.assignee_user_id]?.name||'?')+' (prazo '+fmtBR(t.due_date)+')\n');
+  if(!tVenc.length)s+='   • Nenhuma ✔\n';
+  s+='\n4. COBRANÇAS EM ABERTO ('+cobertas.length+')\n';
+  cobertas.slice(0,8).forEach(c=>s+='   • '+(ix.userById[c.charged_user_id]?.name||'?')+': '+c.subject+'\n');
+  if(!cobertas.length)s+='   • Nenhuma ✔\n';
+  s+='\n5. Bloqueios e necessidades da equipe\n6. Distribuição de tarefas da semana\n';
+  return s;
+}
+
+/* =================================================================
+   ROUTER + SHELL
+   ================================================================= */
+const ROUTES={
+  '#/dashboard':{t:'Painel de Indicadores',sub:'Metas, gatilhos e alertas do setor',ic:'◈',fn:vDashboard},
+  '#/cronograma':{t:'Cronograma Macro',sub:'Os 35 processos da coleção',ic:'▤',fn:vCronograma},
+  '#/colecao':{t:'Gestão da Coleção',sub:'Referências × fases de desenvolvimento',ic:'❀',fn:vColecao},
+  '#/tarefas':{t:'Quadro de Tarefas',sub:'Encaminhamentos por pessoa — adeus, caderno',ic:'☰',fn:vTarefas},
+  '#/rituais':{t:'Rituais & Atas',sub:'Reuniões, atas em 24h e cobranças documentadas',ic:'✎',fn:vRituais},
+};
+const ST={colecao:{linha:'',familia:'',estilista:'',fluxo:'',status:'',busca:''},cronograma:{view:'lista'},tarefas:{pessoa:'',so_minhas:false}};
+
+function render(){
+  reindex();
+  const u=currentUser();
+  document.body.dataset.role=u?u.role:'';
+  if(!u){$('#app').innerHTML=vLogin();return}
+  let h=location.hash;if(!ROUTES[h]){h='#/dashboard';history.replaceState(null,'','#/dashboard')}
+  const r=ROUTES[h];
+  $('#app').innerHTML=`
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-brand"><div class="brand">li<b>e</b>be</div><div class="brand-sub">gestão de coleção</div></div>
+      <nav class="nav">${Object.entries(ROUTES).map(([k,v])=>`<a href="${k}" class="${k===h?'on':''}"><span class="ic">${v.ic}</span>${v.t}</a>`).join('')}</nav>
+      <div class="regra-ouro"><b>Regra de Ouro</b>Prazo cobra-se com a <b style="display:inline">JOICE</b><br>Estilo cobra-se com a <b style="display:inline">ANNA</b></div>
+      <div class="side-user">
+        <div class="avatar">${iniciais(u.name)}</div>
+        <div><div class="nm">${esc(u.name)}</div><div class="jt">${esc(u.job_title)}</div></div>
+        <button data-action="logout">sair</button>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <button class="burger" data-action="burger">☰</button>
+        <div><h1>${r.t}</h1><div class="sub">${r.sub}</div></div>
+        <div class="sp"></div>
+        <button class="btn btn-g btn-sm" data-action="tour">✦ Tour guiado</button>
+        <button class="btn btn-g btn-sm" data-action="menu-dados">⛃ Dados</button>
+      </div>
+      <div class="content" id="page">${r.fn()}</div>
+    </div>
+  </div>`;
+  autoTour(h);
+}
+
+/* =================================================================
+   VIEWS
+   ================================================================= */
+function vLogin(){
+  const sel=vLogin._sel;
+  return `<div class="login-wrap"><div class="login-card">
+    <div class="brand">li<b>e</b>be</div>
+    <div class="brand-sub">gestão de coleção · estilo & produto</div>
+    <div class="login-note">Identificação para <b>registro de autoria</b> das atualizações — não é segurança de dados (protótipo de validação).<br>PIN padrão de todos: <b>1234</b></div>
+    <div class="user-grid">${db.users.filter(u=>u.active).map(u=>`
+      <button class="user-card ${sel===u.id?'sel':''}" data-action="pick-user" data-id="${u.id}">
+        <div class="avatar">${iniciais(u.name)}</div>
+        <div class="nm">${esc(u.name)}</div><div class="jt">${esc(u.job_title)}</div>
+        <span class="role-chip">${u.role}</span>
+      </button>`).join('')}
+    </div>
+    ${sel?`<div class="pin-row"><input id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="PIN" autofocus>
+      <button class="btn btn-p" data-action="do-login">Entrar</button></div>`:''}
+  </div></div>`;
+}
+
+/* ---------------------------- DASHBOARD ---------------------------- */
+function vDashboard(){
+  const k=kpis(),hoje=k.hoje;
+  const col=db.collections.find(c=>c.id==='col-inverno-alto-27')||db.collections[0];
+  const diasEntrega=col&&col.end_date?diffDias(hoje,col.end_date):null;
+  const pctGeral=Math.round(db.macro_processes.reduce((s,p)=>s+(p.percent_complete||0),0)/(db.macro_processes.length||1));
+  const atras=db.macro_processes.map(p=>({p,s:statusProcesso(p,hoje)})).filter(x=>x.s.k==='late').sort((a,b)=>b.s.days-a.s.days);
+  const cont=contadoresFase(db.references,hoje);
+  const fasesCrit=db.phases.map(ph=>({ph,c:cont[ph.id]})).filter(x=>x.c.late>0).sort((a,b)=>b.c.late-a.c.late);
+  const tVenc=db.tasks.filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
+  const cob=db.charges.filter(c=>c.status==='aberta');
+  const card=(id,t,val,meta,resp,cls,extra)=>`
+    <div class="kpi ${cls}" id="${id}">
+      <div class="t">${t}</div>
+      <div class="v">${val}</div>
+      <div class="m">${meta}</div>
+      <div class="resp"><span class="badge ${resp==='Anna'?'b-anna':'b-joice'}">${resp==='Anna'?'◆ Anna':'● Joice'}</span> ${extra||''}</div>
+    </div>`;
+  return `
+  ${bannerBackup()}
+  <div class="hero" id="hero-col">
+    <div><h2>Coleção ${esc(col?col.name:'—')}</h2>
+      <div class="meta">Início ${fmtBRfull(col?.start_date)} · Entrega do mostruário ${fmtBRfull(col?.end_date)} · ${db.references.length} referências (${db.references.filter(r=>r.flow_type==='nova').length} novas + ${db.references.filter(r=>r.flow_type==='continuado').length} continuadas)</div></div>
+    <div class="big"><div class="n">${diasEntrega!=null?diasEntrega:'—'}</div><div class="l">dias p/ entrega</div></div>
+    <div class="big"><div class="n">${pctGeral}%</div><div class="l">avanço médio macro</div></div>
+  </div>
+  <div class="kpi-grid" id="kpi-grid">
+    ${card('kpi-macro','Cumprimento do Cronograma',k.macro?k.macro.v+'<small>%</small>':'<small>sem baseline</small>','Meta ≥ 95% · alerta &lt; 90% '+(k.macro?`· ${k.macro.n}/${k.macro.d} processos vencidos no prazo`:'· começa a medir nesta coleção'),'Joice',k.macro?kpiClass(k.macro.v,95,90):'')}
+    ${card('kpi-pecas','Peças no Prazo por Fase',k.pecas?k.pecas.v+'<small>%</small>':'<small>sem baseline</small>','Meta ≥ 90% · alerta &lt; 85% '+(k.pecas?`· ${k.pecas.n}/${k.pecas.d} marcos no prazo`:''),'Joice',k.pecas?kpiClass(k.pecas.v,90,85):'')}
+    ${card('kpi-piloto','Tempo de Piloto',k.piloto?k.piloto.v+'<small> dias</small>':'<small>sem baseline</small>','Meta: −20% na 1ª coleção pós-implantação '+(k.piloto?`· média de ${k.piloto.n} peças`:'· esta coleção é a linha de base'),'Anna')}
+    ${card('kpi-atas','Atas em 24h',k.atas?k.atas.v+'<small>%</small>':'<small>sem reuniões</small>','Meta 100% '+(k.atas?`· ${k.atas.n}/${k.atas.d} reuniões`:'· registre as reuniões em Rituais & Atas'),'Joice',k.atas?kpiClass(k.atas.v,100,99):'')}
+    ${card('kpi-rnc','RNCs do Setor (nº absoluto)',k.rnc&&k.rnc.v!=null?k.rnc.v:'<small>não medido</small>','Meta: −30% em 6 meses '+(k.rnc?'· ref. '+k.rnc.period:'· lance o valor mensal'),'Joice',k.rnc&&k.rnc.v!=null?(k.rnc.v===0?'s-ok':''):'')}
+    ${card('kpi-otif','Atraso de MP (OTIF fornecedores)',k.otif&&k.otif.v!=null?k.otif.v+'<small>%</small>':'<small>não medido</small>','Meta ≥ 90% · alerta &lt; 80% → escalonar à Compras '+(k.otif?'· ref. '+k.otif.period:''),'Joice',k.otif&&k.otif.v!=null?kpiClass(k.otif.v,90,80):'')}
+  </div>
+  <div style="margin-bottom:18px" class="w"><button class="btn btn-o btn-sm" data-action="kpi-launch">＋ Lançar indicador do mês (RNCs · Atraso de MP)</button></div>
+  <div class="alert-grid" id="alertas">
+    <div class="card"><h3>⚠ Processos macro em atraso (${atras.length})</h3>
+      ${atras.length?`<ul class="alert-list">${atras.slice(0,8).map(x=>`<li><span>${esc(x.p.name)}</span><span class="d badge b-late">${x.s.days}d</span></li>`).join('')}</ul>`:'<div class="empty">Nenhum processo em atraso — cronograma em dia ✔</div>'}
+    </div>
+    <div class="card"><h3>❀ Fases com referências em atraso</h3>
+      ${fasesCrit.length?`<ul class="alert-list">${fasesCrit.slice(0,8).map(x=>`<li><span>${esc(x.ph.name)}</span><span class="d badge b-late">${x.c.late} ref.</span></li>`).join('')}</ul>`:'<div class="empty">Nenhuma fase com atraso ✔</div>'}
+    </div>
+    <div class="card"><h3>☰ Pendências da equipe</h3>
+      <ul class="alert-list">
+        <li><span>Tarefas vencidas</span><span class="d badge ${tVenc.length?'b-late':'b-ok'}">${tVenc.length}</span></li>
+        <li><span>Cobranças em aberto</span><span class="d badge ${cob.length?'b-warn':'b-ok'}">${cob.length}</span></li>
+        <li><span>Reuniões sem ata publicada</span><span class="d badge ${db.rituals.filter(r=>!r.minutes_published_at).length?'b-warn':'b-ok'}">${db.rituals.filter(r=>!r.minutes_published_at).length}</span></li>
+      </ul>
+      <div style="margin-top:10px"><a href="#/tarefas" class="btn btn-g btn-sm">Abrir quadro de tarefas →</a></div>
+    </div>
+  </div>`;
+}
+function bannerBackup(){
+  const last=localStorage.getItem(LS_EXP);
+  const dias=last?diffDias(last.slice(0,10),hojeStr()):null;
+  if(last&&dias<=7)return'';
+  return `<div class="banner w">💾 ${last?`Seu último backup foi há <b>&nbsp;${dias} dias</b>.`:'Você ainda não exportou um backup dos dados.'}&nbsp;Os dados vivem neste navegador — exporte com frequência.
+    <button class="btn btn-o btn-sm" data-action="export-json">Exportar backup agora</button></div>`;
+}
+
+/* ---------------------------- CRONOGRAMA ---------------------------- */
+function vCronograma(){
+  const hoje=hojeStr(),v=ST.cronograma.view;
+  const ps=[...db.macro_processes].sort((a,b)=>a.seq-b.seq);
+  const head=`<div class="toolbar">
+    <div class="seg" id="cr-toggle"><button class="${v==='lista'?'on':''}" data-action="cr-view" data-v="lista">Lista</button><button class="${v==='gantt'?'on':''}" data-action="cr-view" data-v="gantt">Linha do tempo</button></div>
+    <div style="flex:1"></div>
+    <span class="badge b-ok">Em dia: ${ps.filter(p=>statusProcesso(p,hoje).k==='ok').length}</span>
+    <span class="badge b-late">Em atraso: ${ps.filter(p=>statusProcesso(p,hoje).k==='late').length}</span>
+    <span class="badge b-rose">Concluídos: ${ps.filter(p=>statusProcesso(p,hoje).k==='done').length}</span>
+  </div>`;
+  if(v==='gantt')return head+vGantt(ps,hoje);
+  return head+`<div class="card" style="padding:0;overflow:auto" id="cr-tabela"><table>
+    <thead><tr><th>#</th><th>Processo</th><th>Equipe</th><th>Início</th><th>Prazo</th><th style="min-width:130px">Avanço</th><th>Status</th><th class="w"></th></tr></thead>
+    <tbody>${ps.map(p=>{const s=statusProcesso(p,hoje);
+      const badge=s.k==='done'?`<span class="badge b-ok">Concluído${s.late?' c/ atraso':''} ${fmtBR(p.completed_at)}</span>`
+        :s.k==='late'?`<span class="badge b-late">${s.days} dias em atraso</span>`:`<span class="badge b-ok">Em dia</span>`;
+      return `<tr>
+        <td>${p.seq}</td><td><b>${esc(p.name)}</b></td>
+        <td>${p.owner_team?`<span class="badge b-rose">${esc(p.owner_team)}</span>`:'—'}</td>
+        <td>${fmtBR(p.start_date)}</td><td>${fmtBR(p.end_date)}</td>
+        <td><div class="pct-cell"><div class="pct-bar"><div class="f" style="width:${p.percent_complete||0}%"></div></div><b style="font-size:11px">${p.percent_complete||0}%</b></div></td>
+        <td>${badge}</td>
+        <td class="w"><button class="btn btn-g btn-sm" data-action="proc-edit" data-id="${p.id}">editar</button></td>
+      </tr>`}).join('')}</tbody></table></div>`;
+}
+function vGantt(ps,hoje){
+  const datas=ps.flatMap(p=>[p.start_date,p.end_date]).filter(Boolean).sort();
+  if(!datas.length)return'<div class="empty">Sem datas no cronograma.</div>';
+  const min=datas[0],max=datas[datas.length-1],span=Math.max(diffDias(min,max),1);
+  const pos=d=>Math.min(100,Math.max(0,diffDias(min,d)/span*100));
+  const tl=pos(hoje);
+  return `<div class="gantt" id="cr-gantt">${ps.map(p=>{
+    if(!p.start_date||!p.end_date)return`<div class="g-row"><div class="g-label">${p.seq}. ${esc(p.name)}</div><div class="g-track"></div></div>`;
+    const s=statusProcesso(p,hoje),l=pos(p.start_date),w=Math.max(pos(p.end_date)-l,.6);
+    return `<div class="g-row"><div class="g-label" title="${esc(p.name)}">${p.seq}. ${esc(p.name)}</div>
+      <div class="g-track"><div class="g-today" style="left:${tl}%"></div>
+      <div class="g-bar ${s.k==='late'?'late':s.k==='done'?'done':''}" style="left:${l}%;width:${w}%" title="${fmtBR(p.start_date)} → ${fmtBR(p.end_date)} · ${p.percent_complete||0}%"><div class="fill" style="width:${p.percent_complete||0}%"></div></div>
+      </div></div>`}).join('')}</div>
+  <div class="legend"><span><span class="sw" style="background:var(--rose)"></span>avanço</span><span><span class="sw" style="background:var(--rose-pale)"></span>planejado</span><span><span class="sw" style="background:var(--late-bg);outline:1.5px solid var(--late)"></span>em atraso</span><span><span class="sw" style="background:var(--ok-bg)"></span>concluído</span></div>`;
+}
+
+/* ---------------------------- GESTÃO DA COLEÇÃO ---------------------------- */
+function vColecao(){
+  const hoje=hojeStr(),f=ST.colecao;
+  const uniq=k=>[...new Set(db.references.map(r=>r[k]).filter(Boolean))].sort();
+  let refs=db.references.filter(r=>r.active!==false);
+  if(f.linha)refs=refs.filter(r=>r.line===f.linha);
+  if(f.familia)refs=refs.filter(r=>r.family===f.familia);
+  if(f.estilista)refs=refs.filter(r=>r.stylist===f.estilista);
+  if(f.fluxo)refs=refs.filter(r=>r.flow_type===f.fluxo);
+  if(f.busca)refs=refs.filter(r=>r.code.toLowerCase().includes(f.busca.toLowerCase()));
+  if(f.status==='atraso')refs=refs.filter(r=>db.phases.some(ph=>statusCelula(r,ph,hoje).k==='late'));
+  const cont=contadoresFase(refs,hoje);
+  const selOpt=(k,arr,lab)=>`<div class="f"><label>${lab}</label><select data-filter="${k}"><option value="">Todas</option>${arr.map(x=>`<option ${f[k]===x?'selected':''}>${esc(x)}</option>`).join('')}</select></div>`;
+  return `
+  <div class="toolbar" id="col-filtros">
+    ${selOpt('linha',uniq('line'),'Linha')}
+    ${selOpt('familia',uniq('family'),'Família')}
+    ${selOpt('estilista',uniq('stylist'),'Estilista')}
+    <div class="f"><label>Fluxo</label><select data-filter="fluxo"><option value="">Todos</option><option value="nova" ${f.fluxo==='nova'?'selected':''}>Coleção nova</option><option value="continuado" ${f.fluxo==='continuado'?'selected':''}>Continuados</option></select></div>
+    <div class="f"><label>Status</label><select data-filter="status"><option value="">Todos</option><option value="atraso" ${f.status==='atraso'?'selected':''}>Com atraso</option></select></div>
+    <div class="f"><label>Referência</label><input data-filter="busca" value="${esc(f.busca)}" placeholder="buscar código…" style="min-width:110px"></div>
+    <div style="flex:1"></div>
+    <span class="badge b-rose" style="align-self:center">${refs.length} referência(s)</span>
+  </div>
+  <div class="legend" id="col-legenda">
+    <span><span class="sw" style="background:var(--ok-bg)"></span>concluída no prazo</span>
+    <span><span class="sw" style="background:var(--warn-bg)"></span>concluída com atraso</span>
+    <span><span class="sw" style="background:var(--late-bg)"></span>em atraso</span>
+    <span><span class="sw" style="background:#f6f4ef"></span>pendente</span>
+    <span><span class="sw" style="background:repeating-linear-gradient(45deg,#f3f1ec 0 4px,#fbfaf7 4px 8px)"></span>não se aplica</span>
+    <span style="margin-left:auto"><span class="badge b-anna">◆ marco da Anna (estilo)</span> <span class="badge b-joice">● marco da Joice (prazo)</span></span>
+  </div>
+  <div class="grid-wrap" id="col-grid"><table class="cgrid">
+    <thead><tr>
+      <th class="fix c1">#</th><th class="fix c2">Ref.</th><th class="fix c3">Família / Linha</th>
+      ${db.phases.map(ph=>{const c=cont[ph.id],dl=ix.dlByPhase[ph.id];return `
+        <th title="${esc(ph.name)}">
+          <span class="badge ${ph.marco_owner==='anna'?'b-anna':'b-joice'}" style="font-size:8.5px;padding:1px 6px">${ph.marco_owner==='anna'?'◆':'●'}</span><br>
+          ${esc(ph.name).replace(/ /g,'<br>')}
+          <span class="dl-chip ${can('admin')?'w':''}" ${can('admin')?`data-action="dl-edit" data-phase="${ph.id}" style="cursor:pointer"`:''} title="Data-limite da fase${can('admin')?' (clique para editar)':''}">${dl?'limite '+fmtBR(dl):'sem limite'}</span>
+          <span class="cnt"><span class="g">${c.done}✓</span> <span class="r">${c.late}!</span> <span class="p">${c.pend}…</span></span>
+        </th>`}).join('')}
+    </tr></thead>
+    <tbody>${refs.map((r,i)=>`<tr>
+      <td class="fix c1">${i+1}</td>
+      <td class="fix c2"><span class="ref-code">${esc(r.code)}</span></td>
+      <td class="fix c3"><div>${esc(r.family)}</div><div class="ref-fam">${esc(r.line)} · ${esc(r.stylist)}</div></td>
+      ${db.phases.map(ph=>{const s=statusCelula(r,ph,hoje);
+        if(s.k==='na')return'<td><span class="cell na">·</span></td>';
+        const click=can('write')?`data-action="cell-open" data-ref="${r.id}" data-phase="${ph.id}" style="cursor:pointer"`:'';
+        if(s.k==='done'||s.k==='donelate')return`<td><button class="cell ${s.k}" ${click} title="Concluída em ${fmtBRfull(s.date)} por ${esc(ix.userById[s.rp.completed_by]?.name||'?')}">${fmtBR(s.date)}</button></td>`;
+        if(s.k==='late')return`<td><button class="cell late" ${click} title="${s.days} dias em atraso">${s.days}d atraso</button></td>`;
+        return`<td><button class="cell pend" ${click}>—</button></td>`;
+      }).join('')}
+    </tr>`).join('')}</tbody>
+  </table></div>
+  ${refs.length?'':'<div class="empty">Nenhuma referência com esses filtros. <b>Limpe os filtros</b> acima para ver toda a coleção.</div>'}`;
+}
+
+/* ---------------------------- TAREFAS ---------------------------- */
+function vTarefas(){
+  const hoje=hojeStr(),f=ST.tarefas,me=currentUser();
+  let ts=db.tasks.filter(t=>t.status!=='cancelada');
+  if(f.pessoa)ts=ts.filter(t=>t.assignee_user_id===f.pessoa);
+  if(f.so_minhas)ts=ts.filter(t=>t.assignee_user_id===me.id);
+  const cols=[['pendente','Pendente'],['em_andamento','Em andamento'],['concluida','Concluída']];
+  const kcard=t=>{const u=ix.userById[t.assignee_user_id];const venc=t.status!=='concluida'&&t.due_date&&t.due_date<hoje;
+    const rit=t.ritual_id?db.rituals.find(r=>r.id===t.ritual_id):null;
+    return `<div class="kcard ${venc?'late':''}">
+      <div class="ti">${esc(t.title)}</div>
+      <div class="ms">
+        ${u?`<span class="badge b-rose">${esc(u.name)}</span>`:''}
+        ${t.due_date?`<span class="badge ${venc?'b-late':'b-na'}">prazo ${fmtBR(t.due_date)}</span>`:''}
+        ${rit?`<span class="badge b-na">↩ reunião ${fmtBR(rit.scheduled_at?rit.scheduled_at.slice(0,10):null)}</span>`:''}
+      </div>
+      ${t.description?`<div style="font-size:11.5px;color:var(--muted);margin-top:6px">${esc(t.description)}</div>`:''}
+      <div class="acts w">
+        ${t.status!=='pendente'?`<button data-action="task-move" data-id="${t.id}" data-dir="-1">◀ voltar</button>`:''}
+        ${t.status!=='concluida'?`<button data-action="task-move" data-id="${t.id}" data-dir="1">avançar ▶</button>`:''}
+        <button data-action="task-edit" data-id="${t.id}">editar</button>
+      </div>
+    </div>`};
+  return `
+  <div class="toolbar" id="t-filtros">
+    <div class="f"><label>Responsável</label><select data-tfilter="pessoa"><option value="">Todos</option>${db.users.filter(u=>u.role!=='leitura').map(u=>`<option value="${u.id}" ${f.pessoa===u.id?'selected':''}>${esc(u.name)}</option>`).join('')}</select></div>
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;align-self:center;text-transform:none;letter-spacing:0"><input type="checkbox" data-tfilter="so_minhas" ${f.so_minhas?'checked':''} style="width:auto"> só as minhas</label>
+    <div style="flex:1"></div>
+    <button class="btn btn-p w" data-action="task-new" id="btn-nova-tarefa">＋ Nova tarefa</button>
+  </div>
+  ${ts.length?'':'<div class="empty">Nenhuma tarefa ainda. As tarefas substituem o caderno: <b>toda demanda da reunião de segunda vira um cartão aqui</b>, com responsável e prazo. Clique em “＋ Nova tarefa”.</div>'}
+  <div class="kanban" id="kanban">${cols.map(([k,lab])=>{const list=ts.filter(t=>t.status===k);
+    return `<div class="kcol"><h4>${lab}<span>${list.length}</span></h4>${list.map(kcard).join('')}</div>`}).join('')}</div>`;
+}
+
+/* ---------------------------- RITUAIS ---------------------------- */
+const RIT_TIPOS={
+  semanal:{nm:'Ritual semanal de cronograma',freq:'Segunda · 60 min',ds:'Prazos, distribuição de tarefas e bloqueios. Ata em até 24h.'},
+  briefing_diario:{nm:'Briefing diário matinal',freq:'Diário · 15 min',ds:'Alinhamento rápido do dia com a célula operacional.'},
+  quinzenal_interfaces:{nm:'Batimento de interfaces',freq:'Quinzenal',ds:'Compras, Qualidade, Engenharia e PCP — demandas e escalonamentos.'},
+  mensal_diretoria:{nm:'Reporte à Diretoria',freq:'Mensal',ds:'Status de cronograma, KPIs, riscos e decisões para o Cairo.'},
+};
+function vRituais(){
+  const hoje=hojeStr();
+  const rs=[...db.rituals].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
+  const cob=db.charges.filter(c=>c.status==='aberta');
+  return `
+  <div class="rit-cad" id="rit-cadencia">${Object.entries(RIT_TIPOS).map(([k,v])=>`
+    <div class="card"><div class="freq">${v.freq}</div><div class="nm">${v.nm}</div><div class="ds">${v.ds}</div>
+    <div style="margin-top:9px" class="w"><button class="btn btn-o btn-sm" data-action="rit-new" data-tipo="${k}">＋ registrar reunião</button></div></div>`).join('')}
+  </div>
+  <div class="card" style="margin-bottom:16px" id="rit-lista"><h3>Reuniões registradas</h3>
+    ${rs.length?rs.map(r=>{const t=RIT_TIPOS[r.type]||{nm:r.type};
+      const dt=r.scheduled_at?r.scheduled_at.slice(0,10):null;
+      const pub=r.minutes_published_at;
+      const h24=pub?((new Date(pub)-new Date(r.scheduled_at))<=864e5):null;
+      const pend=!pub&&dt&&dt<=hoje;
+      const horas=pend?Math.round((Date.now()-new Date(r.scheduled_at))/36e5):0;
+      return `<div class="rit-item">
+        <div><div class="ti">${t.nm}</div><div class="ms">${fmtBRfull(dt)} · ${(r.attendance||[]).filter(a=>a.present).length} presentes</div></div>
+        <div style="margin-left:auto">${pub?`<span class="badge ${h24?'b-ok':'b-warn'}">ata ${h24?'em 24h ✓':'fora das 24h'}</span>`
+          :`<span class="badge ${horas>24?'b-late':'b-warn'}">ata pendente${horas>0?' · '+horas+'h':''}</span>`}</div>
+        <button class="btn btn-g btn-sm" data-action="rit-open" data-id="${r.id}">abrir</button>
+      </div>`}).join(''):'<div class="empty">Nenhuma reunião ainda. <b>Toda segunda-feira</b>, clique em “registrar reunião” no Ritual semanal: a <b>pauta nasce pronta</b> com os atrasos e pendências da semana.</div>'}
+  </div>
+  <div class="card" id="rit-cobrancas"><h3>Cobranças documentadas em aberto (${cob.length})</h3>
+    <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px">Cobrança registrada com evidência tira a conversa do campo pessoal — é o processo cobrando, não a pessoa.</div>
+    ${cob.length?cob.map(c=>`<div class="charge-item">
+      <span class="badge b-rose">${esc(ix.userById[c.charged_user_id]?.name||'?')}</span>
+      <span style="flex:1">${esc(c.subject)}${c.due_date?` <span style="color:var(--muted)">· até ${fmtBR(c.due_date)}</span>`:''}</span>
+      <span class="w"><button class="btn btn-g btn-sm" data-action="charge-status" data-id="${c.id}" data-st="atendida">atendida ✓</button>
+      <button class="btn btn-g btn-sm" data-action="charge-status" data-id="${c.id}" data-st="escalada">escalar ↑</button></span>
+    </div>`).join(''):'<div class="empty">Nenhuma cobrança em aberto.</div>'}
+    <div style="margin-top:12px" class="w"><button class="btn btn-o btn-sm" data-action="charge-new">＋ Nova cobrança</button></div>
+  </div>`;
+}
+
+/* =================================================================
+   MODAIS
+   ================================================================= */
+function openModal(html){$('#modal').innerHTML=`<div class="modal-card" onclick="event.stopPropagation()">${html}</div>`;$('#modal').classList.add('open')}
+function closeModal(){$('#modal').classList.remove('open');$('#modal').innerHTML=''}
+function selUsers(id,val,filtro){return `<select id="${id}">${db.users.filter(u=>u.active&&(!filtro||u.role!=='leitura')).map(u=>`<option value="${u.id}" ${val===u.id?'selected':''}>${esc(u.name)} — ${esc(u.job_title)}</option>`).join('')}</select>`}
+
+function mCell(refId,phaseId){
+  const r=ix.refById[refId],ph=ix.phaseById[phaseId],rp=ix.rpByKey[refId+'|'+phaseId],dl=ix.dlByPhase[phaseId];
+  openModal(`
+   <h3>${esc(ph.name)} · Ref. ${esc(r.code)}</h3>
+   <div class="sub">${esc(r.family)} · ${esc(r.line)} · ${esc(r.stylist)} ${dl?`· data-limite ${fmtBRfull(dl)}`:''} · marco ${ph.marco_owner==='anna'?'da Anna (estilo)':'da Joice (prazo)'}</div>
+   <div class="frm">
+     <div><label>Data de conclusão</label><input type="date" id="m-data" value="${rp?rp.completed_at:hojeStr()}"></div>
+     <div><label>Observação (opcional)</label><input id="m-obs" value="${esc(rp?.notes||'')}" placeholder="ex.: aprovada na 2ª prova"></div>
+   </div>
+   <div class="modal-acts">
+     ${rp?`<button class="btn btn-g" data-action="cell-clear" data-ref="${refId}" data-phase="${phaseId}">Limpar registro</button>`:''}
+     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
+     <button class="btn btn-p" data-action="cell-save" data-ref="${refId}" data-phase="${phaseId}">Salvar conclusão</button>
+   </div>`);
+}
+function mProc(id){
+  const p=db.macro_processes.find(x=>x.id===id);
+  openModal(`
+   <h3>${p.seq}. ${esc(p.name)}</h3>
+   <div class="sub">Equipe: ${esc(p.owner_team||'—')} · planejado ${fmtBR(p.start_date)} → ${fmtBR(p.end_date)}</div>
+   <div class="frm">
+     <div class="frm-row">
+       <div><label>% de avanço</label><input type="number" id="m-pct" min="0" max="100" value="${p.percent_complete||0}"></div>
+       <div><label>Concluído em</label><input type="date" id="m-conc" value="${p.completed_at||''}"></div>
+     </div>
+     <div><label>Prazo final (replanejar)</label><input type="date" id="m-fim" value="${p.end_date||''}"></div>
+   </div>
+   <div class="modal-acts">
+     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
+     <button class="btn btn-o" data-action="proc-done" data-id="${id}">✓ Concluir hoje</button>
+     <button class="btn btn-p" data-action="proc-save" data-id="${id}">Salvar</button>
+   </div>`);
+}
+function mTask(id){
+  const t=id?db.tasks.find(x=>x.id===id):null;
+  openModal(`
+   <h3>${t?'Editar tarefa':'Nova tarefa'}</h3>
+   <div class="sub">Todo encaminhamento vira cartão com dono e prazo — nada fica no caderno.</div>
+   <div class="frm">
+     <div><label>O que precisa ser feito</label><input id="m-ti" value="${esc(t?.title||'')}" placeholder="ex.: Cobrar renda importada do fornecedor X"></div>
+     <div class="frm-row">
+       <div><label>Responsável</label>${selUsers('m-resp',t?.assignee_user_id||currentUser().id,true)}</div>
+       <div><label>Prazo</label><input type="date" id="m-prazo" value="${t?.due_date||''}"></div>
+     </div>
+     <div><label>Detalhes (opcional)</label><textarea id="m-desc" rows="2">${esc(t?.description||'')}</textarea></div>
+   </div>
+   <div class="modal-acts">
+     ${t?`<button class="btn btn-g" data-action="task-del" data-id="${id}">Excluir</button>`:''}
+     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
+     <button class="btn btn-p" data-action="task-save" data-id="${id||''}">Salvar</button>
+   </div>`);
+}
+function mRitNew(tipo){
+  const t=RIT_TIPOS[tipo];
+  openModal(`
+   <h3>${t.nm}</h3>
+   <div class="sub">${t.freq} — a pauta abaixo foi <b>gerada automaticamente</b> dos dados de hoje. Ajuste se quiser.</div>
+   <div class="frm">
+     <div class="frm-row">
+       <div><label>Data</label><input type="date" id="m-dt" value="${hojeStr()}"></div>
+       <div><label>Hora</label><input type="time" id="m-hr" value="08:00"></div>
+     </div>
+     <div><label>Pauta</label><textarea id="m-pauta" rows="12" style="font-size:12px">${esc(gerarPauta())}</textarea></div>
+   </div>
+   <div class="modal-acts">
+     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
+     <button class="btn btn-p" data-action="rit-save" data-tipo="${tipo}">Registrar reunião</button>
+   </div>`);
+}
+function mRitOpen(id){
+  const r=db.rituals.find(x=>x.id===id),t=RIT_TIPOS[r.type]||{nm:r.type};
+  const cobR=db.charges.filter(c=>c.ritual_id===id);
+  openModal(`
+   <h3>${t.nm} — ${fmtBRfull(r.scheduled_at?r.scheduled_at.slice(0,10):null)}</h3>
+   <div class="sub">${r.minutes_published_at?'Ata publicada em '+new Date(r.minutes_published_at).toLocaleString('pt-BR'):'⏱ Ata pendente — publique em até 24h'}</div>
+   <div class="frm">
+     <div><label>Presença</label><div style="display:flex;flex-wrap:wrap;gap:8px">${db.users.filter(u=>u.role!=='leitura').map(u=>{
+       const a=(r.attendance||[]).find(x=>x.user_id===u.id);
+       return `<label style="display:flex;gap:5px;align-items:center;font-size:12px;text-transform:none;letter-spacing:0;border:1px solid var(--line);border-radius:8px;padding:4px 9px"><input type="checkbox" class="pres" data-uid="${u.id}" ${a&&a.present?'checked':''} style="width:auto">${esc(u.name)}</label>`}).join('')}</div></div>
+     <div><label>Pauta</label><textarea id="m-pauta" rows="7" style="font-size:12px">${esc(r.agenda_text||'')}</textarea></div>
+     <div><label>Ata (decisões e encaminhamentos)</label><textarea id="m-ata" rows="6" style="font-size:12px" placeholder="O que foi decidido, quem ficou com o quê…">${esc(r.minutes_text||'')}</textarea></div>
+     ${cobR.length?`<div><label>Cobranças desta reunião</label>${cobR.map(c=>`<div class="charge-item"><span class="badge b-rose">${esc(ix.userById[c.charged_user_id]?.name||'?')}</span><span style="flex:1">${esc(c.subject)}</span><span class="badge ${c.status==='aberta'?'b-warn':c.status==='atendida'?'b-ok':'b-late'}">${c.status}</span></div>`).join('')}</div>`:''}
+   </div>
+   <div class="modal-acts" style="flex-wrap:wrap">
+     <button class="btn btn-o w" data-action="charge-new" data-rit="${id}">＋ cobrança</button>
+     <button class="btn btn-o w" data-action="rit-task" data-rit="${id}">＋ tarefa</button>
+     <span style="flex:1"></span>
+     <button class="btn btn-g" data-action="modal-close">Fechar</button>
+     <button class="btn btn-g w" data-action="rit-save-ata" data-id="${id}">Salvar rascunho</button>
+     ${r.minutes_published_at?'':`<button class="btn btn-p w" data-action="rit-publish" data-id="${id}">Publicar ata</button>`}
+   </div>`);
+}
+function mCharge(ritId){
+  openModal(`
+   <h3>Nova cobrança documentada</h3>
+   <div class="sub">Regra de Ouro: prazo → Joice cobra · estilo/técnica → Anna cobra. O registro é a evidência.</div>
+   <div class="frm">
+     <div class="frm-row">
+       <div><label>Quem é cobrado</label>${selUsers('m-cb-quem',null,true)}</div>
+       <div><label>Prazo para atender</label><input type="date" id="m-cb-prazo"></div>
+     </div>
+     <div><label>O que está sendo cobrado</label><input id="m-cb-ass" placeholder="ex.: entrega da modelagem da ref. 503151"></div>
+     <div><label>Evidência / contexto</label><input id="m-cb-ev" placeholder="ex.: prazo venceu em 08/06, 2º registro"></div>
+   </div>
+   <div class="modal-acts">
+     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
+     <button class="btn btn-p" data-action="charge-save" data-rit="${ritId||''}">Registrar</button>
+   </div>`);
+}
+function mKpi(){
+  const mes=hojeStr().slice(0,7);
+  openModal(`
+   <h3>Lançar indicador do mês</h3>
+   <div class="sub">Nomenclatura do chão de fábrica — sem siglas em inglês. Sem valor = continua “não medido”.</div>
+   <div class="frm">
+     <div><label>Mês de referência</label><input type="month" id="m-kpi-mes" value="${mes}"></div>
+     <div class="frm-row">
+       <div><label>RNCs do setor (nº absoluto)</label><input type="number" id="m-kpi-rnc" min="0" placeholder="ex.: 4"></div>
+       <div><label>Atraso de MP — OTIF %</label><input type="number" id="m-kpi-otif" min="0" max="100" placeholder="ex.: 88"></div>
+     </div>
+   </div>
+   <div class="modal-acts">
+     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
+     <button class="btn btn-p" data-action="kpi-save">Salvar</button>
+   </div>`);
+}
+function mDados(){
+  openModal(`
+   <h3>Dados & backup</h3>
+   <div class="sub">Os dados vivem neste navegador. A máquina da Joice é a fonte da verdade — exporte backup toda sexta e guarde no Drive.</div>
+   <div class="frm" style="gap:9px">
+     <button class="btn btn-o" data-action="export-json">⬇ Exportar backup (JSON)</button>
+     <button class="btn btn-o" data-action="export-xlsx">⬇ Exportar planilha (Excel)</button>
+     <button class="btn btn-g w" data-action="import-json">⬆ Importar backup (substitui os dados atuais)</button>
+     <button class="btn btn-g w" data-action="reset-db" style="color:var(--late)">↺ Restaurar dados originais da planilha</button>
+   </div>
+   <div class="modal-acts"><button class="btn btn-g" data-action="modal-close">Fechar</button></div>`);
+}
+
+/* =================================================================
+   AÇÕES (event delegation)
+   ================================================================= */
+const ACTIONS={
+  'burger':()=>$('#sidebar').classList.toggle('open'),
+  'logout':()=>{localStorage.removeItem(LS_SESS);render()},
+  'pick-user':d=>{vLogin._sel=d.id;render();setTimeout(()=>$('#pin')?.focus(),50)},
+  'do-login':()=>{
+    const u=db.users.find(x=>x.id===vLogin._sel);
+    if(!u)return;
+    if(($('#pin').value||'')!==u.pin){toast('PIN incorreto.');return}
+    localStorage.setItem(LS_SESS,JSON.stringify({user_id:u.id,at:agoraIso()}));
+    location.hash='#/dashboard';render();
+  },
+  'modal-bg':()=>closeModal(),'modal-close':()=>closeModal(),
+  'tour':()=>{let h=location.hash;if(!ROUTES[h])h='#/dashboard';startTour(h)},
+  'menu-dados':()=>mDados(),
+  /* dashboard */
+  'kpi-launch':()=>mKpi(),
+  'kpi-save':()=>{
+    const mes=$('#m-kpi-mes').value,rnc=$('#m-kpi-rnc').value,otif=$('#m-kpi-otif').value;
+    if(!mes){toast('Informe o mês.');return}
+    commit(d=>{
+      const put=(k,v)=>{if(v==='')return;const e=d.kpi_entries.find(x=>x.kpi_key===k&&x.period===mes);
+        if(e){e.value=Number(v)}else d.kpi_entries.push({id:uuid(),kpi_key:k,period:mes,value:Number(v),notes:null,created_at:agoraIso(),created_by:currentUser().id})};
+      put('rnc',rnc);put('otif_mp',otif);
+    });closeModal();toast('Indicadores salvos.');
+  },
+  /* cronograma */
+  'cr-view':d=>{ST.cronograma.view=d.v;render()},
+  'proc-edit':d=>mProc(d.id),
+  'proc-save':d=>{const pct=Math.max(0,Math.min(100,Number($('#m-pct').value||0))),conc=$('#m-conc').value,fim=$('#m-fim').value;
+    commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);p.percent_complete=pct;p.completed_at=conc||null;if(fim)p.end_date=fim});
+    closeModal();toast('Processo atualizado.')},
+  'proc-done':d=>{commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);p.completed_at=hojeStr();p.percent_complete=100});closeModal();toast('Processo concluído ✓')},
+  /* coleção */
+  'cell-open':d=>mCell(d.ref,d.phase),
+  'cell-save':d=>{const dt=$('#m-data').value,obs=$('#m-obs').value;
+    if(!dt){toast('Informe a data.');return}
+    commit(x=>{let rp=x.reference_phases.find(y=>y.reference_id===d.ref&&y.phase_id===d.phase);
+      if(rp){rp.completed_at=dt;rp.notes=obs||null;rp.completed_by=currentUser().id}
+      else x.reference_phases.push({id:uuid(),reference_id:d.ref,phase_id:d.phase,completed_at:dt,completed_by:currentUser().id,notes:obs||null,created_at:agoraIso(),created_by:currentUser().id})});
+    closeModal();toast('Fase registrada ✓')},
+  'cell-clear':d=>{commit(x=>{x.reference_phases=x.reference_phases.filter(y=>!(y.reference_id===d.ref&&y.phase_id===d.phase))});closeModal();toast('Registro removido.')},
+  'dl-edit':d=>{if(!can('admin'))return;const atual=ix.dlByPhase[d.phase]||'';
+    const v=prompt('Data-limite da fase (AAAA-MM-DD). Vazio remove.',atual);
+    if(v===null)return;
+    if(v&&!/^\d{4}-\d{2}-\d{2}$/.test(v)){toast('Formato: AAAA-MM-DD');return}
+    commit(x=>{x.phase_deadlines=x.phase_deadlines.filter(y=>y.phase_id!==d.phase);
+      if(v)x.phase_deadlines.push({id:uuid(),collection_id:'col-inverno-alto-27',phase_id:d.phase,deadline_date:v})});
+    toast('Data-limite atualizada.')},
+  /* tarefas */
+  'task-new':()=>mTask(null),'task-edit':d=>mTask(d.id),
+  'task-save':d=>{const ti=$('#m-ti').value.trim();if(!ti){toast('Descreva a tarefa.');return}
+    const vals={title:ti,assignee_user_id:$('#m-resp').value,due_date:$('#m-prazo').value||null,description:$('#m-desc').value.trim()||null};
+    commit(x=>{if(d.id){Object.assign(x.tasks.find(t=>t.id===d.id),vals)}
+      else x.tasks.push({id:uuid(),...vals,status:'pendente',ritual_id:mTask._rit||null,completed_at:null,created_at:agoraIso(),created_by:currentUser().id})});
+    mTask._rit=null;closeModal();toast('Tarefa salva.')},
+  'task-move':d=>{const ord=['pendente','em_andamento','concluida'];
+    commit(x=>{const t=x.tasks.find(y=>y.id===d.id);const i=ord.indexOf(t.status)+Number(d.dir);
+      t.status=ord[Math.max(0,Math.min(2,i))];t.completed_at=t.status==='concluida'?hojeStr():null})},
+  'task-del':d=>{commit(x=>{x.tasks=x.tasks.filter(t=>t.id!==d.id)});closeModal();toast('Tarefa excluída.')},
+  /* rituais */
+  'rit-new':d=>mRitNew(d.tipo),
+  'rit-save':d=>{const dt=$('#m-dt').value,hr=$('#m-hr').value||'08:00';
+    if(!dt){toast('Informe a data.');return}
+    const rid=uuid();
+    commit(x=>x.rituals.push({id:rid,type:d.tipo,title:RIT_TIPOS[d.tipo].nm,scheduled_at:dt+'T'+hr+':00',duration_min:d.tipo==='briefing_diario'?15:60,
+      attendance:[],agenda_text:$('#m-pauta').value,minutes_text:null,minutes_published_at:null,created_at:agoraIso(),created_by:currentUser().id}));
+    closeModal();toast('Reunião registrada — publique a ata em até 24h.');setTimeout(()=>mRitOpen(rid),150)},
+  'rit-open':d=>mRitOpen(d.id),
+  'rit-save-ata':d=>{salvarRitual(d.id);closeModal();toast('Rascunho salvo.')},
+  'rit-publish':d=>{salvarRitual(d.id,true);closeModal();toast('Ata publicada ✓')},
+  'rit-task':d=>{mTask._rit=d.rit;mTask(null)},
+  'charge-new':d=>mCharge(d.rit||null),
+  'charge-save':d=>{const ass=$('#m-cb-ass').value.trim();if(!ass){toast('Descreva a cobrança.');return}
+    commit(x=>x.charges.push({id:uuid(),ritual_id:d.rit||null,charged_user_id:$('#m-cb-quem').value,charged_by:currentUser().id,
+      subject:ass,due_date:$('#m-cb-prazo').value||null,evidence:$('#m-cb-ev').value.trim()||null,status:'aberta',created_at:agoraIso(),created_by:currentUser().id}));
+    closeModal();toast('Cobrança registrada — documentada, não pessoal.')},
+  'charge-status':d=>{commit(x=>{x.charges.find(c=>c.id===d.id).status=d.st});toast(d.st==='atendida'?'Cobrança atendida ✓':'Cobrança escalada ↑ (Diretora de Estilo / Cairo)')},
+  /* dados */
+  'export-json':()=>{const blob=new Blob([JSON.stringify({...db,exported_at:agoraIso()},null,1)],{type:'application/json'});
+    baixar(blob,'liebe-backup-'+hojeStr()+'.json');localStorage.setItem(LS_EXP,agoraIso());toast('Backup exportado — guarde no Drive.');render()},
+  'import-json':()=>$('#file-import').click(),
+  'export-xlsx':()=>exportExcel(),
+  'reset-db':()=>{if(!confirm('Restaurar TODOS os dados originais da planilha? Tudo que foi registrado no app será perdido.'))return;
+    if(!confirm('Tem certeza? Esta ação não pode ser desfeita. Exporte um backup antes.'))return;
+    db=migrate(JSON.parse(JSON.stringify(window.LIEBE_SEED)));saveDbNow();closeModal();render();toast('Dados originais restaurados.')},
+};
+function salvarRitual(id,publicar){
+  commit(x=>{const r=x.rituals.find(y=>y.id===id);
+    r.agenda_text=$('#m-pauta')?.value??r.agenda_text;
+    r.minutes_text=$('#m-ata')?.value??r.minutes_text;
+    r.attendance=$$('.pres').map(c=>({user_id:c.dataset.uid,present:c.checked}));
+    if(publicar)r.minutes_published_at=agoraIso();
+  });
+}
+function baixar(blob,nome){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=nome;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+
+/* ---------------------------- export Excel (SheetJS lazy + fallback CSV) ---------------------------- */
+function gridLinhas(){
+  const hoje=hojeStr();
+  const head=['#','COLEÇÃO','LINHA','FAMÍLIA','ESTILISTA','REFERÊNCIA','FLUXO',...db.phases.map(p=>p.name)];
+  const rows=db.references.map((r,i)=>[i+1,r.collection_name,r.line,r.family,r.stylist,r.code,r.flow_type,
+    ...db.phases.map(ph=>{const s=statusCelula(r,ph,hoje);
+      return s.k==='na'?'N/A':s.k==='done'||s.k==='donelate'?s.date:s.k==='late'?s.days+' dias em atraso':''})]);
+  return[head,...rows];
+}
+function exportExcel(){
+  const fim=()=>{localStorage.setItem(LS_EXP,agoraIso());render()};
+  const run=()=>{
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(gridLinhas()),'Gestão da Coleção');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['#','Processo','Equipe','Início','Prazo','% Avanço','Concluído em'],
+      ...db.macro_processes.map(p=>[p.seq,p.name,p.owner_team||'',p.start_date||'',p.end_date||'',(p.percent_complete||0)+'%',p.completed_at||''])]),'Cronograma');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Tarefa','Responsável','Prazo','Status','Detalhes'],
+      ...db.tasks.map(t=>[t.title,ix.userById[t.assignee_user_id]?.name||'',t.due_date||'',t.status,t.description||''])]),'Tarefas');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Cobrado','Por','Assunto','Prazo','Evidência','Status'],
+      ...db.charges.map(c=>[ix.userById[c.charged_user_id]?.name||'',ix.userById[c.charged_by]?.name||'',c.subject,c.due_date||'',c.evidence||'',c.status])]),'Cobranças');
+    XLSX.writeFile(wb,'liebe-gestao-colecao-'+hojeStr()+'.xlsx');toast('Excel exportado.');fim();
+  };
+  if(window.XLSX){run();return}
+  toast('Carregando exportador…');
+  const s=document.createElement('script');
+  s.src='https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';
+  s.onload=run;
+  s.onerror=()=>{ // sem internet: CSV
+    const csv=gridLinhas().map(l=>l.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+    baixar(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}),'liebe-gestao-colecao-'+hojeStr()+'.csv');
+    toast('Sem internet — exportado em CSV.');fim();
+  };
+  document.head.appendChild(s);
+}
+$('#file-import').addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{try{
+    const nd=JSON.parse(rd.result);
+    if(!nd.references||!nd.phases){toast('Arquivo inválido.');return}
+    if(!confirm(`Importar backup de ${nd.exported_at?new Date(nd.exported_at).toLocaleString('pt-BR'):'?'} — ${nd.references.length} referências, ${nd.tasks.length} tarefas, ${nd.rituals.length} reuniões?\nIsto SUBSTITUI os dados atuais.`))return;
+    delete nd.exported_at;db=migrate(nd);saveDbNow();closeModal();render();toast('Backup importado ✓');
+  }catch(err){toast('Erro ao ler o arquivo.')}};
+  rd.readAsText(f);e.target.value='';
+});
+
+/* =================================================================
+   TOUR GUIADO (engine próprio, sem dependências)
+   ================================================================= */
+const TOURS={
+ '#/dashboard':[
+  {el:'#hero-col',t:'Bem-vinda ao Painel da Coleção',p:'Aqui você vê a coleção ativa, quantos dias faltam para a entrega do mostruário e o avanço médio do cronograma. É a primeira tela do dia — 30 segundos e você sabe como o setor está.'},
+  {el:'#kpi-grid',t:'Indicadores com meta e gatilho',p:'Cada cartão tem a meta combinada e muda de cor sozinho: verde = na meta, âmbar = atenção, rosé = gatilho de alerta disparado. Cartões cinza estão "sem baseline" — esta coleção é a linha de base, sem culpa do passado.'},
+  {el:'#kpi-rnc',t:'RNCs e Atraso de MP são lançados à mão',p:'Uma vez por mês, clique em "Lançar indicador do mês" e informe os RNCs (número absoluto, não %) e o Atraso de MP dos fornecedores. O resto os cartões calculam sozinhos.'},
+  {el:'#alertas',t:'Alertas do dia',p:'Processos atrasados, fases críticas e pendências da equipe — é daqui que sai a pauta da reunião de segunda, automaticamente.'},
+  {el:'.regra-ouro',t:'A Regra de Ouro',p:'Sempre visível: prazo cobra-se com a Joice, estilo cobra-se com a Anna. Cada decisão pertence a uma única cadeira.'}],
+ '#/cronograma':[
+  {el:'#cr-toggle',t:'Duas formas de ver',p:'Lista para o dia a dia (editar % e concluir) e Linha do tempo para enxergar a coleção inteira de uma vez, com a linha "hoje" mostrando onde estamos.'},
+  {el:'#cr-tabela, #cr-gantt',t:'Os 35 processos da coleção',p:'Cada processo tem início, prazo e % de avanço. O status é calculado sozinho: se passou do prazo sem conclusão, aparece "X dias em atraso" — ninguém precisa apontar o dedo, o sistema mostra.'},
+  {el:'.topbar',t:'Atualize na reunião de segunda',p:'Durante o ritual semanal, abra cada processo em andamento e ajuste o %. Concluiu? Botão "Concluir hoje". Replanejou o prazo? Edite a data — fica registrado.'}],
+ '#/colecao':[
+  {el:'#col-filtros',t:'Filtre como na planilha — só que instantâneo',p:'Por linha (FASHION, LUXE…), família (KISS ME, LUMINA…), estilista, fluxo (nova × continuada) ou só o que está em atraso. A busca encontra qualquer referência pelo código.'},
+  {el:'#col-grid',t:'O coração do sistema',p:'Cada linha é uma referência; cada coluna, uma fase. Célula verde = concluída no prazo; âmbar = concluída com atraso; rosé = atrasada; hachurada = não se aplica àquele fluxo. Os contadores no topo somam ✓ no prazo, ! em atraso e … pendentes.'},
+  {el:'#col-legenda',t:'Marcos da Anna e marcos da Joice',p:'◆ lilás = marco técnico-criativo (responde a Anna). ● rosé = marco de prazo/processo (responde a Joice). A cobrança certa, para a cadeira certa.'},
+  {el:'#col-grid',t:'Registrar é um clique',p:'Clique em qualquer célula para registrar a conclusão da fase: a data e QUEM registrou ficam gravados — substitui o caderno e vira evidência.'}],
+ '#/tarefas':[
+  {el:'#t-filtros',t:'O quadro que substitui o caderno',p:'Toda demanda vira um cartão com responsável e prazo. Filtre por pessoa ou marque "só as minhas" para ver seu dia.'},
+  {el:'#kanban',t:'Três colunas, zero dúvida',p:'Pendente → Em andamento → Concluída. Os botões ◀ ▶ movem o cartão. Cartão com borda rosé = prazo vencido — é o primeiro assunto do briefing diário.'},
+  {el:'#btn-nova-tarefa',t:'Saiu da reunião, virou cartão',p:'Encaminhamento sem cartão é encaminhamento perdido. Crie a tarefa na hora, na frente de todos — transparência é o que faz o quadro funcionar.'}],
+ '#/rituais':[
+  {el:'#rit-cadencia',t:'A batida do setor',p:'Os 4 rituais oficiais: semanal de cronograma (segunda, 60 min), briefing diário (15 min), batimento quinzenal com as interfaces e reporte mensal à Diretoria.'},
+  {el:'#rit-lista',t:'Pauta pronta em um clique',p:'Ao registrar a reunião de segunda, a pauta nasce preenchida com os atrasos do cronograma, fases críticas, tarefas vencidas e cobranças em aberto. Reunião enxuta, sem burocracia.'},
+  {el:'#rit-lista',t:'Ata em 24 horas',p:'Depois da reunião, escreva a ata e clique em "Publicar". O sistema cronometra: ata publicada em até 24h conta para a meta de 100%.'},
+  {el:'#rit-cobrancas',t:'Cobrança documentada, não pessoal',p:'Registre quem foi cobrado, do quê, até quando e com qual evidência. O registro tira a cobrança do campo pessoal — é o processo cobrando. Não resolveu? "Escalar" leva para a Diretoria.'}],
+};
+let tourState=null;
+function startTour(route){
+  const steps=TOURS[route];if(!steps||!steps.length)return;
+  tourState={steps,i:0,route};
+  $('#tour').classList.add('open');
+  $('#tour').innerHTML='<div class="tour-spot"></div><div class="tour-tip"></div>';
+  tourStep(0);
+}
+function tourStep(i){
+  const st=tourState;if(!st)return;
+  if(i<0)i=0;
+  if(i>=st.steps.length){endTour();return}
+  st.i=i;
+  const s=st.steps[i];
+  let el=null;
+  for(const sel of s.el.split(',')){el=document.querySelector(sel.trim());if(el)break}
+  if(!el){tourStep(i+1);return}
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(()=>{
+    const r=el.getBoundingClientRect();
+    const spot=$('#tour .tour-spot'),tip=$('#tour .tour-tip');
+    spot.style.cssText=`left:${r.left-8}px;top:${r.top-8}px;width:${r.width+16}px;height:${r.height+16}px;border-radius:14px;box-shadow:0 0 0 9999px rgba(26,26,26,.55)`;
+    tip.innerHTML=`<h4>${s.t}</h4><p>${s.p}</p>
+      <div class="ta"><span class="step-n">${i+1} de ${st.steps.length}</span>
+      ${i>0?'<button class="btn btn-g btn-sm" data-action="tour-prev">← anterior</button>':''}
+      <button class="btn btn-p btn-sm" data-action="tour-next">${i===st.steps.length-1?'Concluir ✓':'próximo →'}</button>
+      <button class="btn btn-g btn-sm" data-action="tour-end">fechar</button></div>`;
+    const tw=340,th=tip.offsetHeight||180,vw=innerWidth,vh=innerHeight;
+    let tx=r.left,ty=r.bottom+14;
+    if(ty+th>vh-20)ty=Math.max(16,r.top-th-14);
+    if(tx+tw>vw-16)tx=Math.max(16,vw-tw-16);
+    tip.style.cssText=`left:${tx}px;top:${ty}px`;
+  },330);
+}
+function endTour(){
+  if(tourState){const seen=JSON.parse(localStorage.getItem(LS_TOUR)||'{}');seen[tourState.route]=true;localStorage.setItem(LS_TOUR,JSON.stringify(seen))}
+  tourState=null;$('#tour').classList.remove('open');$('#tour').innerHTML='';
+}
+ACTIONS['tour-next']=()=>tourStep(tourState.i+1);
+ACTIONS['tour-prev']=()=>tourStep(tourState.i-1);
+ACTIONS['tour-end']=()=>endTour();
+function autoTour(route){
+  if(!TOURS[route])return;
+  const seen=JSON.parse(localStorage.getItem(LS_TOUR)||'{}');
+  if(seen[route])return;
+  setTimeout(()=>startTour(route),650);
+}
+
+/* ---------------------------- delegação global ---------------------------- */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-action]');
+  if(!t)return;
+  if(t.id==='modal'&&e.target!==t)return;
+  const fn=ACTIONS[t.dataset.action];
+  if(fn)fn(t.dataset,t,e);
+});
+document.addEventListener('change',e=>{
+  const f=e.target.dataset.filter,tf=e.target.dataset.tfilter;
+  if(f){ST.colecao[f]=e.target.value;render()}
+  if(tf){ST.tarefas[tf]=e.target.type==='checkbox'?e.target.checked:e.target.value;render()}
+});
+document.addEventListener('input',e=>{
+  if(e.target.dataset.filter==='busca'){clearTimeout(vColecao._t);vColecao._t=setTimeout(()=>{ST.colecao.busca=e.target.value;const sc=$('#col-grid')?.scrollLeft;render();const g=$('#col-grid');if(g&&sc)g.scrollLeft=sc;const inp=document.querySelector('[data-filter="busca"]');if(inp){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length)}},350)}
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeModal();endTour()}
+  if(e.key==='Enter'&&$('#pin')&&document.activeElement===$('#pin'))ACTIONS['do-login']();
+});
+window.addEventListener('hashchange',()=>{$('#sidebar')?.classList.remove('open');render()});
+window.addEventListener('resize',()=>{if(tourState)tourStep(tourState.i)});
+
+/* ---------------------------- init ---------------------------- */
+loadDb();
+render();
+</script>
+</body>
+</html>
