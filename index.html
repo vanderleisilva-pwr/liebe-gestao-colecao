@@ -48,18 +48,18 @@ h1,h2,h3{font-weight:600}
 
 /* ============================ SHELL ============================ */
 .shell{display:flex;min-height:100vh}
-.sidebar{width:232px;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:40;transition:transform .2s}
-.side-brand{padding:22px 20px 14px;text-align:center;border-bottom:1px solid var(--line)}
+.sidebar{width:232px;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;height:100vh;z-index:40;transition:transform .2s;overflow:hidden}
+.side-brand{padding:22px 20px 14px;text-align:center;border-bottom:1px solid var(--line);flex-shrink:0}
 .side-brand .brand{font-size:24px}
 .side-brand .brand-sub{margin:4px 0 0;font-size:10px}
-.nav{padding:14px 10px;flex:1}
+.nav{padding:14px 10px;flex:1 1 auto;overflow-y:auto;min-height:0}
 .nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:500;font-size:13.5px;margin-bottom:3px}
 .nav a:hover{background:var(--blush)}
 .nav a.on{background:var(--rose);color:#fff}
 .nav a .ic{width:20px;text-align:center;font-size:15px}
-.regra-ouro{margin:10px;background:var(--blush);border:1px dashed var(--rose-soft);border-radius:12px;padding:12px;font-size:11.5px;color:var(--rose-dark);text-align:center;line-height:1.6}
+.regra-ouro{margin:10px;background:var(--blush);border:1px dashed var(--rose-soft);border-radius:12px;padding:12px;font-size:11.5px;color:var(--rose-dark);text-align:center;line-height:1.6;flex-shrink:0}
 .regra-ouro b{display:block;letter-spacing:.12em;font-size:10px;text-transform:uppercase;margin-bottom:4px;color:var(--rose)}
-.side-user{padding:12px 14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.side-user{padding:12px 14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-shrink:0}
 .side-user .avatar{width:34px;height:34px;font-size:13px;margin:0}
 .side-user .nm{font-size:12.5px;font-weight:600}
 .side-user .jt{font-size:10.5px;color:var(--muted)}
@@ -180,6 +180,50 @@ tr:hover td{background:#fdfcf9}
 .charge-item{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
 .charge-item:last-child{border:0}
 
+/* ============================ MANUAL DE USO ============================ */
+.man-hero{background:linear-gradient(120deg,var(--rose) 0%,var(--rose-soft) 100%);color:#fff;border-radius:var(--radius);padding:26px 28px;margin-bottom:20px}
+.man-hero h2{font-size:22px;font-weight:600;margin-bottom:6px}
+.man-hero p{font-size:13px;opacity:.95;line-height:1.6;max-width:760px}
+.man-wrap{display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:start}
+.man-toc{position:sticky;top:78px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.man-toc h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+.man-toc a{display:block;padding:7px 10px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:12.5px;font-weight:500;margin-bottom:2px}
+.man-toc a:hover{background:var(--blush);color:var(--rose-dark)}
+.man-body{min-width:0}
+.man-sec{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 26px;margin-bottom:18px;scroll-margin-top:80px}
+.man-sec>h3{font-size:17px;color:var(--rose-dark);margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.man-sec>h3 .nicon{width:34px;height:34px;border-radius:9px;background:var(--blush);display:inline-flex;align-items:center;justify-content:center;font-size:17px}
+.man-sec .lead{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6}
+.man-sec h4{font-size:13.5px;margin:18px 0 9px;color:var(--ink)}
+.man-sec p{font-size:13px;line-height:1.7;margin-bottom:10px}
+.man-sec ul{margin:0 0 12px 4px;list-style:none}
+.man-sec ul li{font-size:13px;line-height:1.7;padding-left:20px;position:relative;margin-bottom:5px}
+.man-sec ul li::before{content:'❀';color:var(--rose-soft);position:absolute;left:0;font-size:11px;top:3px}
+.man-sec b{color:var(--ink)}
+.steps{counter-reset:st;margin:6px 0 14px}
+.step{position:relative;padding:12px 14px 12px 52px;border:1px solid var(--line);border-radius:11px;margin-bottom:10px;background:#fdfcfa}
+.step::before{counter-increment:st;content:counter(st);position:absolute;left:12px;top:12px;width:28px;height:28px;border-radius:50%;background:var(--rose);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.step .st-t{font-weight:600;font-size:13px;margin-bottom:3px}
+.step .st-d{font-size:12.5px;color:#555;line-height:1.6}
+.callout{border-radius:11px;padding:12px 15px 12px 44px;position:relative;font-size:12.5px;line-height:1.6;margin:12px 0}
+.callout::before{position:absolute;left:14px;top:11px;font-size:16px}
+.callout.dica{background:var(--ok-bg);color:#2f5a40}.callout.dica::before{content:'💡'}
+.callout.atencao{background:var(--warn-bg);color:#7a5a16}.callout.atencao::before{content:'⚠'}
+.callout.ouro{background:var(--blush);color:var(--rose-dark);border:1px dashed var(--rose-soft)}.callout.ouro::before{content:'♔'}
+.man-leg{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.man-leg span{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#555;background:#fbfaf7;border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.man-leg .sw{width:13px;height:13px;border-radius:4px}
+.faq{border-top:1px solid var(--line);padding:11px 0}
+.faq:last-child{border-bottom:1px solid var(--line)}
+.faq .q{font-weight:600;font-size:13px;margin-bottom:4px;color:var(--ink)}
+.faq .a{font-size:12.5px;color:#555;line-height:1.65}
+.routine{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:8px 0 14px}
+.routine .rc{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fdfcfa}
+.routine .rc .cad{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--rose)}
+.routine .rc .ti{font-weight:600;font-size:13px;margin:3px 0 8px}
+.routine .rc ol{margin-left:16px;font-size:12px;line-height:1.65;color:#555}
+@media(max-width:860px){.man-wrap{grid-template-columns:1fr}.man-toc{position:static;margin-bottom:8px}}
+
 /* ============================ MODAL / TOAST / TOUR ============================ */
 .modal{position:fixed;inset:0;background:rgba(26,26,26,.45);display:none;align-items:flex-start;justify-content:center;z-index:90;padding:40px 16px;overflow:auto}
 .modal.open{display:flex}
@@ -248,15 +292,33 @@ function iniciais(n){return n.split(/\s+/).map(x=>x.replace(/[^\p{L}]/gu,'')).fi
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._x);toast._x=setTimeout(()=>t.classList.remove('show'),2600)}
 
 /* ---------------------------- store ---------------------------- */
-const LS_DB='liebe_db', LS_SESS='liebe_session', LS_TOUR='liebe_tour_seen', LS_EXP='liebe_last_export';
+const LS_DB='liebe_db', LS_SESS='liebe_session', LS_TOUR='liebe_tour_seen', LS_EXP='liebe_last_export', LS_SEEDDISMISS='liebe_seed_dismissed';
 let db=null;
+let seedUpdate=false; // true quando o data.js traz uma planilha mais recente que a salva
+const clone=o=>JSON.parse(JSON.stringify(o));
 const MIGRATIONS=[]; // futuras migrações de schema (mesmo padrão no Supabase)
 function migrate(d){let v=d.schema_version||1;while(v<MIGRATIONS.length+1){MIGRATIONS[v-1](d);v++;d.schema_version=v}return d}
 function loadDb(){
-  try{const raw=localStorage.getItem(LS_DB);if(raw){db=migrate(JSON.parse(raw));return}}catch(e){console.error('loadDb',e)}
-  if(!window.LIEBE_SEED){document.body.innerHTML='<div class="login-wrap"><div class="login-card"><p style="text-align:center">Erro: data.js não encontrado. Rode <b>python scripts/gerar_seed.py</b>.</p></div></div>';throw new Error('seed ausente')}
-  db=migrate(JSON.parse(JSON.stringify(window.LIEBE_SEED)));saveDbNow();
+  const seed=window.LIEBE_SEED;
+  if(!seed){document.body.innerHTML='<div class="login-wrap"><div class="login-card"><p style="text-align:center">Erro: data.js não encontrado. Rode <b>python scripts/gerar_seed.py</b>.</p></div></div>';throw new Error('seed ausente')}
+  let stored=null;
+  try{const raw=localStorage.getItem(LS_DB);if(raw)stored=JSON.parse(raw)}catch(e){console.error('loadDb',e)}
+  if(!stored){db=migrate(clone(seed));saveDbNow();return}
+  db=migrate(stored);
+  // A planilha (data.js) é mais nova que a versão salva neste navegador?
+  const dismissed=Number(localStorage.getItem(LS_SEEDDISMISS)||0);
+  if(seed.seed_version&&(db.seed_version||0)<seed.seed_version&&dismissed<seed.seed_version)seedUpdate=true;
 }
+// Aplica a nova planilha: substitui o catálogo (vindo do Excel) e PRESERVA o
+// trabalho do dia a dia (tarefas, atas, cobranças, indicadores lançados).
+function applyNewSeed(){
+  const seed=window.LIEBE_SEED;
+  ['users','collections','phases','phase_deadlines','macro_processes','references','reference_phases'].forEach(k=>db[k]=clone(seed[k]));
+  db.seed_version=seed.seed_version;
+  seedUpdate=false;localStorage.removeItem(LS_SEEDDISMISS);
+  saveDbNow();render();toast('Coleção atualizada com a planilha mais recente ✓');
+}
+function dismissSeed(){seedUpdate=false;localStorage.setItem(LS_SEEDDISMISS,String(window.LIEBE_SEED.seed_version||0));render()}
 let saveT=null;
 function saveDb(){clearTimeout(saveT);saveT=setTimeout(saveDbNow,400)}
 function saveDbNow(){try{localStorage.setItem(LS_DB,JSON.stringify(db))}catch(e){toast('⚠ Não foi possível salvar (armazenamento cheio). Exporte um backup!')}}
@@ -367,6 +429,7 @@ const ROUTES={
   '#/colecao':{t:'Gestão da Coleção',sub:'Referências × fases de desenvolvimento',ic:'❀',fn:vColecao},
   '#/tarefas':{t:'Quadro de Tarefas',sub:'Encaminhamentos por pessoa — adeus, caderno',ic:'☰',fn:vTarefas},
   '#/rituais':{t:'Rituais & Atas',sub:'Reuniões, atas em 24h e cobranças documentadas',ic:'✎',fn:vRituais},
+  '#/manual':{t:'Manual de Uso',sub:'Passo a passo de toda a plataforma',ic:'📖',fn:vManual},
 };
 const ST={colecao:{linha:'',familia:'',estilista:'',fluxo:'',status:'',busca:''},cronograma:{view:'lista'},tarefas:{pessoa:'',so_minhas:false}};
 
@@ -394,9 +457,11 @@ function render(){
         <button class="burger" data-action="burger">☰</button>
         <div><h1>${r.t}</h1><div class="sub">${r.sub}</div></div>
         <div class="sp"></div>
-        <button class="btn btn-g btn-sm" data-action="tour">✦ Tour guiado</button>
+        ${h==='#/manual'?'':`<button class="btn btn-g btn-sm" data-action="tour">✦ Tour guiado</button>`}
+        <a href="#/manual" class="btn btn-g btn-sm" ${h==='#/manual'?'style="display:none"':''}>📖 Manual</a>
         <button class="btn btn-g btn-sm" data-action="menu-dados">⛃ Dados</button>
       </div>
+      ${seedUpdate?bannerSeed():''}
       <div class="content" id="page">${r.fn()}</div>
     </div>
   </div>`;
@@ -482,6 +547,11 @@ function bannerBackup(){
   if(last&&dias<=7)return'';
   return `<div class="banner w">💾 ${last?`Seu último backup foi há <b>&nbsp;${dias} dias</b>.`:'Você ainda não exportou um backup dos dados.'}&nbsp;Os dados vivem neste navegador — exporte com frequência.
     <button class="btn btn-o btn-sm" data-action="export-json">Exportar backup agora</button></div>`;
+}
+function bannerSeed(){
+  return `<div class="banner w" style="margin:14px 26px 0;background:#eef4ee;border-color:#cfe0cf;color:var(--ok)">🔄 Há uma <b>&nbsp;versão mais recente da planilha&nbsp;</b> disponível. Atualizar substitui o cronograma e a coleção pelos dados do Excel — e <b>&nbsp;mantém&nbsp;</b> suas tarefas, atas e cobranças.
+    <button class="btn btn-p btn-sm" data-action="seed-apply">Atualizar coleção</button>
+    <button class="btn btn-g btn-sm" data-action="seed-dismiss">Agora não</button></div>`;
 }
 
 /* ---------------------------- CRONOGRAMA ---------------------------- */
@@ -662,6 +732,181 @@ function vRituais(){
   </div>`;
 }
 
+/* ---------------------------- MANUAL DE USO ---------------------------- */
+function vManual(){
+  const col=db.collections.find(c=>c.id==='col-inverno-alto-27')||db.collections[0];
+  const nRef=db.references.length,nProc=db.macro_processes.length,nFase=db.phases.length;
+  const toc=[
+    ['s-inicio','1. Primeiros passos'],
+    ['s-rotina','2. A rotina da Joice'],
+    ['s-painel','3. Painel de Indicadores'],
+    ['s-cronograma','4. Cronograma Macro'],
+    ['s-colecao','5. Gestão da Coleção'],
+    ['s-tarefas','6. Quadro de Tarefas'],
+    ['s-rituais','7. Rituais & Atas'],
+    ['s-dados','8. Dados & Backup'],
+    ['s-faq','9. Perguntas frequentes'],
+  ];
+  return `
+  <div class="man-hero">
+    <h2>📖 Manual de Uso da Plataforma</h2>
+    <p>Bem-vinda, Joice! Este guia explica <b>passo a passo</b>, em linguagem simples, como usar cada parte do sistema que substitui a planilha e o caderno. Você não precisa decorar nada — sempre que tiver dúvida, volte aqui pelo botão <b>📖 Manual</b> no topo. A coleção ativa é <b>${esc(col?col.name:'—')}</b>, com ${nRef} referências, ${nProc} processos de cronograma e ${nFase} fases de desenvolvimento.</p>
+  </div>
+  <div class="man-wrap">
+    <nav class="man-toc">
+      <h4>Neste manual</h4>
+      ${toc.map(([id,t])=>`<a data-action="man-go" data-target="${id}">${t}</a>`).join('')}
+    </nav>
+    <div class="man-body">
+
+      <section class="man-sec" id="s-inicio">
+        <h3><span class="nicon">🔑</span> 1. Primeiros passos</h3>
+        <div class="lead">Como entrar e o que cada pessoa pode fazer.</div>
+        <div class="steps">
+          <div class="step"><div class="st-t">Abra a plataforma e escolha o seu nome</div><div class="st-d">Na tela inicial aparecem os cartões de cada pessoa do setor. Toque no seu (ex.: <b>Joice</b>).</div></div>
+          <div class="step"><div class="st-t">Digite o PIN</div><div class="st-d">O PIN serve só para registrar <b>quem</b> fez cada atualização — não é senha de segurança. O PIN inicial de todos é <b>1234</b>.</div></div>
+          <div class="step"><div class="st-t">Pronto — você está no Painel</div><div class="st-d">Na primeira vez que abrir cada página, um <b>tour guiado</b> aparece sozinho destacando os pontos importantes. Pode revê-lo quando quiser no botão <b>✦ Tour guiado</b>.</div></div>
+        </div>
+        <h4>Quem pode o quê (perfis)</h4>
+        <ul>
+          <li><b>Administração</b> (Joice e consultor PWR): edita tudo — cronograma, coleção, tarefas, atas e datas-limite.</li>
+          <li><b>Equipe</b> (Anna, modelista, pilotistas, assistentes, PCP): atualiza fases, tarefas e participa das atas.</li>
+          <li><b>Leitura</b> (Cairo, Eugênia): acompanham os painéis e relatórios, sem botões de edição.</li>
+        </ul>
+        <div class="callout dica">Use o menu lateral à esquerda para navegar entre as páginas. Ele fica sempre fixo na tela. No celular, toque no botão <b>☰</b> no topo para abri-lo.</div>
+      </section>
+
+      <section class="man-sec" id="s-rotina">
+        <h3><span class="nicon">🗓️</span> 2. A rotina da Joice (o jeito mais fácil de usar)</h3>
+        <div class="lead">Se você seguir esta rotina, a plataforma se mantém atualizada quase sozinha. Pense nela como a sua agenda de gestão.</div>
+        <div class="routine">
+          <div class="rc"><div class="cad">Todo dia · 15 min</div><div class="ti">Briefing matinal</div>
+            <ol><li>Abra o <b>Painel</b> e veja os alertas do dia.</li><li>Confira o <b>Quadro de Tarefas</b> — cartões com borda rosé estão vencidos.</li><li>Alinhe rapidinho com a equipe o foco do dia.</li></ol></div>
+          <div class="rc"><div class="cad">Toda segunda · 60 min</div><div class="ti">Ritual de cronograma</div>
+            <ol><li>Em <b>Rituais & Atas</b>, clique em "registrar reunião" — a <b>pauta já vem pronta</b>.</li><li>Atualize o % dos processos no <b>Cronograma</b>.</li><li>Registre as conclusões de fases na <b>Coleção</b>.</li><li>Crie tarefas e cobranças do que foi decidido.</li><li>Escreva e <b>publique a ata em até 24h</b>.</li></ol></div>
+          <div class="rc"><div class="cad">A cada 15 dias</div><div class="ti">Interfaces</div>
+            <ol><li>Reunião com Compras, Qualidade, Engenharia e PCP.</li><li>Registre como reunião e anote encaminhamentos como tarefas.</li></ol></div>
+          <div class="rc"><div class="cad">Todo mês</div><div class="ti">Indicadores & Diretoria</div>
+            <ol><li>No Painel, clique em <b>"Lançar indicador do mês"</b> (RNCs e Atraso de MP).</li><li>Registre o reporte mensal à diretoria como reunião.</li><li>Exporte um backup e guarde no Drive.</li></ol></div>
+        </div>
+        <div class="callout ouro"><b>Regra de Ouro:</b> prazo cobra-se com a <b>Joice</b> · estilo/técnica cobra-se com a <b>Anna</b>. Cada decisão pertence a uma única cadeira. Ela fica sempre visível na lateral esquerda.</div>
+      </section>
+
+      <section class="man-sec" id="s-painel">
+        <h3><span class="nicon">◈</span> 3. Painel de Indicadores</h3>
+        <div class="lead">É a sua "tela do dia": em 30 segundos você sabe como o setor está.</div>
+        <p>No topo, a faixa rosé mostra a coleção ativa, quantos <b>dias faltam para a entrega do mostruário</b> e o avanço médio do cronograma. Abaixo ficam os cartões de indicadores (KPIs), cada um com a <b>meta combinada</b>, o <b>gatilho de alerta</b> e o <b>responsável</b>.</p>
+        <h4>Como ler as cores</h4>
+        <div class="man-leg">
+          <span><i class="sw" style="background:var(--ok)"></i> Verde: dentro da meta</span>
+          <span><i class="sw" style="background:var(--warn)"></i> Âmbar: atenção</span>
+          <span><i class="sw" style="background:var(--late)"></i> Rosé: alerta disparado</span>
+          <span><i class="sw" style="background:var(--na)"></i> Cinza: sem baseline / não medido</span>
+        </div>
+        <p>Os cartões <b>cinza</b> ainda não têm histórico — esta coleção é a <b>linha de base</b>. Não é problema: é o ponto de partida para medir a evolução. Quatro indicadores o sistema <b>calcula sozinho</b> (cumprimento do cronograma, peças no prazo, tempo de piloto e atas em 24h). Dois você <b>lança uma vez por mês</b>:</p>
+        <div class="steps">
+          <div class="step"><div class="st-t">Clique em "＋ Lançar indicador do mês"</div><div class="st-d">Fica logo abaixo dos cartões.</div></div>
+          <div class="step"><div class="st-t">Informe os RNCs e o Atraso de MP</div><div class="st-d"><b>RNCs</b> = número absoluto de não conformidades (não é %). <b>Atraso de MP</b> = OTIF dos fornecedores em %. Deixe em branco o que ainda não tiver.</div></div>
+          <div class="step"><div class="st-t">Salve</div><div class="st-d">Os cartões assumem a cor certa automaticamente conforme a meta.</div></div>
+        </div>
+        <div class="callout dica">Os blocos de alerta embaixo (processos atrasados, fases críticas, pendências) são exatamente o que vira a <b>pauta da reunião de segunda</b> — você não precisa montar nada à mão.</div>
+      </section>
+
+      <section class="man-sec" id="s-cronograma">
+        <h3><span class="nicon">▤</span> 4. Cronograma Macro</h3>
+        <div class="lead">Os ${nProc} processos da coleção, do briefing inspiracional à produção das peças de catálogo.</div>
+        <p>Há duas formas de ver, no botão no topo: <b>Lista</b> (para o dia a dia) e <b>Linha do tempo</b> (um Gantt que mostra a coleção inteira, com uma linha marcando "hoje"). O <b>status é calculado sozinho</b>: se um processo passou do prazo sem conclusão, aparece "X dias em atraso" — o sistema mostra o atraso, ninguém precisa apontar o dedo.</p>
+        <h4>Atualizar um processo (faça na reunião de segunda)</h4>
+        <div class="steps">
+          <div class="step"><div class="st-t">Clique em "editar" na linha do processo</div><div class="st-d">Abre uma janelinha com os campos.</div></div>
+          <div class="step"><div class="st-t">Ajuste o % de avanço</div><div class="st-d">Quanto daquele processo já foi feito.</div></div>
+          <div class="step"><div class="st-t">Concluiu? Use "✓ Concluir hoje"</div><div class="st-d">Marca 100% e registra a data de conclusão de uma vez.</div></div>
+          <div class="step"><div class="st-t">Precisou replanejar? Mude o prazo final</div><div class="st-d">A nova data fica registrada e o status se recalcula.</div></div>
+        </div>
+      </section>
+
+      <section class="man-sec" id="s-colecao">
+        <h3><span class="nicon">❀</span> 5. Gestão da Coleção</h3>
+        <div class="lead">O coração do sistema: a grade de ${nRef} referências (linhas) × ${nFase} fases (colunas).</div>
+        <p>Cada linha é uma peça/referência; cada coluna é uma fase do desenvolvimento (Desenho, Modelagem, Pilotagem… até Produção de Catálogo). O cabeçalho de cada fase mostra a <b>data-limite</b> e os contadores: <b>✓ no prazo</b>, <b>! em atraso</b> e <b>… pendentes</b>.</p>
+        <h4>O que cada cor da célula significa</h4>
+        <div class="man-leg">
+          <span><i class="sw" style="background:var(--ok-bg)"></i> Concluída no prazo</span>
+          <span><i class="sw" style="background:var(--warn-bg)"></i> Concluída com atraso</span>
+          <span><i class="sw" style="background:var(--late-bg)"></i> Em atraso</span>
+          <span><i class="sw" style="background:#f6f4ef"></i> Pendente</span>
+          <span><i class="sw" style="background:repeating-linear-gradient(45deg,#f3f1ec 0 4px,#fbfaf7 4px 8px)"></i> Não se aplica</span>
+        </div>
+        <h4>Registrar a conclusão de uma fase</h4>
+        <div class="steps">
+          <div class="step"><div class="st-t">Clique na célula da referência × fase</div><div class="st-d">Ex.: a célula de "Modelagem" da referência 503151.</div></div>
+          <div class="step"><div class="st-t">Informe a data de conclusão (e uma observação, se quiser)</div><div class="st-d">A data e <b>o seu nome</b> ficam gravados — é a evidência que substitui o caderno.</div></div>
+          <div class="step"><div class="st-t">Salve</div><div class="st-d">A célula muda de cor e os contadores no topo se atualizam na hora.</div></div>
+        </div>
+        <h4>Filtrar e buscar</h4>
+        <ul>
+          <li>Filtre por <b>linha</b> (FASHION, LUXE…), <b>família</b> (KISS ME, LUMINA…), <b>estilista</b>, <b>fluxo</b> (coleção nova × continuados) ou só o que está <b>em atraso</b>.</li>
+          <li>Use a busca para achar uma referência pelo código.</li>
+        </ul>
+        <div class="callout ouro">Os símbolos no cabeçalho indicam o dono do marco: <b>◆ (lilás)</b> = marco da <b>Anna</b> (técnico-criativo); <b>● (rosé)</b> = marco da <b>Joice</b> (prazo/processo). A cobrança certa vai para a cadeira certa.</div>
+        <div class="callout atencao">A data-limite de cada fase pode ser editada pelo perfil de administração: clique no selo "limite…" no cabeçalho da coluna. Algumas fases ainda estão "sem limite" — defina-as para que o cálculo de atraso funcione nelas.</div>
+      </section>
+
+      <section class="man-sec" id="s-tarefas">
+        <h3><span class="nicon">☰</span> 6. Quadro de Tarefas</h3>
+        <div class="lead">O quadro que substitui o caderno: toda demanda vira um cartão com dono e prazo.</div>
+        <p>São três colunas: <b>Pendente → Em andamento → Concluída</b>. Cartões com borda rosé estão com o prazo vencido.</p>
+        <div class="steps">
+          <div class="step"><div class="st-t">Clique em "＋ Nova tarefa"</div><div class="st-d">Saiu da reunião, virou cartão — na frente de todos.</div></div>
+          <div class="step"><div class="st-t">Descreva, escolha o responsável e o prazo</div><div class="st-d">Pode adicionar detalhes opcionais.</div></div>
+          <div class="step"><div class="st-t">Mova o cartão com ◀ e ▶</div><div class="st-d">Conforme a tarefa avança até "Concluída".</div></div>
+        </div>
+        <div class="callout dica">Marque <b>"só as minhas"</b> ou filtre por pessoa para ver a carga de cada um. Encaminhamento sem cartão é encaminhamento perdido.</div>
+      </section>
+
+      <section class="man-sec" id="s-rituais">
+        <h3><span class="nicon">✎</span> 7. Rituais & Atas</h3>
+        <div class="lead">As reuniões do setor, com pauta automática, atas em 24h e cobranças documentadas.</div>
+        <p>No topo ficam os 4 rituais oficiais. Para registrar uma reunião:</p>
+        <div class="steps">
+          <div class="step"><div class="st-t">Clique em "＋ registrar reunião" no ritual desejado</div><div class="st-d">Ex.: o Ritual semanal de cronograma, toda segunda.</div></div>
+          <div class="step"><div class="st-t">A pauta já vem pronta</div><div class="st-d">O sistema preenche com os atrasos do cronograma, fases críticas, tarefas vencidas e cobranças em aberto. Ajuste se quiser e registre.</div></div>
+          <div class="step"><div class="st-t">Marque a presença e escreva a ata</div><div class="st-d">Anote decisões e encaminhamentos. Crie tarefas e cobranças direto da reunião.</div></div>
+          <div class="step"><div class="st-t">Clique em "Publicar ata"</div><div class="st-d">O sistema cronometra: <b>ata publicada em até 24h</b> conta para a meta de 100%.</div></div>
+        </div>
+        <h4>Cobranças documentadas</h4>
+        <p>Registre <b>quem</b> foi cobrado, <b>do quê</b>, <b>até quando</b> e com qual <b>evidência</b>. O registro tira a cobrança do campo pessoal — é o processo cobrando, não a pessoa. Não resolveu? O botão <b>"Escalar ↑"</b> leva o caso para a Diretoria de Estilo (na licença, para o Cairo).</p>
+        <div class="callout ouro">Lembre-se: você (Joice) cobra <b>prazo</b>; a Anna cobra <b>estilo/técnica</b>. Registre na cadeira certa.</div>
+      </section>
+
+      <section class="man-sec" id="s-dados">
+        <h3><span class="nicon">⛃</span> 8. Dados & Backup</h3>
+        <div class="lead">Importante até a plataforma migrar para a nuvem (próxima fase do projeto).</div>
+        <p>Por enquanto, os dados ficam salvos <b>neste navegador, neste computador</b>. Por isso a <b>máquina da Joice é a fonte oficial da verdade</b>. No botão <b>⛃ Dados</b> no topo você pode:</p>
+        <ul>
+          <li><b>Exportar backup (JSON)</b> — faça toda sexta e guarde no Drive. O sistema avisa com uma faixa quando o último backup tem mais de 7 dias.</li>
+          <li><b>Exportar planilha (Excel)</b> — gera um arquivo .xlsx com a coleção, cronograma, tarefas e cobranças (útil para enviar à diretoria).</li>
+          <li><b>Importar backup</b> — recupera os dados de um arquivo JSON (substitui os atuais, com confirmação).</li>
+          <li><b>Restaurar dados originais</b> — volta tudo para a planilha original (use com cuidado).</li>
+        </ul>
+        <div class="callout atencao">Quando chega uma <b>versão mais recente da planilha</b>, aparece uma faixa verde no topo: clique em "Atualizar coleção". Isso troca o cronograma e a coleção pelos dados novos do Excel e <b>mantém</b> suas tarefas, atas e cobranças.</div>
+      </section>
+
+      <section class="man-sec" id="s-faq">
+        <h3><span class="nicon">❓</span> 9. Perguntas frequentes</h3>
+        <div class="faq"><div class="q">Errei uma data numa célula. Como corrijo?</div><div class="a">Clique na célula de novo e altere a data, ou use "Limpar registro" para deixá-la em branco.</div></div>
+        <div class="faq"><div class="q">Por que algumas fases mostram "pendente" e não "em atraso"?</div><div class="a">Porque ainda não têm data-limite definida. O perfil de administração define o limite clicando no selo "sem limite" no cabeçalho da coluna.</div></div>
+        <div class="faq"><div class="q">A equipe pode usar pelo celular?</div><div class="a">Sim. O layout se adapta; use o botão ☰ no topo para abrir o menu. Ideal para atualizar uma conclusão no chão de fábrica.</div></div>
+        <div class="faq"><div class="q">O Cairo consegue editar sem querer?</div><div class="a">Não. O perfil dele é de leitura — os botões de edição nem aparecem.</div></div>
+        <div class="faq"><div class="q">Perdi o que eu tinha feito. E agora?</div><div class="a">Se você exporta backup com frequência, é só usar "Importar backup". Por isso o hábito de exportar toda sexta é tão importante — até a versão na nuvem ficar pronta.</div></div>
+        <div class="faq"><div class="q">Como reabro este manual?</div><div class="a">Pelo item <b>📖 Manual de Uso</b> no menu lateral, ou pelo botão <b>📖 Manual</b> no topo de qualquer página.</div></div>
+      </section>
+
+      <p style="text-align:center;color:var(--muted);font-size:11.5px;margin-top:6px">PWR Gestão · Sistema de Gestão de Cronograma da Liebe · uso interno</p>
+    </div>
+  </div>`;
+}
+
 /* =================================================================
    MODAIS
    ================================================================= */
@@ -825,6 +1070,9 @@ const ACTIONS={
   'modal-bg':()=>closeModal(),'modal-close':()=>closeModal(),
   'tour':()=>{let h=location.hash;if(!ROUTES[h])h='#/dashboard';startTour(h)},
   'menu-dados':()=>mDados(),
+  'seed-apply':()=>{if(!can('write')){toast('Seu perfil é somente leitura.');return}applyNewSeed()},
+  'seed-dismiss':()=>dismissSeed(),
+  'man-go':d=>{const el=document.getElementById(d.target);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},
   /* dashboard */
   'kpi-launch':()=>mKpi(),
   'kpi-save':()=>{

@@ -9,6 +9,7 @@ Por padrão lê "GESTÃO DA COLEÇÃO - INVERNO & ALTO 27.xlsx" na Área de Trab
 Re-rode este script quando uma nova coleção/planilha chegar.
 """
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -213,9 +214,12 @@ def main():
             "start_date": "2026-02-06", "end_date": "2026-12-20",
         })
 
+    # seed_version = timestamp de modificação da planilha (muda a cada nova versão
+    # do .xlsx). O app compara com o que está salvo e oferece atualizar a coleção.
+    seed_version = int(os.path.getmtime(caminho))
     seed = {
         "schema_version": 1,
-        "seed_version": 1,
+        "seed_version": seed_version,
         "generated_at": HOJE,
         "users": users,
         "collections": collections,
