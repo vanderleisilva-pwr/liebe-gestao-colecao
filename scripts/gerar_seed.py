@@ -184,6 +184,9 @@ def main():
             "flow_type": fluxo,
             "notes": str(row[25].value).strip() if row[25].value else None,  # col Z
             "active": True,
+            "status": "ativa",        # 'ativa' | 'cancelada' (governança — só a Joice cancela)
+            "canceled_at": None, "canceled_by": None,
+            "cancel_category": None, "cancel_reason": None,
             "created_at": HOJE, "created_by": SEED_BY,
         })
         for col, pid in cols_fase:
@@ -228,6 +231,7 @@ def main():
         "macro_processes": macro,
         "references": refs,
         "reference_phases": ref_phases,
+        "reference_log": [],     # trilha de cancelamentos/reativações (append-only)
         "tasks": [],
         "rituals": [],
         "charges": [],

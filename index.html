@@ -160,6 +160,14 @@ tr:hover td{background:#fdfcf9}
 .cgrid .dl-chip{display:block;font-size:9px;color:var(--rose-dark);background:var(--blush);border-radius:6px;padding:2px 3px;margin-top:3px;font-weight:700}
 .cgrid .cnt{font-size:9px;font-weight:700;line-height:1.5;display:block;margin-top:2px}
 .cnt .g{color:var(--ok)}.cnt .r{color:var(--late)}.cnt .p{color:var(--na)}
+.cgrid tr.cancelled td{opacity:.6;background:#faf7f7}
+.cgrid tr.cancelled td.fix{background:#f7f0f1}
+.ref-cancelled{text-decoration:line-through;color:var(--muted)}
+.b-cancel{background:#efdfe2;color:#8a4452}
+.ref-act{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;font-size:11px;margin-left:4px;border:1px solid var(--line);color:var(--rose-dark);vertical-align:middle}
+.ref-act:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
+.ref-act.react{color:var(--ok);border-color:#cfe0cf}.ref-act.react:hover{background:var(--ok);color:#fff}
+.cell.cancel{background:#f1eaea;color:#b59aa0;cursor:default}
 .legend{display:flex;flex-wrap:wrap;gap:14px;margin:10px 2px;font-size:11px;color:var(--muted);align-items:center}
 .legend .sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:5px}
 
@@ -307,7 +315,11 @@ function applyNav(){document.body.classList.toggle('nav-collapsed',navCollapsed)
 function setNav(v){navCollapsed=v;localStorage.setItem(LS_NAV,v?'1':'0');applyNav()}
 let seedUpdate=false; // true quando o data.js traz uma planilha mais recente que a salva
 const clone=o=>JSON.parse(JSON.stringify(o));
-const MIGRATIONS=[]; // futuras migrações de schema (mesmo padrão no Supabase)
+const MIGRATIONS=[
+  // v1 → v2: cancelamento de referências com justificativa + histórico de governança
+  d=>{d.reference_log=d.reference_log||[];d.references.forEach(r=>{if(!r.status)r.status='ativa';
+    ['canceled_at','canceled_by','cancel_category','cancel_reason'].forEach(k=>{if(!(k in r))r[k]=null})})},
+]; // futuras migrações de schema (mesmo padrão no Supabase)
 function migrate(d){let v=d.schema_version||1;while(v<MIGRATIONS.length+1){MIGRATIONS[v-1](d);v++;d.schema_version=v}return d}
 function loadDb(){
   const seed=window.LIEBE_SEED;
@@ -325,9 +337,19 @@ function loadDb(){
 function applyNewSeed(){
   const seed=window.LIEBE_SEED;
   ['users','collections','phases','phase_deadlines','macro_processes','references','reference_phases'].forEach(k=>db[k]=clone(seed[k]));
+  db.reference_log=db.reference_log||[]; // governança preservada (dado operacional)
+  reaplicarCancelamentos(); // re-aplica status cancelado ao novo catálogo (por código)
   db.seed_version=seed.seed_version;
   seedUpdate=false;localStorage.removeItem(LS_SEEDDISMISS);
   saveDbNow();render();toast('Coleção atualizada com a planilha mais recente ✓');
+}
+// Mantém cancelamentos "grudados" mesmo quando uma nova planilha substitui as referências:
+// para cada código, se a última ação no histórico for 'cancelamento', re-aplica o status.
+function reaplicarCancelamentos(){
+  const ultima={};
+  (db.reference_log||[]).forEach(e=>{ultima[e.ref_code]=e});
+  db.references.forEach(r=>{const e=ultima[r.code];
+    if(e&&e.action==='cancelamento'){r.status='cancelada';r.canceled_at=e.at;r.canceled_by=e.by;r.cancel_category=e.category;r.cancel_reason=e.reason}});
 }
 function dismissSeed(){seedUpdate=false;localStorage.setItem(LS_SEEDDISMISS,String(window.LIEBE_SEED.seed_version||0));render()}
 let saveT=null;
@@ -339,6 +361,9 @@ function commit(fn){if(!can('write')){toast('Seu perfil é somente leitura.');re
 function session(){try{return JSON.parse(localStorage.getItem(LS_SESS))}catch(e){return null}}
 function currentUser(){const s=session();return s?db.users.find(u=>u.id===s.user_id):null}
 function can(p){const u=currentUser();if(!u)return false;if(p==='write')return u.role!=='leitura';if(p==='admin')return u.role==='admin';return true}
+// Cancelar/reativar referências é poder exclusivo da Coordenadora de Produto (Joice) — governança.
+// Gating por id: para trocar a cadeira no futuro, ajustar só esta linha.
+function canCancelRefs(){return currentUser()?.id==='user-joice'}
 
 /* ---------------------------- índices / seletores ---------------------------- */
 const ix={};
@@ -366,7 +391,7 @@ function contadoresFase(refs,hoje){
   const out={};
   db.phases.forEach(ph=>{
     const c={done:0,late:0,pend:0,total:0};
-    refs.forEach(r=>{const s=statusCelula(r,ph,hoje);if(s.k==='na')return;c.total++;
+    refs.forEach(r=>{if(r.status==='cancelada')return;const s=statusCelula(r,ph,hoje);if(s.k==='na')return;c.total++;
       if(s.k==='done'||s.k==='donelate')c.done++;else if(s.k==='late')c.late++;else c.pend++});
     out[ph.id]=c;
   });
@@ -379,15 +404,17 @@ function kpis(){
   const vencidos=db.macro_processes.filter(p=>p.end_date&&p.end_date<hoje);
   const noPrazo=vencidos.filter(p=>p.completed_at&&p.completed_at<=p.end_date).length;
   const macro=vencidos.length?{v:Math.round(noPrazo/vencidos.length*100),n:noPrazo,d:vencidos.length}:null;
+  // referências válidas para indicadores: exclui canceladas (não distorcem atraso/piloto)
+  const refsAtivas=db.references.filter(r=>r.status!=='cancelada');
   // % peças no prazo (células: concluídas no prazo ÷ (concluídas + vencidas em aberto))
   let pOk=0,pTot=0;
-  db.references.forEach(r=>db.phases.forEach(ph=>{const s=statusCelula(r,ph,hoje);
+  refsAtivas.forEach(r=>db.phases.forEach(ph=>{const s=statusCelula(r,ph,hoje);
     if(s.k==='done'){pOk++;pTot++} else if(s.k==='donelate'||s.k==='late')pTot++}));
   const pecas=pTot?{v:Math.round(pOk/pTot*100),n:pOk,d:pTot}:null;
   // Tempo de Piloto (modelagem → pilotagem)
   const phMod=db.phases.find(p=>p.key==='modelagem'),phPil=db.phases.find(p=>p.key==='pilotagem');
   const tempos=[];
-  if(phMod&&phPil)db.references.forEach(r=>{const a=ix.rpByKey[r.id+'|'+phMod.id],b=ix.rpByKey[r.id+'|'+phPil.id];
+  if(phMod&&phPil)refsAtivas.forEach(r=>{const a=ix.rpByKey[r.id+'|'+phMod.id],b=ix.rpByKey[r.id+'|'+phPil.id];
     if(a&&b&&a.completed_at&&b.completed_at)tempos.push(diffDias(a.completed_at,b.completed_at))});
   const piloto=tempos.length?{v:Math.round(tempos.reduce((s,x)=>s+x,0)/tempos.length),n:tempos.length}:null;
   // Atas em 24h
@@ -618,8 +645,11 @@ function vColecao(){
   if(f.estilista)refs=refs.filter(r=>r.stylist===f.estilista);
   if(f.fluxo)refs=refs.filter(r=>r.flow_type===f.fluxo);
   if(f.busca)refs=refs.filter(r=>r.code.toLowerCase().includes(f.busca.toLowerCase()));
-  if(f.status==='atraso')refs=refs.filter(r=>db.phases.some(ph=>statusCelula(r,ph,hoje).k==='late'));
+  if(f.status==='cancelada')refs=refs.filter(r=>r.status==='cancelada');
+  else if(f.status==='ativa')refs=refs.filter(r=>r.status!=='cancelada');
+  else if(f.status==='atraso')refs=refs.filter(r=>r.status!=='cancelada'&&db.phases.some(ph=>statusCelula(r,ph,hoje).k==='late'));
   const cont=contadoresFase(refs,hoje);
+  const nCancel=db.references.filter(r=>r.status==='cancelada').length;
   const selOpt=(k,arr,lab)=>`<div class="f"><label>${lab}</label><select data-filter="${k}"><option value="">Todas</option>${arr.map(x=>`<option ${f[k]===x?'selected':''}>${esc(x)}</option>`).join('')}</select></div>`;
   return `
   <div class="toolbar" id="col-filtros">
@@ -627,9 +657,10 @@ function vColecao(){
     ${selOpt('familia',uniq('family'),'Família')}
     ${selOpt('estilista',uniq('stylist'),'Estilista')}
     <div class="f"><label>Fluxo</label><select data-filter="fluxo"><option value="">Todos</option><option value="nova" ${f.fluxo==='nova'?'selected':''}>Coleção nova</option><option value="continuado" ${f.fluxo==='continuado'?'selected':''}>Continuados</option></select></div>
-    <div class="f"><label>Status</label><select data-filter="status"><option value="">Todos</option><option value="atraso" ${f.status==='atraso'?'selected':''}>Com atraso</option></select></div>
+    <div class="f"><label>Status</label><select data-filter="status"><option value="">Todos</option><option value="ativa" ${f.status==='ativa'?'selected':''}>Ativas</option><option value="atraso" ${f.status==='atraso'?'selected':''}>Com atraso</option><option value="cancelada" ${f.status==='cancelada'?'selected':''}>Canceladas</option></select></div>
     <div class="f"><label>Referência</label><input data-filter="busca" value="${esc(f.busca)}" placeholder="buscar código…" style="min-width:110px"></div>
     <div style="flex:1"></div>
+    <button class="btn btn-g btn-sm" data-action="hist-cancel" style="align-self:center">🛈 Histórico de cancelamentos${nCancel?` (${nCancel})`:''}</button>
     <span class="badge b-rose" style="align-self:center">${refs.length} referência(s)</span>
   </div>
   <div class="legend" id="col-legenda">
@@ -638,6 +669,7 @@ function vColecao(){
     <span><span class="sw" style="background:var(--late-bg)"></span>em atraso</span>
     <span><span class="sw" style="background:#f6f4ef"></span>pendente</span>
     <span><span class="sw" style="background:repeating-linear-gradient(45deg,#f3f1ec 0 4px,#fbfaf7 4px 8px)"></span>não se aplica</span>
+    <span><span class="badge b-cancel" style="font-size:9px">CANCELADA</span> fora das contagens</span>
     <span style="margin-left:auto"><span class="badge b-anna">◆ marco da Anna (estilo)</span> <span class="badge b-joice">● marco da Joice (prazo)</span></span>
   </div>
   <div class="grid-wrap" id="col-grid"><table class="cgrid">
@@ -651,18 +683,27 @@ function vColecao(){
           <span class="cnt"><span class="g">${c.done}✓</span> <span class="r">${c.late}!</span> <span class="p">${c.pend}…</span></span>
         </th>`}).join('')}
     </tr></thead>
-    <tbody>${refs.map((r,i)=>`<tr>
+    <tbody>${refs.map((r,i)=>{
+      const cancelada=r.status==='cancelada';
+      const podeCancelar=canCancelRefs();
+      const acaoBtn=cancelada
+        ? (podeCancelar?`<button class="ref-act react" data-action="ref-react" data-ref="${r.id}" title="Reativar referência">↩</button>`:'')
+        : (podeCancelar?`<button class="ref-act" data-action="ref-cancel" data-ref="${r.id}" title="Cancelar referência">✕</button>`:'');
+      const cancelTip=cancelada?`Cancelada em ${fmtBRfull(r.canceled_at)} por ${esc(ix.userById[r.canceled_by]?.name||'?')} — ${esc(r.cancel_category||'')}: ${esc(r.cancel_reason||'')}`:'';
+      return `<tr class="${cancelada?'cancelled':''}">
       <td class="fix c1">${i+1}</td>
-      <td class="fix c2"><span class="ref-code">${esc(r.code)}</span></td>
-      <td class="fix c3"><div>${esc(r.family)}</div><div class="ref-fam">${esc(r.line)} · ${esc(r.stylist)}</div></td>
-      ${db.phases.map(ph=>{const s=statusCelula(r,ph,hoje);
-        if(s.k==='na')return'<td><span class="cell na">·</span></td>';
-        const click=can('write')?`data-action="cell-open" data-ref="${r.id}" data-phase="${ph.id}" style="cursor:pointer"`:'';
-        if(s.k==='done'||s.k==='donelate')return`<td><button class="cell ${s.k}" ${click} title="Concluída em ${fmtBRfull(s.date)} por ${esc(ix.userById[s.rp.completed_by]?.name||'?')}">${fmtBR(s.date)}</button></td>`;
-        if(s.k==='late')return`<td><button class="cell late" ${click} title="${s.days} dias em atraso">${s.days}d atraso</button></td>`;
-        return`<td><button class="cell pend" ${click}>—</button></td>`;
-      }).join('')}
-    </tr>`).join('')}</tbody>
+      <td class="fix c2"><span class="ref-code ${cancelada?'ref-cancelled':''}">${esc(r.code)}</span>${acaoBtn}</td>
+      <td class="fix c3"${cancelada?` title="${cancelTip}"`:''}><div>${esc(r.family)} ${cancelada?'<span class="badge b-cancel" style="font-size:8.5px;padding:1px 5px">CANCELADA</span>':''}</div><div class="ref-fam">${esc(r.line)} · ${esc(r.stylist)}</div></td>
+      ${cancelada
+        ? db.phases.map(()=>`<td><span class="cell cancel" title="${cancelTip}">—</span></td>`).join('')
+        : db.phases.map(ph=>{const s=statusCelula(r,ph,hoje);
+          if(s.k==='na')return'<td><span class="cell na">·</span></td>';
+          const click=can('write')?`data-action="cell-open" data-ref="${r.id}" data-phase="${ph.id}" style="cursor:pointer"`:'';
+          if(s.k==='done'||s.k==='donelate')return`<td><button class="cell ${s.k}" ${click} title="Concluída em ${fmtBRfull(s.date)} por ${esc(ix.userById[s.rp.completed_by]?.name||'?')}">${fmtBR(s.date)}</button></td>`;
+          if(s.k==='late')return`<td><button class="cell late" ${click} title="${s.days} dias em atraso">${s.days}d atraso</button></td>`;
+          return`<td><button class="cell pend" ${click}>—</button></td>`;
+        }).join('')}
+    </tr>`}).join('')}</tbody>
   </table></div>
   ${refs.length?'':'<div class="empty">Nenhuma referência com esses filtros. <b>Limpe os filtros</b> acima para ver toda a coleção.</div>'}`;
 }
@@ -911,6 +952,7 @@ function vManual(){
         <div class="faq"><div class="q">A equipe pode usar pelo celular?</div><div class="a">Sim. O layout se adapta; use o botão ☰ no topo para abrir o menu. Ideal para atualizar uma conclusão no chão de fábrica.</div></div>
         <div class="faq"><div class="q">O Cairo consegue editar sem querer?</div><div class="a">Não. O perfil dele é de leitura — os botões de edição nem aparecem.</div></div>
         <div class="faq"><div class="q">Perdi o que eu tinha feito. E agora?</div><div class="a">Se você exporta backup com frequência, é só usar "Importar backup". Por isso o hábito de exportar toda sexta é tão importante — até a versão na nuvem ficar pronta.</div></div>
+        <div class="faq"><div class="q">Como cancelo uma referência que saiu da coleção?</div><div class="a">Na Gestão da Coleção, clique no <b>✕</b> ao lado do código da referência, escolha o motivo (categoria) e escreva a justificativa. A peça fica riscada, sai das contagens de atraso e dos indicadores, e o cancelamento entra no <b>Histórico de cancelamentos</b> (com autor, data e motivo). Esse poder é exclusivo da Joice. Para reverter, clique no <b>↩</b> e justifique a reativação — ambos ficam no histórico.</div></div>
         <div class="faq"><div class="q">Como reabro este manual?</div><div class="a">Pelo item <b>📖 Manual de Uso</b> no menu lateral, ou pelo botão <b>📖 Manual</b> no topo de qualquer página.</div></div>
       </section>
 
@@ -940,6 +982,50 @@ function mCell(refId,phaseId){
      <button class="btn btn-g" data-action="modal-close">Cancelar</button>
      <button class="btn btn-p" data-action="cell-save" data-ref="${refId}" data-phase="${phaseId}">Salvar conclusão</button>
    </div>`);
+}
+const CANCEL_CATS=['Decisão comercial','Inviabilidade técnica','Custo acima da meta','Duplicidade','Solicitação da diretoria','Outro'];
+function mCancelRef(refId){
+  const r=ix.refById[refId];if(!r)return;
+  openModal(`
+   <h3>Cancelar referência ${esc(r.code)}</h3>
+   <div class="sub">${esc(r.family)} · ${esc(r.line)} · ${esc(r.stylist)} — o cancelamento e a justificativa ficam no histórico (governança).</div>
+   <div class="frm">
+     <div><label>Motivo (categoria)</label><select id="m-cat">${CANCEL_CATS.map(c=>`<option>${c}</option>`).join('')}</select></div>
+     <div><label>Justificativa</label><textarea id="m-rsn" rows="3" placeholder="Descreva por que esta referência está sendo cancelada…"></textarea></div>
+   </div>
+   <div class="modal-acts">
+     <button class="btn btn-g" data-action="modal-close">Voltar</button>
+     <button class="btn btn-p" data-action="ref-cancel-save" data-ref="${refId}">Confirmar cancelamento</button>
+   </div>`);
+}
+function mReactivateRef(refId){
+  const r=ix.refById[refId];if(!r)return;
+  openModal(`
+   <h3>Reativar referência ${esc(r.code)}</h3>
+   <div class="sub">Cancelada em ${fmtBRfull(r.canceled_at)} por ${esc(ix.userById[r.canceled_by]?.name||'?')} — ${esc(r.cancel_category||'')}: ${esc(r.cancel_reason||'')}</div>
+   <div class="frm">
+     <div><label>Justificativa da reativação</label><textarea id="m-rsn" rows="3" placeholder="Por que esta referência está voltando à coleção…"></textarea></div>
+   </div>
+   <div class="modal-acts">
+     <button class="btn btn-g" data-action="modal-close">Voltar</button>
+     <button class="btn btn-p" data-action="ref-react-save" data-ref="${refId}">Confirmar reativação</button>
+   </div>`);
+}
+function mCancelHistory(){
+  const log=[...(db.reference_log||[])].sort((a,b)=>(b.at||'').localeCompare(a.at||''));
+  openModal(`
+   <h3>Histórico de cancelamentos</h3>
+   <div class="sub">Trilha de governança — registro imutável de cancelamentos e reativações de referências.</div>
+   ${log.length?`<div style="max-height:50vh;overflow:auto;margin-top:6px">${log.map(e=>`
+     <div class="charge-item" style="align-items:flex-start">
+       <span class="badge ${e.action==='cancelamento'?'b-cancel':'b-ok'}">${e.action==='cancelamento'?'cancelada':'reativada'}</span>
+       <div style="flex:1">
+         <div><b>Ref. ${esc(e.ref_code)}</b>${e.category?` · ${esc(e.category)}`:''}</div>
+         <div style="font-size:11.5px;color:var(--muted)">${esc(e.reason||'')}</div>
+         <div style="font-size:10.5px;color:var(--muted);margin-top:2px">${esc(ix.userById[e.by]?.name||'?')} · ${e.at?new Date(e.at).toLocaleString('pt-BR'):'—'}</div>
+       </div>
+     </div>`).join('')}</div>`:'<div class="empty">Nenhum cancelamento registrado ainda. Quando a Joice cancelar uma referência, o registro aparece aqui.</div>'}
+   <div class="modal-acts"><button class="btn btn-g" data-action="modal-close">Fechar</button></div>`);
 }
 function mProc(id){
   const p=db.macro_processes.find(x=>x.id===id);
@@ -1113,6 +1199,28 @@ const ACTIONS={
       else x.reference_phases.push({id:uuid(),reference_id:d.ref,phase_id:d.phase,completed_at:dt,completed_by:currentUser().id,notes:obs||null,created_at:agoraIso(),created_by:currentUser().id})});
     closeModal();toast('Fase registrada ✓')},
   'cell-clear':d=>{commit(x=>{x.reference_phases=x.reference_phases.filter(y=>!(y.reference_id===d.ref&&y.phase_id===d.phase))});closeModal();toast('Registro removido.')},
+  /* cancelamento de referências — governança, só Joice */
+  'hist-cancel':()=>mCancelHistory(),
+  'ref-cancel':d=>{if(!canCancelRefs()){toast('Apenas a Joice pode cancelar referências.');return}mCancelRef(d.ref)},
+  'ref-react':d=>{if(!canCancelRefs()){toast('Apenas a Joice pode reativar referências.');return}mReactivateRef(d.ref)},
+  'ref-cancel-save':d=>{if(!canCancelRefs()){toast('Apenas a Joice pode cancelar referências.');return}
+    const cat=$('#m-cat').value,rsn=($('#m-rsn').value||'').trim();
+    if(!rsn){toast('Descreva a justificativa do cancelamento.');return}
+    const r=ix.refById[d.ref];const at=agoraIso(),by=currentUser().id;
+    commit(x=>{const ref=x.references.find(y=>y.id===d.ref);
+      ref.status='cancelada';ref.canceled_at=at;ref.canceled_by=by;ref.cancel_category=cat;ref.cancel_reason=rsn;
+      x.reference_log=x.reference_log||[];
+      x.reference_log.push({id:uuid(),reference_id:d.ref,ref_code:ref.code,action:'cancelamento',category:cat,reason:rsn,by,at})});
+    closeModal();toast('Referência '+esc(r.code)+' cancelada ✓')},
+  'ref-react-save':d=>{if(!canCancelRefs()){toast('Apenas a Joice pode reativar referências.');return}
+    const rsn=($('#m-rsn').value||'').trim();
+    if(!rsn){toast('Descreva a justificativa da reativação.');return}
+    const r=ix.refById[d.ref];const at=agoraIso(),by=currentUser().id;
+    commit(x=>{const ref=x.references.find(y=>y.id===d.ref);
+      ref.status='ativa';ref.canceled_at=null;ref.canceled_by=null;ref.cancel_category=null;ref.cancel_reason=null;
+      x.reference_log=x.reference_log||[];
+      x.reference_log.push({id:uuid(),reference_id:d.ref,ref_code:ref.code,action:'reativacao',category:null,reason:rsn,by,at})});
+    closeModal();toast('Referência '+esc(r.code)+' reativada ✓')},
   'dl-edit':d=>{if(!can('admin'))return;const atual=ix.dlByPhase[d.phase]||'';
     const v=prompt('Data-limite da fase (AAAA-MM-DD). Vazio remove.',atual);
     if(v===null)return;
@@ -1171,10 +1279,11 @@ function baixar(blob,nome){const a=document.createElement('a');a.href=URL.create
 /* ---------------------------- export Excel (SheetJS lazy + fallback CSV) ---------------------------- */
 function gridLinhas(){
   const hoje=hojeStr();
-  const head=['#','COLEÇÃO','LINHA','FAMÍLIA','ESTILISTA','REFERÊNCIA','FLUXO',...db.phases.map(p=>p.name)];
-  const rows=db.references.map((r,i)=>[i+1,r.collection_name,r.line,r.family,r.stylist,r.code,r.flow_type,
-    ...db.phases.map(ph=>{const s=statusCelula(r,ph,hoje);
-      return s.k==='na'?'N/A':s.k==='done'||s.k==='donelate'?s.date:s.k==='late'?s.days+' dias em atraso':''})]);
+  const head=['#','COLEÇÃO','LINHA','FAMÍLIA','ESTILISTA','REFERÊNCIA','FLUXO','SITUAÇÃO',...db.phases.map(p=>p.name)];
+  const rows=db.references.map((r,i)=>{const cancelada=r.status==='cancelada';
+    return [i+1,r.collection_name,r.line,r.family,r.stylist,r.code,r.flow_type,cancelada?'CANCELADA':'Ativa',
+    ...db.phases.map(ph=>{if(cancelada)return'';const s=statusCelula(r,ph,hoje);
+      return s.k==='na'?'N/A':s.k==='done'||s.k==='donelate'?s.date:s.k==='late'?s.days+' dias em atraso':''})]});
   return[head,...rows];
 }
 function exportExcel(){
@@ -1188,6 +1297,8 @@ function exportExcel(){
       ...db.tasks.map(t=>[t.title,ix.userById[t.assignee_user_id]?.name||'',t.due_date||'',t.status,t.description||''])]),'Tarefas');
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Cobrado','Por','Assunto','Prazo','Evidência','Status'],
       ...db.charges.map(c=>[ix.userById[c.charged_user_id]?.name||'',ix.userById[c.charged_by]?.name||'',c.subject,c.due_date||'',c.evidence||'',c.status])]),'Cobranças');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Referência','Ação','Categoria','Justificativa','Por','Data/Hora'],
+      ...[...(db.reference_log||[])].sort((a,b)=>(b.at||'').localeCompare(a.at||'')).map(e=>[e.ref_code,e.action,e.category||'',e.reason||'',ix.userById[e.by]?.name||'',e.at?new Date(e.at).toLocaleString('pt-BR'):''])]),'Cancelamentos');
     XLSX.writeFile(wb,'liebe-gestao-colecao-'+hojeStr()+'.xlsx');toast('Excel exportado.');fim();
   };
   if(window.XLSX){run();return}
@@ -1232,7 +1343,8 @@ const TOURS={
   {el:'#col-filtros',t:'Filtre como na planilha — só que instantâneo',p:'Por linha (FASHION, LUXE…), família (KISS ME, LUMINA…), estilista, fluxo (nova × continuada) ou só o que está em atraso. A busca encontra qualquer referência pelo código.'},
   {el:'#col-grid',t:'O coração do sistema',p:'Cada linha é uma referência; cada coluna, uma fase. Célula verde = concluída no prazo; âmbar = concluída com atraso; rosé = atrasada; hachurada = não se aplica àquele fluxo. Os contadores no topo somam ✓ no prazo, ! em atraso e … pendentes.'},
   {el:'#col-legenda',t:'Marcos da Anna e marcos da Joice',p:'◆ lilás = marco técnico-criativo (responde a Anna). ● rosé = marco de prazo/processo (responde a Joice). A cobrança certa, para a cadeira certa.'},
-  {el:'#col-grid',t:'Registrar é um clique',p:'Clique em qualquer célula para registrar a conclusão da fase: a data e QUEM registrou ficam gravados — substitui o caderno e vira evidência.'}],
+  {el:'#col-grid',t:'Registrar é um clique',p:'Clique em qualquer célula para registrar a conclusão da fase: a data e QUEM registrou ficam gravados — substitui o caderno e vira evidência.'},
+  {el:'[data-action="hist-cancel"]',t:'Cancelar referências (só a Joice)',p:'Quando uma referência sai da coleção, a Joice clica no ✕ ao lado do código e informa o motivo. A peça fica riscada, sai das contagens de atraso, e o cancelamento (com autor, data e justificativa) entra no Histórico — rastreabilidade total para a governança. Reativar segue o mesmo caminho.'}],
  '#/tarefas':[
   {el:'#t-filtros',t:'O quadro que substitui o caderno',p:'Toda demanda vira um cartão com responsável e prazo. Filtre por pessoa ou marque "só as minhas" para ver seu dia.'},
   {el:'#kanban',t:'Três colunas, zero dúvida',p:'Pendente → Em andamento → Concluída. Os botões ◀ ▶ movem o cartão. Cartão com borda rosé = prazo vencido — é o primeiro assunto do briefing diário.'},
