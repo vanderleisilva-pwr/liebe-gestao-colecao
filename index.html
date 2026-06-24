@@ -472,7 +472,6 @@ function gerarPauta(){
   const cont=contadoresFase(db.references,hoje);
   const fasesCrit=db.phases.map(ph=>({ph,c:cont[ph.id]})).filter(x=>x.c.late>0).sort((a,b)=>b.c.late-a.c.late);
   const tVenc=db.tasks.filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
-  const cobertas=db.charges.filter(c=>c.status==='aberta');
   let s='PAUTA — gerada automaticamente em '+fmtBRfull(hoje)+'\n\n';
   s+='1. CRONOGRAMA MACRO — processos em atraso ('+atras.length+')\n';
   atras.slice(0,10).forEach(x=>s+='   • '+x.p.name+' — '+x.s.days+' dias de atraso (prazo '+fmtBR(x.p.end_date)+')\n');
@@ -483,10 +482,7 @@ function gerarPauta(){
   s+='\n3. TAREFAS VENCIDAS ('+tVenc.length+')\n';
   tVenc.slice(0,8).forEach(t=>s+='   • '+t.title+' — '+(ix.userById[t.assignee_user_id]?.name||'?')+' (prazo '+fmtBR(t.due_date)+')\n');
   if(!tVenc.length)s+='   • Nenhuma ✔\n';
-  s+='\n4. COBRANÇAS EM ABERTO ('+cobertas.length+')\n';
-  cobertas.slice(0,8).forEach(c=>s+='   • '+(ix.userById[c.charged_user_id]?.name||'?')+': '+c.subject+'\n');
-  if(!cobertas.length)s+='   • Nenhuma ✔\n';
-  s+='\n5. Bloqueios e necessidades da equipe\n6. Distribuição de tarefas da semana\n';
+  s+='\n4. Bloqueios e necessidades da equipe\n5. Distribuição de tarefas da semana\n';
   return s;
 }
 
@@ -498,7 +494,7 @@ const ROUTES={
   '#/cronograma':{t:'Cronograma Macro',sub:'Os 35 processos da coleção',ic:'▤',fn:vCronograma},
   '#/colecao':{t:'Gestão da Coleção',sub:'Referências × fases de desenvolvimento',ic:'❀',fn:vColecao},
   '#/tarefas':{t:'Quadro de Tarefas',sub:'Encaminhamentos por pessoa — adeus, caderno',ic:'☰',fn:vTarefas},
-  '#/rituais':{t:'Rituais & Atas',sub:'Reuniões, atas em 24h e cobranças documentadas',ic:'✎',fn:vRituais},
+  '#/rituais':{t:'Rituais & Atas',sub:'Reuniões, pauta automática e atas em 24h',ic:'✎',fn:vRituais},
   '#/manual':{t:'Manual de Uso',sub:'Passo a passo de toda a plataforma',ic:'📖',fn:vManual},
 };
 const ST={colecao:{linha:'',familia:'',estilista:'',fluxo:'',status:'',busca:''},cronograma:{view:'lista'},tarefas:{pessoa:'',so_minhas:false,prazo:'',ata:''}};
@@ -570,7 +566,6 @@ function vDashboard(){
   const cont=contadoresFase(db.references,hoje);
   const fasesCrit=db.phases.map(ph=>({ph,c:cont[ph.id]})).filter(x=>x.c.late>0).sort((a,b)=>b.c.late-a.c.late);
   const tVenc=db.tasks.filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
-  const cob=db.charges.filter(c=>c.status==='aberta');
   const card=(id,t,val,meta,resp,cls,extra)=>`
     <div class="kpi ${cls}" id="${id}">
       <div class="t">${t}</div>
@@ -604,7 +599,6 @@ function vDashboard(){
     <div class="card"><h3>☰ Pendências da equipe</h3>
       <ul class="alert-list">
         <li><span>Tarefas vencidas</span><span class="d badge ${tVenc.length?'b-late':'b-ok'}">${tVenc.length}</span></li>
-        <li><span>Cobranças em aberto</span><span class="d badge ${cob.length?'b-warn':'b-ok'}">${cob.length}</span></li>
         <li><span>Reuniões sem ata publicada</span><span class="d badge ${db.rituals.filter(r=>!r.minutes_published_at).length?'b-warn':'b-ok'}">${db.rituals.filter(r=>!r.minutes_published_at).length}</span></li>
       </ul>
       <div style="margin-top:10px"><a href="#/tarefas" class="btn btn-g btn-sm">Abrir quadro de tarefas →</a></div>
@@ -792,7 +786,6 @@ const RIT_TIPOS={
 function vRituais(){
   const hoje=hojeStr();
   const rs=[...db.rituals].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
-  const cob=db.charges.filter(c=>c.status==='aberta');
   return `
   <div class="rit-cad" id="rit-cadencia">${Object.entries(RIT_TIPOS).map(([k,v])=>`
     <div class="card"><div class="freq">${v.freq}</div><div class="nm">${v.nm}</div><div class="ds">${v.ds}</div>
@@ -811,16 +804,6 @@ function vRituais(){
           :`<span class="badge ${horas>24?'b-late':'b-warn'}">ata pendente${horas>0?' · '+horas+'h':''}</span>`}</div>
         <button class="btn btn-g btn-sm" data-action="rit-open" data-id="${r.id}">abrir</button>
       </div>`}).join(''):'<div class="empty">Nenhuma reunião ainda. <b>Toda segunda-feira</b>, clique em “registrar reunião” no Ritual semanal: a <b>pauta nasce pronta</b> com os atrasos e pendências da semana.</div>'}
-  </div>
-  <div class="card" id="rit-cobrancas"><h3>Cobranças documentadas em aberto (${cob.length})</h3>
-    <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px">Cobrança registrada com evidência tira a conversa do campo pessoal — é o processo cobrando, não a pessoa.</div>
-    ${cob.length?cob.map(c=>`<div class="charge-item">
-      <span class="badge b-rose">${esc(ix.userById[c.charged_user_id]?.name||'?')}</span>
-      <span style="flex:1">${esc(c.subject)}${c.due_date?` <span style="color:var(--muted)">· até ${fmtBR(c.due_date)}</span>`:''}</span>
-      <span class="w"><button class="btn btn-g btn-sm" data-action="charge-status" data-id="${c.id}" data-st="atendida">atendida ✓</button>
-      <button class="btn btn-g btn-sm" data-action="charge-status" data-id="${c.id}" data-st="escalada">escalar ↑</button></span>
-    </div>`).join(''):'<div class="empty">Nenhuma cobrança em aberto.</div>'}
-    <div style="margin-top:12px" class="w"><button class="btn btn-o btn-sm" data-action="charge-new">＋ Nova cobrança</button></div>
   </div>`;
 }
 
@@ -875,7 +858,7 @@ function vManual(){
           <div class="rc"><div class="cad">Todo dia · 15 min</div><div class="ti">Briefing matinal</div>
             <ol><li>Abra o <b>Painel</b> e veja os alertas do dia.</li><li>Confira o <b>Quadro de Tarefas</b> — cartões com borda rosé estão vencidos.</li><li>Alinhe rapidinho com a equipe o foco do dia.</li></ol></div>
           <div class="rc"><div class="cad">Toda segunda · 60 min</div><div class="ti">Ritual de cronograma</div>
-            <ol><li>Em <b>Rituais & Atas</b>, clique em "registrar reunião" — a <b>pauta já vem pronta</b>.</li><li>Atualize o % dos processos no <b>Cronograma</b>.</li><li>Registre as conclusões de fases na <b>Coleção</b>.</li><li>Crie tarefas e cobranças do que foi decidido.</li><li>Escreva e <b>publique a ata em até 24h</b>.</li></ol></div>
+            <ol><li>Em <b>Rituais & Atas</b>, clique em "registrar reunião" — a <b>pauta já vem pronta</b>.</li><li>Atualize o % dos processos no <b>Cronograma</b>.</li><li>Registre as conclusões de fases na <b>Coleção</b>.</li><li>Crie as <b>tarefas</b> do que foi decidido (cada uma com a ata de origem).</li><li>Escreva e <b>publique a ata em até 24h</b>.</li></ol></div>
           <div class="rc"><div class="cad">A cada 15 dias</div><div class="ti">Interfaces</div>
             <ol><li>Reunião com Compras, Qualidade, Engenharia e PCP.</li><li>Registre como reunião e anote encaminhamentos como tarefas.</li></ol></div>
           <div class="rc"><div class="cad">Todo mês</div><div class="ti">Indicadores & Diretoria</div>
@@ -958,17 +941,16 @@ function vManual(){
 
       <section class="man-sec" id="s-rituais">
         <h3><span class="nicon">✎</span> 7. Rituais & Atas</h3>
-        <div class="lead">As reuniões do setor, com pauta automática, atas em 24h e cobranças documentadas.</div>
+        <div class="lead">As reuniões do setor, com pauta automática e atas em 24h.</div>
         <p>No topo ficam os 4 rituais oficiais. Para registrar uma reunião:</p>
         <div class="steps">
           <div class="step"><div class="st-t">Clique em "＋ registrar reunião" no ritual desejado</div><div class="st-d">Ex.: o Ritual semanal de cronograma, toda segunda.</div></div>
-          <div class="step"><div class="st-t">A pauta já vem pronta</div><div class="st-d">O sistema preenche com os atrasos do cronograma, fases críticas, tarefas vencidas e cobranças em aberto. Ajuste se quiser e registre.</div></div>
-          <div class="step"><div class="st-t">Marque a presença e escreva a ata</div><div class="st-d">Anote decisões e encaminhamentos. Crie tarefas e cobranças direto da reunião.</div></div>
+          <div class="step"><div class="st-t">A pauta já vem pronta</div><div class="st-d">O sistema preenche com os atrasos do cronograma, fases críticas e tarefas vencidas. Ajuste se quiser e registre.</div></div>
+          <div class="step"><div class="st-t">Marque a presença e escreva a ata</div><div class="st-d">Anote decisões e encaminhamentos.</div></div>
+          <div class="step"><div class="st-t">Transforme os encaminhamentos em tarefas</div><div class="st-d">Use o botão <b>"＋ tarefa desta reunião"</b>: a tarefa já nasce vinculada à <b>ata de origem</b>. A gestão e a cobrança acontecem no <b>Quadro de Tarefas</b>.</div></div>
           <div class="step"><div class="st-t">Clique em "Publicar ata"</div><div class="st-d">O sistema cronometra: <b>ata publicada em até 24h</b> conta para a meta de 100%.</div></div>
         </div>
-        <h4>Cobranças documentadas</h4>
-        <p>Registre <b>quem</b> foi cobrado, <b>do quê</b>, <b>até quando</b> e com qual <b>evidência</b>. O registro tira a cobrança do campo pessoal — é o processo cobrando, não a pessoa. Não resolveu? O botão <b>"Escalar ↑"</b> leva o caso para a Diretoria de Estilo (na licença, para o Cairo).</p>
-        <div class="callout ouro">Lembre-se: você (Joice) cobra <b>prazo</b>; a Anna cobra <b>estilo/técnica</b>. Registre na cadeira certa.</div>
+        <div class="callout dica">As cobranças do que foi combinado são geridas como <b>tarefas</b> no Quadro de Tarefas — com responsável, prazo e a ata de origem para rastreabilidade.</div>
       </section>
 
       <section class="man-sec" id="s-dados">
@@ -1157,7 +1139,6 @@ function mRitNew(tipo){
 }
 function mRitOpen(id){
   const r=db.rituals.find(x=>x.id===id),t=RIT_TIPOS[r.type]||{nm:r.type};
-  const cobR=db.charges.filter(c=>c.ritual_id===id);
   openModal(`
    <h3>${t.nm} — ${fmtBRfull(r.scheduled_at?r.scheduled_at.slice(0,10):null)}</h3>
    <div class="sub">${r.minutes_published_at?'Ata publicada em '+new Date(r.minutes_published_at).toLocaleString('pt-BR'):'⏱ Ata pendente — publique em até 24h'}</div>
@@ -1167,11 +1148,9 @@ function mRitOpen(id){
        return `<label style="display:flex;gap:5px;align-items:center;font-size:12px;text-transform:none;letter-spacing:0;border:1px solid var(--line);border-radius:8px;padding:4px 9px"><input type="checkbox" class="pres" data-uid="${u.id}" ${a&&a.present?'checked':''} style="width:auto">${esc(u.name)}</label>`}).join('')}</div></div>
      <div><label>Pauta</label><textarea id="m-pauta" rows="7" style="font-size:12px">${esc(r.agenda_text||'')}</textarea></div>
      <div><label>Ata (decisões e encaminhamentos)</label><textarea id="m-ata" rows="6" style="font-size:12px" placeholder="O que foi decidido, quem ficou com o quê…">${esc(r.minutes_text||'')}</textarea></div>
-     ${cobR.length?`<div><label>Cobranças desta reunião</label>${cobR.map(c=>`<div class="charge-item"><span class="badge b-rose">${esc(ix.userById[c.charged_user_id]?.name||'?')}</span><span style="flex:1">${esc(c.subject)}</span><span class="badge ${c.status==='aberta'?'b-warn':c.status==='atendida'?'b-ok':'b-late'}">${c.status}</span></div>`).join('')}</div>`:''}
    </div>
    <div class="modal-acts" style="flex-wrap:wrap">
-     <button class="btn btn-o w" data-action="charge-new" data-rit="${id}">＋ cobrança</button>
-     <button class="btn btn-o w" data-action="rit-task" data-rit="${id}">＋ tarefa</button>
+     <button class="btn btn-o w" data-action="rit-task" data-rit="${id}">＋ tarefa desta reunião</button>
      <span style="flex:1"></span>
      <button class="btn btn-g" data-action="modal-close">Fechar</button>
      <button class="btn btn-g w" data-action="rit-save-ata" data-id="${id}">Salvar rascunho</button>
@@ -1437,9 +1416,8 @@ const TOURS={
   {el:'#btn-nova-tarefa',t:'Saiu da reunião, virou cartão',p:'Encaminhamento sem cartão é encaminhamento perdido. Crie a tarefa na hora, na frente de todos — transparência é o que faz o quadro funcionar.'}],
  '#/rituais':[
   {el:'#rit-cadencia',t:'A batida do setor',p:'Os 4 rituais oficiais: semanal de cronograma (segunda, 60 min), briefing diário (15 min), batimento quinzenal com as interfaces e reporte mensal à Diretoria.'},
-  {el:'#rit-lista',t:'Pauta pronta em um clique',p:'Ao registrar a reunião de segunda, a pauta nasce preenchida com os atrasos do cronograma, fases críticas, tarefas vencidas e cobranças em aberto. Reunião enxuta, sem burocracia.'},
-  {el:'#rit-lista',t:'Ata em 24 horas',p:'Depois da reunião, escreva a ata e clique em "Publicar". O sistema cronometra: ata publicada em até 24h conta para a meta de 100%.'},
-  {el:'#rit-cobrancas',t:'Cobrança documentada, não pessoal',p:'Registre quem foi cobrado, do quê, até quando e com qual evidência. O registro tira a cobrança do campo pessoal — é o processo cobrando. Não resolveu? "Escalar" leva para a Diretoria.'}],
+  {el:'#rit-lista',t:'Pauta pronta em um clique',p:'Ao registrar a reunião de segunda, a pauta nasce preenchida com os atrasos do cronograma, fases críticas e tarefas vencidas. Reunião enxuta, sem burocracia.'},
+  {el:'#rit-lista',t:'Ata em 24 horas',p:'Depois da reunião, escreva a ata e clique em "Publicar". O sistema cronometra: ata publicada em até 24h conta para a meta de 100%. Os encaminhamentos viram tarefas (botão “＋ tarefa desta reunião”), já com a ata de origem registrada.'}],
 };
 let tourState=null;
 function startTour(route){
