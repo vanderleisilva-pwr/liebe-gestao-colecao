@@ -92,6 +92,7 @@ body.nav-collapsed .burger{display:inline-flex;align-items:center;justify-conten
 .b-late{background:var(--late-bg);color:var(--late)}.b-na{background:#efece6;color:var(--na)}
 .b-rose{background:var(--blush);color:var(--rose-dark)}
 .b-anna{background:#ece4f3;color:#7c5e9e}.b-joice{background:var(--blush);color:var(--rose-dark)}
+.b-ata{background:#e7eef0;color:#4a6b73}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:16px}
 .toolbar .f{display:flex;flex-direction:column;gap:3px}
 .toolbar label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
@@ -500,7 +501,7 @@ const ROUTES={
   '#/rituais':{t:'Rituais & Atas',sub:'Reuniões, atas em 24h e cobranças documentadas',ic:'✎',fn:vRituais},
   '#/manual':{t:'Manual de Uso',sub:'Passo a passo de toda a plataforma',ic:'📖',fn:vManual},
 };
-const ST={colecao:{linha:'',familia:'',estilista:'',fluxo:'',status:'',busca:''},cronograma:{view:'lista'},tarefas:{pessoa:'',so_minhas:false}};
+const ST={colecao:{linha:'',familia:'',estilista:'',fluxo:'',status:'',busca:''},cronograma:{view:'lista'},tarefas:{pessoa:'',so_minhas:false,prazo:'',ata:''}};
 
 function render(){
   reindex();
@@ -740,11 +741,15 @@ function vColecao(){
 }
 
 /* ---------------------------- TAREFAS ---------------------------- */
+function ritLabel(r){const t=RIT_TIPOS[r.type];const d=r.scheduled_at?fmtBR(r.scheduled_at.slice(0,10)):'—';return (t?t.nm:r.type)+' · '+d}
 function vTarefas(){
   const hoje=hojeStr(),f=ST.tarefas,me=currentUser();
   let ts=db.tasks.filter(t=>t.status!=='cancelada');
   if(f.pessoa)ts=ts.filter(t=>t.assignee_user_id===f.pessoa);
   if(f.so_minhas)ts=ts.filter(t=>t.assignee_user_id===me.id);
+  if(f.prazo)ts=ts.filter(t=>t.due_date&&t.due_date<=f.prazo);
+  if(f.ata)ts=ts.filter(t=>f.ata==='__avulsa__'?!t.ritual_id:t.ritual_id===f.ata);
+  const rituaisDesc=[...db.rituals].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
   const cols=[['pendente','Pendente'],['em_andamento','Em andamento'],['concluida','Concluída']];
   const kcard=t=>{const u=ix.userById[t.assignee_user_id];const venc=t.status!=='concluida'&&t.due_date&&t.due_date<hoje;
     const rit=t.ritual_id?db.rituals.find(r=>r.id===t.ritual_id):null;
@@ -753,7 +758,7 @@ function vTarefas(){
       <div class="ms">
         ${u?`<span class="badge b-rose">${esc(u.name)}</span>`:''}
         ${t.due_date?`<span class="badge ${venc?'b-late':'b-na'}">prazo ${fmtBR(t.due_date)}</span>`:''}
-        ${rit?`<span class="badge b-na">↩ reunião ${fmtBR(rit.scheduled_at?rit.scheduled_at.slice(0,10):null)}</span>`:''}
+        ${rit?`<span class="badge b-ata" title="Origem: ${esc(ritLabel(rit))}">↩ Ata ${fmtBR(rit.scheduled_at?rit.scheduled_at.slice(0,10):null)}</span>`:`<span class="badge b-na" title="Tarefa sem reunião de origem">avulsa</span>`}
       </div>
       ${t.description?`<div style="font-size:11.5px;color:var(--muted);margin-top:6px">${esc(t.description)}</div>`:''}
       <div class="acts w">
@@ -765,11 +770,14 @@ function vTarefas(){
   return `
   <div class="toolbar" id="t-filtros">
     <div class="f"><label>Responsável</label><select data-tfilter="pessoa"><option value="">Todos</option>${db.users.filter(u=>u.role!=='leitura').map(u=>`<option value="${u.id}" ${f.pessoa===u.id?'selected':''}>${esc(u.name)}</option>`).join('')}</select></div>
+    <div class="f"><label>Prazo até</label><input type="date" data-tfilter="prazo" value="${esc(f.prazo)}"></div>
+    <div class="f"><label>Ata de reunião</label><select data-tfilter="ata"><option value="">Todas</option><option value="__avulsa__" ${f.ata==='__avulsa__'?'selected':''}>Avulsas (sem reunião)</option>${rituaisDesc.map(r=>`<option value="${r.id}" ${f.ata===r.id?'selected':''}>${esc(ritLabel(r))}</option>`).join('')}</select></div>
     <label style="display:flex;align-items:center;gap:6px;font-size:12px;align-self:center;text-transform:none;letter-spacing:0"><input type="checkbox" data-tfilter="so_minhas" ${f.so_minhas?'checked':''} style="width:auto"> só as minhas</label>
+    ${(f.prazo||f.ata||f.pessoa||f.so_minhas)?`<button class="btn btn-g btn-sm" data-action="task-clear-filtros" style="align-self:center">limpar filtros</button>`:''}
     <div style="flex:1"></div>
     <button class="btn btn-p w" data-action="task-new" id="btn-nova-tarefa">＋ Nova tarefa</button>
   </div>
-  ${ts.length?'':'<div class="empty">Nenhuma tarefa ainda. As tarefas substituem o caderno: <b>toda demanda da reunião de segunda vira um cartão aqui</b>, com responsável e prazo. Clique em “＋ Nova tarefa”.</div>'}
+  ${ts.length?'':'<div class="empty">Nenhuma tarefa com esses filtros. As tarefas substituem o caderno: <b>toda demanda da reunião vira um cartão aqui</b>, com responsável, prazo e a <b>ata de origem</b>. Clique em “＋ Nova tarefa”.</div>'}
   <div class="kanban" id="kanban">${cols.map(([k,lab])=>{const list=ts.filter(t=>t.status===k);
     return `<div class="kcol"><h4>${lab}<span>${list.length}</span></h4>${list.map(kcard).join('')}</div>`}).join('')}</div>`;
 }
@@ -942,10 +950,10 @@ function vManual(){
         <p>São três colunas: <b>Pendente → Em andamento → Concluída</b>. Cartões com borda rosé estão com o prazo vencido.</p>
         <div class="steps">
           <div class="step"><div class="st-t">Clique em "＋ Nova tarefa"</div><div class="st-d">Saiu da reunião, virou cartão — na frente de todos.</div></div>
-          <div class="step"><div class="st-t">Descreva, escolha o responsável e o prazo</div><div class="st-d">Pode adicionar detalhes opcionais.</div></div>
+          <div class="step"><div class="st-t">Descreva, escolha o responsável, o prazo e a ata de origem</div><div class="st-d">Toda tarefa informa de <b>qual reunião (ata)</b> ela nasceu — rastreabilidade e governança. Se não veio de reunião, deixe "Avulsa".</div></div>
           <div class="step"><div class="st-t">Mova o cartão com ◀ e ▶</div><div class="st-d">Conforme a tarefa avança até "Concluída".</div></div>
         </div>
-        <div class="callout dica">Marque <b>"só as minhas"</b> ou filtre por pessoa para ver a carga de cada um. Encaminhamento sem cartão é encaminhamento perdido.</div>
+        <div class="callout dica">Filtre por <b>responsável</b>, por <b>prazo até</b> uma data, ou por <b>ata de reunião</b> (vê só as tarefas que saíram daquela reunião). Marque <b>"só as minhas"</b> para ver sua carga. O cartão mostra a ata de origem (↩ Ata dd/mm) ou "avulsa".</div>
       </section>
 
       <section class="man-sec" id="s-rituais">
@@ -1110,15 +1118,18 @@ function mProc(id){
 }
 function mTask(id){
   const t=id?db.tasks.find(x=>x.id===id):null;
+  const ataSel=t?(t.ritual_id||''):(mTask._rit||'');
+  const rituaisDesc=[...db.rituals].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
   openModal(`
    <h3>${t?'Editar tarefa':'Nova tarefa'}</h3>
-   <div class="sub">Todo encaminhamento vira cartão com dono e prazo — nada fica no caderno.</div>
+   <div class="sub">Todo encaminhamento vira cartão com dono, prazo e a <b>ata de origem</b> — nada fica no caderno.</div>
    <div class="frm">
      <div><label>O que precisa ser feito</label><input id="m-ti" value="${esc(t?.title||'')}" placeholder="ex.: Cobrar renda importada do fornecedor X"></div>
      <div class="frm-row">
        <div><label>Responsável</label>${selUsers('m-resp',t?.assignee_user_id||currentUser().id,true)}</div>
        <div><label>Prazo</label><input type="date" id="m-prazo" value="${t?.due_date||''}"></div>
      </div>
+     <div><label>Ata de reunião de origem</label><select id="m-ata"><option value="">Avulsa (sem reunião)</option>${rituaisDesc.map(r=>`<option value="${r.id}" ${ataSel===r.id?'selected':''}>${esc(ritLabel(r))}</option>`).join('')}</select>${rituaisDesc.length?'':'<div style="font-size:10.5px;color:var(--muted);margin-top:4px">Nenhuma reunião registrada ainda — registre em Rituais & Atas para vincular.</div>'}</div>
      <div><label>Detalhes (opcional)</label><textarea id="m-desc" rows="2">${esc(t?.description||'')}</textarea></div>
    </div>
    <div class="modal-acts">
@@ -1301,10 +1312,11 @@ const ACTIONS={
     toast('Data-limite atualizada.')},
   /* tarefas */
   'task-new':()=>mTask(null),'task-edit':d=>mTask(d.id),
+  'task-clear-filtros':()=>{Object.assign(ST.tarefas,{pessoa:'',so_minhas:false,prazo:'',ata:''});render()},
   'task-save':d=>{const ti=$('#m-ti').value.trim();if(!ti){toast('Descreva a tarefa.');return}
-    const vals={title:ti,assignee_user_id:$('#m-resp').value,due_date:$('#m-prazo').value||null,description:$('#m-desc').value.trim()||null};
+    const vals={title:ti,assignee_user_id:$('#m-resp').value,due_date:$('#m-prazo').value||null,ritual_id:$('#m-ata').value||null,description:$('#m-desc').value.trim()||null};
     commit(x=>{if(d.id){Object.assign(x.tasks.find(t=>t.id===d.id),vals)}
-      else x.tasks.push({id:uuid(),...vals,status:'pendente',ritual_id:mTask._rit||null,completed_at:null,created_at:agoraIso(),created_by:currentUser().id})});
+      else x.tasks.push({id:uuid(),...vals,status:'pendente',completed_at:null,created_at:agoraIso(),created_by:currentUser().id})});
     mTask._rit=null;closeModal();toast('Tarefa salva.')},
   'task-move':d=>{const ord=['pendente','em_andamento','concluida'];
     commit(x=>{const t=x.tasks.find(y=>y.id===d.id);const i=ord.indexOf(t.status)+Number(d.dir);
@@ -1420,7 +1432,7 @@ const TOURS={
   {el:'#col-grid',t:'Cada fase aceita vários eventos',p:'Clique numa célula para registrar as ocorrências da fase: 1ª modelagem, 2ª, 3ª… cada uma com sua data e observação. O número no canto (ex.: 3×) mostra quantos eventos há, e o status usa sempre a data mais recente. Tudo guarda QUEM registrou — substitui o caderno e vira evidência.'},
   {el:'[data-action="hist-cancel"]',t:'Cancelar referências (só a Joice)',p:'Quando uma referência sai da coleção, a Joice clica no ✕ ao lado do código e informa o motivo. A peça fica riscada, sai das contagens de atraso, e o cancelamento (com autor, data e justificativa) entra no Histórico — rastreabilidade total para a governança. Reativar segue o mesmo caminho.'}],
  '#/tarefas':[
-  {el:'#t-filtros',t:'O quadro que substitui o caderno',p:'Toda demanda vira um cartão com responsável e prazo. Filtre por pessoa ou marque "só as minhas" para ver seu dia.'},
+  {el:'#t-filtros',t:'O quadro que substitui o caderno',p:'Toda demanda vira um cartão com responsável, prazo e a ata de reunião de origem. Filtre por pessoa, por prazo até uma data, ou por ata de reunião (mostra só as tarefas que saíram daquela reunião). "só as minhas" mostra a sua carga.'},
   {el:'#kanban',t:'Três colunas, zero dúvida',p:'Pendente → Em andamento → Concluída. Os botões ◀ ▶ movem o cartão. Cartão com borda rosé = prazo vencido — é o primeiro assunto do briefing diário.'},
   {el:'#btn-nova-tarefa',t:'Saiu da reunião, virou cartão',p:'Encaminhamento sem cartão é encaminhamento perdido. Crie a tarefa na hora, na frente de todos — transparência é o que faz o quadro funcionar.'}],
  '#/rituais':[
