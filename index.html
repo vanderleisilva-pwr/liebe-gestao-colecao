@@ -587,7 +587,7 @@ function vDashboard(){
   </div>
   <div class="kpi-grid" id="kpi-grid">
     ${card('kpi-macro','Cumprimento do Cronograma',k.macro?k.macro.v+'<small>%</small>':'<small>sem baseline</small>','Realizado vs Previsto · Meta ≥ 95% · alerta &lt; 90%'+(k.macro?` · Realizado ${k.macro.realizado}% vs Previsto ${k.macro.previsto}%`:' · começa a medir nesta coleção'),'Joice',k.macro?kpiClass(k.macro.v,95,90):'')}
-    ${card('kpi-piloto','Tempo de Pilotagem',k.piloto?k.piloto.v+'<small> dias (média)</small>':'<small>sem baseline</small>','Do fim do Desenho ao fim da Pilotagem '+(k.piloto?`· ${k.piloto.n} referência(s)`:'· registre as datas de Desenho e Pilotagem'),'Anna','',k.piloto?`<button class="btn btn-g btn-sm" data-action="piloto-detalhe" style="margin-top:4px">ver por referência →</button>`:'')}
+    ${card('kpi-piloto','Tempo de Pilotagem',k.piloto?k.piloto.v+'<small> dias (média)</small>':'<small>sem baseline</small>','Do fim do Desenho ao fim da Pilotagem '+(k.piloto?`· ${k.piloto.n} referência(s)`:'· registre as datas de Desenho e Pilotagem'),'Joice','',k.piloto?`<button class="btn btn-g btn-sm" data-action="piloto-detalhe" style="margin-top:4px">ver por referência →</button>`:'')}
     ${card('kpi-atas','Atas em 24h',k.atas?k.atas.v+'<small>%</small>':'<small>sem reuniões</small>','Meta 100% '+(k.atas?`· ${k.atas.n}/${k.atas.d} reuniões`:'· registre as reuniões em Rituais & Atas'),'Joice',k.atas?kpiClass(k.atas.v,100,99):'')}
     ${card('kpi-rnc','RNCs do Setor (nº absoluto)',k.rnc&&k.rnc.v!=null?k.rnc.v:'<small>não medido</small>','Meta: −30% em 6 meses '+(k.rnc?'· ref. '+k.rnc.period:'· lance o valor mensal'),'Joice',k.rnc&&k.rnc.v!=null?(k.rnc.v===0?'s-ok':''):'')}
     ${card('kpi-otif','Atraso de MP (OTIF fornecedores)',k.otif&&k.otif.v!=null?k.otif.v+'<small>%</small>':'<small>não medido</small>','Meta ≥ 90% · alerta &lt; 80% → escalonar à Compras '+(k.otif?'· ref. '+k.otif.period:''),'Joice',k.otif&&k.otif.v!=null?kpiClass(k.otif.v,90,80):'')}
@@ -700,14 +700,12 @@ function vColecao(){
     <span><span class="sw" style="background:#f6f4ef"></span>pendente</span>
     <span><span class="sw" style="background:repeating-linear-gradient(45deg,#f3f1ec 0 4px,#fbfaf7 4px 8px)"></span>não se aplica</span>
     <span><span class="badge b-cancel" style="font-size:9px">CANCELADA</span> fora das contagens</span>
-    <span style="margin-left:auto"><span class="badge b-anna">◆ marco da Anna (estilo)</span> <span class="badge b-joice">● marco da Joice (prazo)</span></span>
   </div>
   <div class="grid-wrap" id="col-grid"><table class="cgrid">
     <thead><tr>
       <th class="fix c1">#</th><th class="fix c2">Ref.</th><th class="fix c3">Família / Linha</th>
       ${db.phases.map(ph=>{const c=cont[ph.id],dl=ix.dlByPhase[ph.id];return `
         <th title="${esc(ph.name)}">
-          <span class="badge ${ph.marco_owner==='anna'?'b-anna':'b-joice'}" style="font-size:8.5px;padding:1px 6px">${ph.marco_owner==='anna'?'◆':'●'}</span><br>
           ${esc(ph.name).replace(/ /g,'<br>')}
           <span class="dl-chip ${can('admin')?'w':''}" ${can('admin')?`data-action="dl-edit" data-phase="${ph.id}" style="cursor:pointer"`:''} title="Data-limite da fase${can('admin')?' (clique para editar)':''}">${dl?'limite '+fmtBR(dl):'sem limite'}</span>
           <span class="cnt"><span class="g">${c.done}✓</span> <span class="r">${c.late}!</span> <span class="p">${c.pend}…</span></span>
@@ -934,7 +932,7 @@ function vManual(){
           <li>Filtre por <b>linha</b> (FASHION, LUXE…), <b>família</b> (KISS ME, LUMINA…), <b>estilista</b>, <b>fluxo</b> (coleção nova × continuados) ou só o que está <b>em atraso</b>.</li>
           <li>Use a busca para achar uma referência pelo código.</li>
         </ul>
-        <div class="callout ouro">Os símbolos no cabeçalho indicam o dono do marco: <b>◆ (lilás)</b> = marco da <b>Anna</b> (técnico-criativo); <b>● (rosé)</b> = marco da <b>Joice</b> (prazo/processo). A cobrança certa vai para a cadeira certa.</div>
+        <div class="callout ouro">Todo o cronograma da coleção é de <b>responsabilidade da Joice</b> gerenciar — é ela quem sinaliza datas, prazos e cobranças em cada fase.</div>
         <div class="callout atencao">A data-limite de cada fase pode ser editada pelo perfil de administração: clique no selo "limite…" no cabeçalho da coluna. Algumas fases ainda estão "sem limite" — defina-as para que o cálculo de atraso funcione nelas.</div>
       </section>
 
@@ -1020,7 +1018,7 @@ function cellModalHtml(){
      </div>`).join('');
   return `
    <h3>${esc(ph.name)} · Ref. ${esc(r.code)}</h3>
-   <div class="sub">${esc(r.family)} · ${esc(r.line)} · ${esc(r.stylist)} ${dl?`· data-limite ${fmtBRfull(dl)}`:''} · marco ${ph.marco_owner==='anna'?'da Anna (estilo)':'da Joice (prazo)'}</div>
+   <div class="sub">${esc(r.family)} · ${esc(r.line)} · ${esc(r.stylist)}${dl?` · data-limite ${fmtBRfull(dl)}`:''}</div>
    <div class="sub" style="margin-top:-8px">Registre cada ocorrência desta etapa (1ª, 2ª, 3ª…). O status da célula usa a <b>data mais recente</b>.</div>
    <div class="ev-list">${linhas||'<div class="empty" style="padding:14px">Nenhum evento ainda. Clique em “adicionar evento”.</div>'}</div>
    <button class="btn btn-o btn-sm" data-action="cell-add-event">＋ adicionar evento</button>
@@ -1419,7 +1417,6 @@ const TOURS={
  '#/colecao':[
   {el:'#col-filtros',t:'Filtre como na planilha — só que instantâneo',p:'Por linha (FASHION, LUXE…), família (KISS ME, LUMINA…), estilista, fluxo (nova × continuada) ou só o que está em atraso. A busca encontra qualquer referência pelo código.'},
   {el:'#col-grid',t:'O coração do sistema',p:'Cada linha é uma referência; cada coluna, uma fase. Célula verde = concluída no prazo; âmbar = concluída com atraso; rosé = atrasada; hachurada = não se aplica àquele fluxo. Os contadores no topo somam ✓ no prazo, ! em atraso e … pendentes.'},
-  {el:'#col-legenda',t:'Marcos da Anna e marcos da Joice',p:'◆ lilás = marco técnico-criativo (responde a Anna). ● rosé = marco de prazo/processo (responde a Joice). A cobrança certa, para a cadeira certa.'},
   {el:'#col-grid',t:'Cada fase aceita vários eventos',p:'Clique numa célula para registrar as ocorrências da fase: 1ª modelagem, 2ª, 3ª… cada uma com sua data e observação. O número no canto (ex.: 3×) mostra quantos eventos há, e o status usa sempre a data mais recente. Tudo guarda QUEM registrou — substitui o caderno e vira evidência.'},
   {el:'[data-action="hist-cancel"]',t:'Cancelar referências (só a Joice)',p:'Quando uma referência sai da coleção, a Joice clica no ✕ ao lado do código e informa o motivo. A peça fica riscada, sai das contagens de atraso, e o cancelamento (com autor, data e justificativa) entra no Histórico — rastreabilidade total para a governança. Reativar segue o mesmo caminho.'}],
  '#/tarefas':[
