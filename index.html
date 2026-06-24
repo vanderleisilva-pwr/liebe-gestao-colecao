@@ -20,7 +20,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{font-family:'Montserrat',-apple-system,'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(--ink);font-size:14px;line-height:1.5}
+body{font-family:'Montserrat',-apple-system,'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(--ink);font-size:14px;line-height:1.5;overflow-x:clip}
 button{font-family:inherit;cursor:pointer;border:none;background:none;font-size:13px}
 input,select,textarea{font-family:inherit;font-size:13px;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--rose-pale);border-color:var(--rose-soft)}
@@ -168,6 +168,14 @@ tr:hover td{background:#fdfcf9}
 .ref-act:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
 .ref-act.react{color:var(--ok);border-color:#cfe0cf}.ref-act.react:hover{background:var(--ok);color:#fff}
 .cell.cancel{background:#f1eaea;color:#b59aa0;cursor:default}
+.ev-badge{display:inline-block;margin-left:4px;font-size:8.5px;font-weight:700;background:rgba(0,0,0,.10);color:inherit;border-radius:99px;padding:0 5px;vertical-align:middle}
+.ev-list{display:flex;flex-direction:column;gap:8px;max-height:46vh;overflow:auto;margin:4px 0}
+.ev-row{display:flex;align-items:center;gap:8px}
+.ev-row .ev-ord{font-weight:700;color:var(--rose-dark);font-size:12px;min-width:26px;text-align:center;flex-shrink:0}
+.ev-row .ev-date{max-width:150px}
+.ev-row .ev-note{flex:1;min-width:80px}
+.ev-del{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);color:var(--muted);flex-shrink:0;font-size:12px}
+.ev-del:hover{background:var(--late-bg);color:var(--late);border-color:var(--late)}
 .legend{display:flex;flex-wrap:wrap;gap:14px;margin:10px 2px;font-size:11px;color:var(--muted);align-items:center}
 .legend .sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:5px}
 
@@ -273,8 +281,11 @@ body[data-role="leitura"] .w{display:none!important}
   .content{padding:14px 12px 60px}
   .kanban{grid-template-columns:1fr}
   .hero .big{margin-left:0}
-  .topbar{padding:10px 12px}
+  .topbar{padding:10px 12px;flex-wrap:wrap}
   .grid-wrap{max-height:none}
+  .modal-card{max-width:100%}
+  .ev-row .ev-note{min-width:0}
+  .modal-acts{flex-wrap:wrap}
 }
 </style>
 </head>
@@ -315,10 +326,23 @@ function applyNav(){document.body.classList.toggle('nav-collapsed',navCollapsed)
 function setNav(v){navCollapsed=v;localStorage.setItem(LS_NAV,v?'1':'0');applyNav()}
 let seedUpdate=false; // true quando o data.js traz uma planilha mais recente que a salva
 const clone=o=>JSON.parse(JSON.stringify(o));
+// Cada célula (referência × fase) pode ter VÁRIOS eventos datados (1ª, 2ª, 3ª…).
+// Normaliza dados antigos/seed (1 data) para o formato com array `events`.
+function normalizeEvents(d){(d.reference_phases||[]).forEach(rp=>{
+  if(!Array.isArray(rp.events))rp.events=rp.completed_at?[{id:uuid(),date:rp.completed_at,notes:rp.notes||null,by:rp.completed_by||null,at:rp.created_at||rp.completed_at}]:[];
+})}
+// Eventos de uma célula, ordenados por data (1ª = mais antiga). Tolera rp sem `events`.
+function cellEvents(rp){
+  if(!rp)return[];
+  const ev=Array.isArray(rp.events)?rp.events.slice():(rp.completed_at?[{date:rp.completed_at,notes:rp.notes,by:rp.completed_by}]:[]);
+  return ev.filter(e=>e&&e.date).sort((a,b)=>a.date.localeCompare(b.date));
+}
 const MIGRATIONS=[
   // v1 → v2: cancelamento de referências com justificativa + histórico de governança
   d=>{d.reference_log=d.reference_log||[];d.references.forEach(r=>{if(!r.status)r.status='ativa';
     ['canceled_at','canceled_by','cancel_category','cancel_reason'].forEach(k=>{if(!(k in r))r[k]=null})})},
+  // v2 → v3: múltiplos eventos por fase (1ª/2ª/3ª modelagem, pilotagem, prova…)
+  d=>normalizeEvents(d),
 ]; // futuras migrações de schema (mesmo padrão no Supabase)
 function migrate(d){let v=d.schema_version||1;while(v<MIGRATIONS.length+1){MIGRATIONS[v-1](d);v++;d.schema_version=v}return d}
 function loadDb(){
@@ -338,6 +362,7 @@ function applyNewSeed(){
   const seed=window.LIEBE_SEED;
   ['users','collections','phases','phase_deadlines','macro_processes','references','reference_phases'].forEach(k=>db[k]=clone(seed[k]));
   db.reference_log=db.reference_log||[]; // governança preservada (dado operacional)
+  normalizeEvents(db);      // garante array de eventos nas células vindas da planilha
   reaplicarCancelamentos(); // re-aplica status cancelado ao novo catálogo (por código)
   db.seed_version=seed.seed_version;
   seedUpdate=false;localStorage.removeItem(LS_SEEDDISMISS);
@@ -383,7 +408,8 @@ function statusProcesso(p,hoje){
 function statusCelula(ref,ph,hoje){
   if(!phaseApplies(ref,ph))return{k:'na'};
   const rp=ix.rpByKey[ref.id+'|'+ph.id], dl=ix.dlByPhase[ph.id];
-  if(rp&&rp.completed_at)return{k:(dl&&rp.completed_at>dl)?'donelate':'done',date:rp.completed_at,rp};
+  const evs=cellEvents(rp), ultimo=evs.length?evs[evs.length-1].date:null;
+  if(ultimo)return{k:(dl&&ultimo>dl)?'donelate':'done',date:ultimo,n:evs.length,rp};
   if(dl&&dl<hoje)return{k:'late',days:diffDias(dl,hoje)};
   return{k:'pend'};
 }
@@ -699,7 +725,10 @@ function vColecao(){
         : db.phases.map(ph=>{const s=statusCelula(r,ph,hoje);
           if(s.k==='na')return'<td><span class="cell na">·</span></td>';
           const click=can('write')?`data-action="cell-open" data-ref="${r.id}" data-phase="${ph.id}" style="cursor:pointer"`:'';
-          if(s.k==='done'||s.k==='donelate')return`<td><button class="cell ${s.k}" ${click} title="Concluída em ${fmtBRfull(s.date)} por ${esc(ix.userById[s.rp.completed_by]?.name||'?')}">${fmtBR(s.date)}</button></td>`;
+          if(s.k==='done'||s.k==='donelate'){const evs=cellEvents(s.rp);
+            const tip=evs.map((e,j)=>`${j+1}ª: ${fmtBR(e.date)}${e.notes?' — '+e.notes:''}`).join(' | ');
+            const tag=s.n>1?`<span class="ev-badge">${s.n}×</span>`:'';
+            return`<td><button class="cell ${s.k}" ${click} title="${esc(tip)}">${fmtBR(s.date)}${tag}</button></td>`}
           if(s.k==='late')return`<td><button class="cell late" ${click} title="${s.days} dias em atraso">${s.days}d atraso</button></td>`;
           return`<td><button class="cell pend" ${click}>—</button></td>`;
         }).join('')}
@@ -947,7 +976,8 @@ function vManual(){
 
       <section class="man-sec" id="s-faq">
         <h3><span class="nicon">❓</span> 9. Perguntas frequentes</h3>
-        <div class="faq"><div class="q">Errei uma data numa célula. Como corrijo?</div><div class="a">Clique na célula de novo e altere a data, ou use "Limpar registro" para deixá-la em branco.</div></div>
+        <div class="faq"><div class="q">Uma fase teve 2 ou 3 tentativas (ex.: 1ª, 2ª, 3ª modelagem). Como registro?</div><div class="a">Clique na célula da fase: cada ocorrência é uma linha com data e observação. Use <b>＋ adicionar evento</b> para incluir a 2ª, 3ª… A célula mostra a data mais recente e um contador (ex.: <b>3×</b>); passando o mouse, você vê todas as datas.</div></div>
+        <div class="faq"><div class="q">Errei uma data numa célula. Como corrijo?</div><div class="a">Clique na célula de novo e ajuste a data do evento, remova um evento pelo ✕, ou use "Limpar tudo" para zerar a célula.</div></div>
         <div class="faq"><div class="q">Por que algumas fases mostram "pendente" e não "em atraso"?</div><div class="a">Porque ainda não têm data-limite definida. O perfil de administração define o limite clicando no selo "sem limite" no cabeçalho da coluna.</div></div>
         <div class="faq"><div class="q">A equipe pode usar pelo celular?</div><div class="a">Sim. O layout se adapta; use o botão ☰ no topo para abrir o menu. Ideal para atualizar uma conclusão no chão de fábrica.</div></div>
         <div class="faq"><div class="q">O Cairo consegue editar sem querer?</div><div class="a">Não. O perfil dele é de leitura — os botões de edição nem aparecem.</div></div>
@@ -968,20 +998,41 @@ function openModal(html){$('#modal').innerHTML=`<div class="modal-card">${html}<
 function closeModal(){$('#modal').classList.remove('open');$('#modal').innerHTML=''}
 function selUsers(id,val,filtro){return `<select id="${id}">${db.users.filter(u=>u.active&&(!filtro||u.role!=='leitura')).map(u=>`<option value="${u.id}" ${val===u.id?'selected':''}>${esc(u.name)} — ${esc(u.job_title)}</option>`).join('')}</select>`}
 
+let cellEdit=null; // estado transitório do modal de eventos da célula
 function mCell(refId,phaseId){
-  const r=ix.refById[refId],ph=ix.phaseById[phaseId],rp=ix.rpByKey[refId+'|'+phaseId],dl=ix.dlByPhase[phaseId];
-  openModal(`
+  const rp=ix.rpByKey[refId+'|'+phaseId], evs=cellEvents(rp);
+  cellEdit={refId,phaseId,rows: evs.length?evs.map(e=>({id:e.id,date:e.date,notes:e.notes||'',by:e.by,at:e.at})):[{date:hojeStr(),notes:''}]};
+  openModal(cellModalHtml());
+}
+function cellModalHtml(){
+  const {refId,phaseId,rows}=cellEdit;
+  const r=ix.refById[refId],ph=ix.phaseById[phaseId],dl=ix.dlByPhase[phaseId];
+  const linhas=rows.map((e,i)=>`
+     <div class="ev-row" data-i="${i}">
+       <span class="ev-ord">${i+1}ª</span>
+       <input type="date" class="ev-date" value="${esc(e.date||'')}">
+       <input class="ev-note" value="${esc(e.notes||'')}" placeholder="observação (opcional)">
+       <button class="ev-del" data-action="cell-del-event" data-i="${i}" title="Remover este evento">✕</button>
+     </div>`).join('');
+  return `
    <h3>${esc(ph.name)} · Ref. ${esc(r.code)}</h3>
    <div class="sub">${esc(r.family)} · ${esc(r.line)} · ${esc(r.stylist)} ${dl?`· data-limite ${fmtBRfull(dl)}`:''} · marco ${ph.marco_owner==='anna'?'da Anna (estilo)':'da Joice (prazo)'}</div>
-   <div class="frm">
-     <div><label>Data de conclusão</label><input type="date" id="m-data" value="${rp?rp.completed_at:hojeStr()}"></div>
-     <div><label>Observação (opcional)</label><input id="m-obs" value="${esc(rp?.notes||'')}" placeholder="ex.: aprovada na 2ª prova"></div>
-   </div>
+   <div class="sub" style="margin-top:-8px">Registre cada ocorrência desta etapa (1ª, 2ª, 3ª…). O status da célula usa a <b>data mais recente</b>.</div>
+   <div class="ev-list">${linhas||'<div class="empty" style="padding:14px">Nenhum evento ainda. Clique em “adicionar evento”.</div>'}</div>
+   <button class="btn btn-o btn-sm" data-action="cell-add-event">＋ adicionar evento</button>
    <div class="modal-acts">
-     ${rp?`<button class="btn btn-g" data-action="cell-clear" data-ref="${refId}" data-phase="${phaseId}">Limpar registro</button>`:''}
+     ${rows.length?`<button class="btn btn-g" data-action="cell-clear" data-ref="${refId}" data-phase="${phaseId}">Limpar tudo</button>`:''}
      <button class="btn btn-g" data-action="modal-close">Cancelar</button>
-     <button class="btn btn-p" data-action="cell-save" data-ref="${refId}" data-phase="${phaseId}">Salvar conclusão</button>
-   </div>`);
+     <button class="btn btn-p" data-action="cell-save" data-ref="${refId}" data-phase="${phaseId}">Salvar etapas</button>
+   </div>`;
+}
+// Lê os inputs do modal de volta para cellEdit.rows (preservando id/by/at por posição).
+function syncCellEdit(){
+  if(!cellEdit)return;
+  cellEdit.rows=[...document.querySelectorAll('.ev-row')].map(el=>{
+    const prev=cellEdit.rows[+el.dataset.i]||{};
+    return {id:prev.id,by:prev.by,at:prev.at,date:el.querySelector('.ev-date').value,notes:el.querySelector('.ev-note').value.trim()};
+  });
 }
 const CANCEL_CATS=['Decisão comercial','Inviabilidade técnica','Custo acima da meta','Duplicidade','Solicitação da diretoria','Outro'];
 function mCancelRef(refId){
@@ -1192,13 +1243,20 @@ const ACTIONS={
   'proc-done':d=>{commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);p.completed_at=hojeStr();p.percent_complete=100});closeModal();toast('Processo concluído ✓')},
   /* coleção */
   'cell-open':d=>mCell(d.ref,d.phase),
-  'cell-save':d=>{const dt=$('#m-data').value,obs=$('#m-obs').value;
-    if(!dt){toast('Informe a data.');return}
-    commit(x=>{let rp=x.reference_phases.find(y=>y.reference_id===d.ref&&y.phase_id===d.phase);
-      if(rp){rp.completed_at=dt;rp.notes=obs||null;rp.completed_by=currentUser().id}
-      else x.reference_phases.push({id:uuid(),reference_id:d.ref,phase_id:d.phase,completed_at:dt,completed_by:currentUser().id,notes:obs||null,created_at:agoraIso(),created_by:currentUser().id})});
-    closeModal();toast('Fase registrada ✓')},
-  'cell-clear':d=>{commit(x=>{x.reference_phases=x.reference_phases.filter(y=>!(y.reference_id===d.ref&&y.phase_id===d.phase))});closeModal();toast('Registro removido.')},
+  'cell-add-event':()=>{syncCellEdit();cellEdit.rows.push({date:hojeStr(),notes:''});openModal(cellModalHtml())},
+  'cell-del-event':d=>{syncCellEdit();cellEdit.rows.splice(+d.i,1);openModal(cellModalHtml())},
+  'cell-save':d=>{syncCellEdit();
+    const rows=(cellEdit?.rows||[]).filter(r=>r.date).sort((a,b)=>a.date.localeCompare(b.date));
+    const by=currentUser().id,at=agoraIso();
+    commit(x=>{
+      if(!rows.length){x.reference_phases=x.reference_phases.filter(y=>!(y.reference_id===d.ref&&y.phase_id===d.phase));return}
+      const events=rows.map(r=>({id:r.id||uuid(),date:r.date,notes:r.notes||null,by:r.by||by,at:r.at||at}));
+      const ultimo=rows[rows.length-1];
+      let rp=x.reference_phases.find(y=>y.reference_id===d.ref&&y.phase_id===d.phase);
+      if(rp){rp.events=events;rp.completed_at=ultimo.date;rp.completed_by=ultimo.by||by;rp.notes=ultimo.notes||null}
+      else x.reference_phases.push({id:uuid(),reference_id:d.ref,phase_id:d.phase,events,completed_at:ultimo.date,completed_by:by,notes:ultimo.notes||null,created_at:at,created_by:by})});
+    const n=rows.length;cellEdit=null;closeModal();toast(n?`${n} evento(s) salvo(s) ✓`:'Eventos removidos.')},
+  'cell-clear':d=>{cellEdit=null;commit(x=>{x.reference_phases=x.reference_phases.filter(y=>!(y.reference_id===d.ref&&y.phase_id===d.phase))});closeModal();toast('Registro removido.')},
   /* cancelamento de referências — governança, só Joice */
   'hist-cancel':()=>mCancelHistory(),
   'ref-cancel':d=>{if(!canCancelRefs()){toast('Apenas a Joice pode cancelar referências.');return}mCancelRef(d.ref)},
@@ -1283,7 +1341,7 @@ function gridLinhas(){
   const rows=db.references.map((r,i)=>{const cancelada=r.status==='cancelada';
     return [i+1,r.collection_name,r.line,r.family,r.stylist,r.code,r.flow_type,cancelada?'CANCELADA':'Ativa',
     ...db.phases.map(ph=>{if(cancelada)return'';const s=statusCelula(r,ph,hoje);
-      return s.k==='na'?'N/A':s.k==='done'||s.k==='donelate'?s.date:s.k==='late'?s.days+' dias em atraso':''})]});
+      return s.k==='na'?'N/A':(s.k==='done'||s.k==='donelate')?s.date+(s.n>1?` (${s.n}x)`:''):s.k==='late'?s.days+' dias em atraso':''})]});
   return[head,...rows];
 }
 function exportExcel(){
@@ -1299,6 +1357,10 @@ function exportExcel(){
       ...db.charges.map(c=>[ix.userById[c.charged_user_id]?.name||'',ix.userById[c.charged_by]?.name||'',c.subject,c.due_date||'',c.evidence||'',c.status])]),'Cobranças');
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Referência','Ação','Categoria','Justificativa','Por','Data/Hora'],
       ...[...(db.reference_log||[])].sort((a,b)=>(b.at||'').localeCompare(a.at||'')).map(e=>[e.ref_code,e.action,e.category||'',e.reason||'',ix.userById[e.by]?.name||'',e.at?new Date(e.at).toLocaleString('pt-BR'):''])]),'Cancelamentos');
+    const evLinhas=[['Referência','Fase','Evento','Data','Observação','Por']];
+    db.references.forEach(r=>db.phases.forEach(ph=>{cellEvents(ix.rpByKey[r.id+'|'+ph.id]).forEach((e,j)=>
+      evLinhas.push([r.code,ph.name,(j+1)+'ª',e.date,e.notes||'',ix.userById[e.by]?.name||'']))}));
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(evLinhas),'Eventos por fase');
     XLSX.writeFile(wb,'liebe-gestao-colecao-'+hojeStr()+'.xlsx');toast('Excel exportado.');fim();
   };
   if(window.XLSX){run();return}
@@ -1343,7 +1405,7 @@ const TOURS={
   {el:'#col-filtros',t:'Filtre como na planilha — só que instantâneo',p:'Por linha (FASHION, LUXE…), família (KISS ME, LUMINA…), estilista, fluxo (nova × continuada) ou só o que está em atraso. A busca encontra qualquer referência pelo código.'},
   {el:'#col-grid',t:'O coração do sistema',p:'Cada linha é uma referência; cada coluna, uma fase. Célula verde = concluída no prazo; âmbar = concluída com atraso; rosé = atrasada; hachurada = não se aplica àquele fluxo. Os contadores no topo somam ✓ no prazo, ! em atraso e … pendentes.'},
   {el:'#col-legenda',t:'Marcos da Anna e marcos da Joice',p:'◆ lilás = marco técnico-criativo (responde a Anna). ● rosé = marco de prazo/processo (responde a Joice). A cobrança certa, para a cadeira certa.'},
-  {el:'#col-grid',t:'Registrar é um clique',p:'Clique em qualquer célula para registrar a conclusão da fase: a data e QUEM registrou ficam gravados — substitui o caderno e vira evidência.'},
+  {el:'#col-grid',t:'Cada fase aceita vários eventos',p:'Clique numa célula para registrar as ocorrências da fase: 1ª modelagem, 2ª, 3ª… cada uma com sua data e observação. O número no canto (ex.: 3×) mostra quantos eventos há, e o status usa sempre a data mais recente. Tudo guarda QUEM registrou — substitui o caderno e vira evidência.'},
   {el:'[data-action="hist-cancel"]',t:'Cancelar referências (só a Joice)',p:'Quando uma referência sai da coleção, a Joice clica no ✕ ao lado do código e informa o motivo. A peça fica riscada, sai das contagens de atraso, e o cancelamento (com autor, data e justificativa) entra no Histórico — rastreabilidade total para a governança. Reativar segue o mesmo caminho.'}],
  '#/tarefas':[
   {el:'#t-filtros',t:'O quadro que substitui o caderno',p:'Toda demanda vira um cartão com responsável e prazo. Filtre por pessoa ou marque "só as minhas" para ver seu dia.'},
