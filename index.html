@@ -426,23 +426,28 @@ function contadoresFase(refs,hoje){
 /* ---------------------------- KPIs ---------------------------- */
 function kpis(){
   const hoje=hojeStr(),mes=hoje.slice(0,7);
-  // % cumprimento do cronograma macro (processos vencidos concluídos no prazo)
-  const vencidos=db.macro_processes.filter(p=>p.end_date&&p.end_date<hoje);
-  const noPrazo=vencidos.filter(p=>p.completed_at&&p.completed_at<=p.end_date).length;
-  const macro=vencidos.length?{v:Math.round(noPrazo/vencidos.length*100),n:noPrazo,d:vencidos.length}:null;
-  // referências válidas para indicadores: exclui canceladas (não distorcem atraso/piloto)
+  // Cumprimento do cronograma = REALIZADO vs PREVISTO (avanço esperado por hoje).
+  // Ponderado pela duração de cada processo (estilo "valor agregado").
+  let sumDur=0,sumPrev=0,sumReal=0;
+  db.macro_processes.forEach(p=>{
+    if(!p.start_date||!p.end_date)return;
+    const dur=Math.max(diffDias(p.start_date,p.end_date),1);
+    const esperado=Math.min(1,Math.max(0,diffDias(p.start_date,hoje)/dur)); // 0..1 por hoje
+    sumDur+=dur; sumPrev+=esperado*dur; sumReal+=((p.percent_complete||0)/100)*dur;
+  });
+  const previsto=sumDur?sumPrev/sumDur*100:0, realizado=sumDur?sumReal/sumDur*100:0;
+  const macro=sumDur?{v:previsto>0?Math.round(realizado/previsto*100):(realizado>0?100:0),previsto:Math.round(previsto),realizado:Math.round(realizado)}:null;
+  // referências válidas para indicadores: exclui canceladas
   const refsAtivas=db.references.filter(r=>r.status!=='cancelada');
-  // % peças no prazo (células: concluídas no prazo ÷ (concluídas + vencidas em aberto))
-  let pOk=0,pTot=0;
-  refsAtivas.forEach(r=>db.phases.forEach(ph=>{const s=statusCelula(r,ph,hoje);
-    if(s.k==='done'){pOk++;pTot++} else if(s.k==='donelate'||s.k==='late')pTot++}));
-  const pecas=pTot?{v:Math.round(pOk/pTot*100),n:pOk,d:pTot}:null;
-  // Tempo de Piloto (modelagem → pilotagem)
-  const phMod=db.phases.find(p=>p.key==='modelagem'),phPil=db.phases.find(p=>p.key==='pilotagem');
-  const tempos=[];
-  if(phMod&&phPil)refsAtivas.forEach(r=>{const a=ix.rpByKey[r.id+'|'+phMod.id],b=ix.rpByKey[r.id+'|'+phPil.id];
-    if(a&&b&&a.completed_at&&b.completed_at)tempos.push(diffDias(a.completed_at,b.completed_at))});
-  const piloto=tempos.length?{v:Math.round(tempos.reduce((s,x)=>s+x,0)/tempos.length),n:tempos.length}:null;
+  // Tempo de Pilotagem: fim do DESENHO → fim da PILOTAGEM (em dias), global + por referência
+  const phDes=db.phases.find(p=>p.key==='desenho'),phPil=db.phases.find(p=>p.key==='pilotagem');
+  const pilotItems=[];
+  if(phDes&&phPil)refsAtivas.forEach(r=>{
+    const da=ix.rpByKey[r.id+'|'+phDes.id]?.completed_at, dp=ix.rpByKey[r.id+'|'+phPil.id]?.completed_at;
+    if(da&&dp){const dias=diffDias(da,dp); if(dias>=0)pilotItems.push({code:r.code,family:r.family,line:r.line,desenho:da,pilotagem:dp,dias})}
+  });
+  pilotItems.sort((a,b)=>b.dias-a.dias);
+  const piloto=pilotItems.length?{v:Math.round(pilotItems.reduce((s,x)=>s+x.dias,0)/pilotItems.length),n:pilotItems.length,items:pilotItems}:null;
   // Atas em 24h
   const reunioes=db.rituals.filter(r=>r.scheduled_at&&r.scheduled_at.slice(0,10)<=hoje);
   const em24=reunioes.filter(r=>r.minutes_published_at&&(new Date(r.minutes_published_at)-new Date(r.scheduled_at))<=864e5).length;
@@ -450,7 +455,7 @@ function kpis(){
   // manuais (mês corrente; senão, último lançado)
   const manual=k=>{const es=db.kpi_entries.filter(e=>e.kpi_key===k).sort((a,b)=>b.period.localeCompare(a.period));
     if(!es.length)return null;const e=es.find(x=>x.period===mes)||es[0];return{v:e.value,period:e.period}};
-  return{macro,pecas,piloto,atas,rnc:manual('rnc'),otif:manual('otif_mp'),hoje};
+  return{macro,piloto,atas,rnc:manual('rnc'),otif:manual('otif_mp'),hoje};
 }
 function kpiClass(val,meta,alerta,inverso){
   if(val==null)return'';
@@ -581,9 +586,8 @@ function vDashboard(){
     <div class="big"><div class="n">${pctGeral}%</div><div class="l">avanço médio macro</div></div>
   </div>
   <div class="kpi-grid" id="kpi-grid">
-    ${card('kpi-macro','Cumprimento do Cronograma',k.macro?k.macro.v+'<small>%</small>':'<small>sem baseline</small>','Meta ≥ 95% · alerta &lt; 90% '+(k.macro?`· ${k.macro.n}/${k.macro.d} processos vencidos no prazo`:'· começa a medir nesta coleção'),'Joice',k.macro?kpiClass(k.macro.v,95,90):'')}
-    ${card('kpi-pecas','Peças no Prazo por Fase',k.pecas?k.pecas.v+'<small>%</small>':'<small>sem baseline</small>','Meta ≥ 90% · alerta &lt; 85% '+(k.pecas?`· ${k.pecas.n}/${k.pecas.d} marcos no prazo`:''),'Joice',k.pecas?kpiClass(k.pecas.v,90,85):'')}
-    ${card('kpi-piloto','Tempo de Piloto',k.piloto?k.piloto.v+'<small> dias</small>':'<small>sem baseline</small>','Meta: −20% na 1ª coleção pós-implantação '+(k.piloto?`· média de ${k.piloto.n} peças`:'· esta coleção é a linha de base'),'Anna')}
+    ${card('kpi-macro','Cumprimento do Cronograma',k.macro?k.macro.v+'<small>%</small>':'<small>sem baseline</small>','Realizado vs Previsto · Meta ≥ 95% · alerta &lt; 90%'+(k.macro?` · Realizado ${k.macro.realizado}% vs Previsto ${k.macro.previsto}%`:' · começa a medir nesta coleção'),'Joice',k.macro?kpiClass(k.macro.v,95,90):'')}
+    ${card('kpi-piloto','Tempo de Pilotagem',k.piloto?k.piloto.v+'<small> dias (média)</small>':'<small>sem baseline</small>','Do fim do Desenho ao fim da Pilotagem '+(k.piloto?`· ${k.piloto.n} referência(s)`:'· registre as datas de Desenho e Pilotagem'),'Anna','',k.piloto?`<button class="btn btn-g btn-sm" data-action="piloto-detalhe" style="margin-top:4px">ver por referência →</button>`:'')}
     ${card('kpi-atas','Atas em 24h',k.atas?k.atas.v+'<small>%</small>':'<small>sem reuniões</small>','Meta 100% '+(k.atas?`· ${k.atas.n}/${k.atas.d} reuniões`:'· registre as reuniões em Rituais & Atas'),'Joice',k.atas?kpiClass(k.atas.v,100,99):'')}
     ${card('kpi-rnc','RNCs do Setor (nº absoluto)',k.rnc&&k.rnc.v!=null?k.rnc.v:'<small>não medido</small>','Meta: −30% em 6 meses '+(k.rnc?'· ref. '+k.rnc.period:'· lance o valor mensal'),'Joice',k.rnc&&k.rnc.v!=null?(k.rnc.v===0?'s-ok':''):'')}
     ${card('kpi-otif','Atraso de MP (OTIF fornecedores)',k.otif&&k.otif.v!=null?k.otif.v+'<small>%</small>':'<small>não medido</small>','Meta ≥ 90% · alerta &lt; 80% → escalonar à Compras '+(k.otif?'· ref. '+k.otif.period:''),'Joice',k.otif&&k.otif.v!=null?kpiClass(k.otif.v,90,80):'')}
@@ -885,7 +889,7 @@ function vManual(){
           <span><i class="sw" style="background:var(--late)"></i> Rosé: alerta disparado</span>
           <span><i class="sw" style="background:var(--na)"></i> Cinza: sem baseline / não medido</span>
         </div>
-        <p>Os cartões <b>cinza</b> ainda não têm histórico — esta coleção é a <b>linha de base</b>. Não é problema: é o ponto de partida para medir a evolução. Quatro indicadores o sistema <b>calcula sozinho</b> (cumprimento do cronograma, peças no prazo, tempo de piloto e atas em 24h). Dois você <b>lança uma vez por mês</b>:</p>
+        <p>Os cartões <b>cinza</b> ainda não têm histórico — esta coleção é a <b>linha de base</b>. Não é problema: é o ponto de partida para medir a evolução. Três indicadores o sistema <b>calcula sozinho</b>: <b>Cumprimento do Cronograma</b> (realizado vs previsto — meta ≥ 95%), <b>Tempo de Pilotagem</b> (do fim do Desenho ao fim da Pilotagem, com média e visão por referência) e <b>Atas em 24h</b>. Dois você <b>lança uma vez por mês</b>:</p>
         <div class="steps">
           <div class="step"><div class="st-t">Clique em "＋ Lançar indicador do mês"</div><div class="st-d">Fica logo abaixo dos cartões.</div></div>
           <div class="step"><div class="st-t">Informe os RNCs e o Atraso de MP</div><div class="st-d"><b>RNCs</b> = número absoluto de não conformidades (não é %). <b>Atraso de MP</b> = OTIF dos fornecedores em %. Deixe em branco o que ainda não tiver.</div></div>
@@ -1078,6 +1082,16 @@ function mCancelHistory(){
      </div>`).join('')}</div>`:'<div class="empty">Nenhum cancelamento registrado ainda. Quando a Joice cancelar uma referência, o registro aparece aqui.</div>'}
    <div class="modal-acts"><button class="btn btn-g" data-action="modal-close">Fechar</button></div>`);
 }
+function mPilotoDetalhe(){
+  const k=kpis(), it=k.piloto?k.piloto.items:[];
+  openModal(`
+   <h3>Tempo de Pilotagem por referência</h3>
+   <div class="sub">Contado do <b>fim do Desenho</b> ao <b>fim da Pilotagem</b>. Média global: <b>${k.piloto?k.piloto.v+' dias':'—'}</b> em ${it.length} referência(s).</div>
+   ${it.length?`<div style="max-height:52vh;overflow:auto"><table><thead><tr><th>Ref.</th><th>Família</th><th>Fim Desenho</th><th>Fim Pilotagem</th><th>Dias</th></tr></thead><tbody>
+     ${it.map(x=>`<tr><td><b>${esc(x.code)}</b></td><td>${esc(x.family)}<div class="ref-fam">${esc(x.line)}</div></td><td>${fmtBR(x.desenho)}</td><td>${fmtBR(x.pilotagem)}</td><td><span class="badge b-rose">${x.dias}d</span></td></tr>`).join('')}
+   </tbody></table></div>`:'<div class="empty">Nenhuma referência tem ainda as duas datas (fim do Desenho e fim da Pilotagem) preenchidas. Registre essas fases no grid da <b>Gestão da Coleção</b>.</div>'}
+   <div class="modal-acts"><button class="btn btn-g" data-action="modal-close">Fechar</button></div>`);
+}
 function mProc(id){
   const p=db.macro_processes.find(x=>x.id===id);
   openModal(`
@@ -1225,6 +1239,7 @@ const ACTIONS={
   'man-go':d=>{const el=document.getElementById(d.target);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},
   /* dashboard */
   'kpi-launch':()=>mKpi(),
+  'piloto-detalhe':()=>mPilotoDetalhe(),
   'kpi-save':()=>{
     const mes=$('#m-kpi-mes').value,rnc=$('#m-kpi-rnc').value,otif=$('#m-kpi-otif').value;
     if(!mes){toast('Informe o mês.');return}
