@@ -73,6 +73,29 @@ body.nav-collapsed .burger{display:inline-flex;align-items:center;justify-conten
 .topbar h1{font-size:17px;font-weight:600}
 .topbar .sub{font-size:11.5px;color:var(--muted)}
 .topbar .sp{flex:1}
+.col-hero{background:var(--rose);color:#fff;border-radius:var(--radius);padding:20px 24px;margin-bottom:18px;box-shadow:var(--shadow)}
+.col-hero h2{font-size:19px;font-weight:600;margin-bottom:4px}
+.col-hero p{font-size:12.5px;opacity:.92;line-height:1.5}
+.col-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.col-card{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--rose);border-radius:var(--radius);
+  padding:16px 18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,box-shadow .12s;display:flex;flex-direction:column;gap:7px}
+.col-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,26,26,.13)}
+.col-card:focus-visible{outline:2px solid var(--rose-dark);outline-offset:2px}
+.col-card.on{border-left-color:var(--rose-dark);background:var(--blush)}
+.col-card.mal{border-left-color:var(--late)}
+.col-card.bem{border-left-color:var(--ok)}
+.col-card .cc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.col-card .cc-nome{font-size:16px;font-weight:700;color:var(--ink)}
+.col-card .cc-per{font-size:11.5px;color:var(--muted);line-height:1.45}
+.col-card .cc-barra{height:7px;background:var(--blush);border-radius:6px;overflow:hidden;margin-top:4px}
+.col-card .cc-barra .f{height:100%;background:var(--rose);border-radius:6px}
+.col-card .cc-pct{font-size:11px;color:var(--muted)}
+.col-card .cc-sit{font-size:12.5px;font-weight:600}
+.col-card .cc-sit.mal{color:var(--late)}.col-card .cc-sit.bem{color:var(--ok)}
+.col-card .cc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.col-card .cc-acao{margin-top:6px}
+.col-card.nova{border-left-color:var(--beige);align-items:center;justify-content:center;text-align:center;min-height:190px}
+.col-card.nova .cc-mais{font-size:30px;color:var(--rose);line-height:1}
 .col-sel{display:flex;align-items:center;gap:6px}
 .col-sel label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
 .col-sel select{border:1.5px solid var(--rose);border-radius:9px;padding:5px 9px;font-size:12px;font-weight:600;color:var(--rose-dark);background:var(--white);max-width:200px}
@@ -526,11 +549,16 @@ function colecaoAtivaId(){
   if(id&&cs.some(c=>c.id===id))return id;
   return cs.length?cs[0].id:(db.collections[0]||{}).id;
 }
-function colecaoAtiva(){const id=colecaoAtivaId();return db.collections.find(c=>c.id===id)||db.collections[0]}
+// Contexto temporário: roda o motor sobre outra coleção sem mudar a que está em uso.
+// É o que permite a tela inicial mostrar o retrato real de cada uma.
+let _colCtx=null;
+function comColecao(id,fn){const ant=_colCtx;_colCtx=id;try{return fn()}finally{_colCtx=ant}}
+function colecaoCtxId(){return _colCtx||colecaoAtivaId()}
+function colecaoAtiva(){const id=colecaoCtxId();return db.collections.find(c=>c.id===id)||db.collections[0]}
 function setColecaoAtiva(id){try{localStorage.setItem(LS_COL,id)}catch(e){}
   ST.cronograma.sel=null;ST.cronograma.foco=null}
 // Processos da coleção ativa — base de TODO o cálculo do cronograma.
-function procsCol(){const id=colecaoAtivaId();return (db.macro_processes||[]).filter(p=>p.collection_id===id)}
+function procsCol(){const id=colecaoCtxId();return (db.macro_processes||[]).filter(p=>p.collection_id===id)}
 function marcosDb(){const c=colecaoAtiva();return (c&&c.marcos)||db.marcos||(window.LIEBE_SEED&&window.LIEBE_SEED.marcos)||{}}
 function seqPcp(){return marcosDb().liberacao_pcp_seq||null}
 function dataEntrega(){return marcosDb().entrega_mostruario||null}
@@ -873,6 +901,7 @@ function gerarPauta(){
    ROUTER + SHELL
    ================================================================= */
 const ROUTES={
+  '#/colecoes':{t:'Coleções',sub:'Escolha em qual coleção trabalhar',ic:'✦',fn:vColecoes},
   '#/dashboard':{t:'Painel de Indicadores',sub:'Metas, gatilhos e alertas do setor',ic:'◈',fn:vDashboard},
   '#/cronograma':{t:'Cronograma Macro',sub:'Prazo congelado x realizado, com o que cada atraso empurra',ic:'▤',fn:vCronograma},
   '#/colecao':{t:'Gestão da Coleção',sub:'Referências × fases de desenvolvimento',ic:'❀',fn:vColecao},
@@ -926,6 +955,7 @@ function seletorColecao(){
   return `<div class="col-sel">
     <label>Coleção</label>
     <select data-colsel="1">${cs.map(c=>`<option value="${c.id}" ${c.id===atual?'selected':''}>${esc(c.name)}</option>`).join('')}</select>
+    <a href="#/colecoes" class="btn btn-g btn-sm" title="ver todas as coleções">⇄ trocar</a>
     ${can('admin')?`<button class="btn btn-o btn-sm w" data-action="col-nova" title="criar uma nova coleção a partir de um modelo">＋ nova</button>`:''}
   </div>`;
 }
@@ -1032,6 +1062,64 @@ function bannerSeed(){
   return `<div class="banner w" style="margin:14px 26px 0;background:#eef4ee;border-color:#cfe0cf;color:var(--ok)">🔄 Há uma <b>&nbsp;versão mais recente da planilha&nbsp;</b> disponível. Atualizar substitui o cronograma e a coleção pelos dados do Excel — e <b>&nbsp;mantém&nbsp;</b> suas tarefas, atas e cobranças.
     <button class="btn btn-p btn-sm" data-action="seed-apply">Atualizar coleção</button>
     <button class="btn btn-g btn-sm" data-action="seed-dismiss">Agora não</button></div>`;
+}
+
+/* ---------- tela inicial: escolher a coleção ----------
+   Ponto de entrada do sistema. Cada cartão é uma coleção com o retrato do
+   cronograma dela: dá para comparar as duas lado a lado antes de entrar. */
+function vColecoes(){
+  const hoje=hojeStr(),cs=colecoesComCronograma(),atual=colecaoAtivaId();
+  const cards=cs.map(c=>{
+    const ps=db.macro_processes.filter(p=>p.collection_id===c.id);
+    const r=resumoColecao(c,ps,hoje);
+    const sit=r.pcpDesvio==null?{k:'',t:'liberação para o PCP ainda sem data'}
+      :r.pcpDesvio>0?{k:'mal',t:`liberação para o PCP com ${r.pcpDesvio} dias de atraso — prevista ${fmtBR(r.pcpPrevisto)}`}
+      :{k:'bem',t:`liberação para o PCP no prazo (${fmtBR(r.pcpPrevisto)})`};
+    return `<div class="col-card ${c.id===atual?'on':''} ${sit.k}" data-action="col-entrar" data-id="${c.id}" role="button" tabindex="0">
+      <div class="cc-top">
+        <div><div class="cc-nome">${esc(c.name)}</div>
+          <div class="cc-per">${fmtBR(c.start_date)} → entrega ${fmtBR((c.marcos||{}).entrega_mostruario||c.end_date)}</div></div>
+        ${c.id===atual?'<span class="badge b-rose">em uso</span>':''}
+      </div>
+      <div class="cc-barra"><div class="f" style="width:${r.pct}%"></div></div>
+      <div class="cc-pct">${r.pct}% concluído · ${r.concluidas} de ${r.total} etapas</div>
+      <div class="cc-sit ${sit.k}">${esc(sit.t)}</div>
+      <div class="cc-tags">
+        ${r.atrasadas?`<span class="badge b-late">${r.atrasadas} em atraso</span>`:'<span class="badge b-ok">sem atraso</span>'}
+        ${r.semData?`<span class="badge b-warn">${r.semData} sem data</span>`:''}
+        ${r.semDono?`<span class="badge b-warn">${r.semDono} sem dono</span>`:''}
+      </div>
+      <div class="cc-acao"><span class="btn btn-p btn-sm">entrar na coleção →</span></div>
+    </div>`}).join('');
+  const nova=can('admin')?`<div class="col-card nova w" data-action="col-nova" role="button" tabindex="0">
+      <div class="cc-mais">＋</div>
+      <div class="cc-nome">Nova coleção</div>
+      <div class="cc-per">Copia as etapas, os macro temas e as dependências de uma coleção que já roda. As datas você define na reunião de planejamento.</div>
+    </div>`:'';
+  return `<div class="col-hero">
+      <h2>Em qual coleção você vai trabalhar?</h2>
+      <p>Cada coleção tem cronograma, donos e indicadores próprios — nada de uma interfere na outra. Clique para entrar.</p>
+    </div>
+    <div class="col-grid">${cards||'<div class="empty">Nenhuma coleção com cronograma ainda.</div>'}${nova}</div>`;
+}
+// Retrato de uma coleção, com a MESMA projeção usada na tela do cronograma:
+// olhar só a data congelada do PCP diria "no prazo" mesmo com a cadeia empurrando.
+function resumoColecao(c,ps,hoje){
+  const total=ps.length;
+  const concluidas=ps.filter(p=>p.fim_real||p.completed_at).length;
+  const atrasadas=ps.filter(p=>!(p.fim_real||p.completed_at)&&p.end_date&&p.end_date<hoje).length;
+  const semData=ps.filter(p=>!p.start_date&&!p.end_date).length;
+  const semDono=ps.filter(p=>!p.responsavel_user_id&&!(p.fim_real||p.completed_at)).length;
+  const pct=total?Math.round(concluidas/total*100):0;
+  const sp=(c.marcos||{}).liberacao_pcp_seq;
+  let pcpDesvio=null,pcpPrevisto=null;
+  if(sp)comColecao(c.id,()=>{
+    const proj=projetarCronograma(hoje),pcp=ps.find(p=>p.seq===sp);
+    if(pcp&&pcp.end_date&&proj[sp]&&proj[sp].fim){
+      pcpPrevisto=proj[sp].fim;pcpDesvio=diffDias(pcp.end_date,proj[sp].fim);
+    }
+  });
+  return{total,concluidas,atrasadas,semData,semDono,pct,pcpDesvio,pcpPrevisto};
 }
 
 /* ---------------------------- CRONOGRAMA ---------------------------- */
@@ -1590,6 +1678,11 @@ function vManual(){
         <h3><span class="nicon">✦</span> 6. Criar e sustentar uma coleção</h3>
         <div class="lead">Cada coleção é um cronograma separado. Trocar de coleção no seletor lá em cima muda o Painel e o Cronograma inteiros — nada de uma coleção se mistura com a outra.</div>
 
+        <h4>A tela inicial: escolher a coleção</h4>
+        <p>Ao entrar na plataforma, a primeira tela é <b>Coleções</b>. Cada cartão é uma coleção, com o retrato do cronograma dela: quanto já andou, quantas etapas estão em atraso, quantas estão sem data ou sem dono, e — o mais importante — como está a <b>liberação para o PCP</b>.</p>
+        <p>Clique no cartão para entrar. Dali em diante, o Painel e o Cronograma mostram só aquela coleção. Para trocar, use o botão <b>⇄ trocar</b> no topo ou volte em <b>Coleções</b> no menu da esquerda.</p>
+        <p style="font-size:12px;color:var(--muted)">O número no cartão é o mesmo do cronograma: ele já considera o efeito dos atrasos anteriores empurrando a cadeia, não só a data combinada.</p>
+
         <h4>O que é separado e o que é compartilhado</h4>
         <div class="man-leg">
           <div><b>Separado por coleção:</b> as etapas, as datas, os donos, as promessas, os motivos de atraso e todos os indicadores. A INVERNO pode estar atrasada sem contaminar a VERÃO.</div>
@@ -1598,7 +1691,7 @@ function vManual(){
 
         <h4>Passo a passo para criar</h4>
         <div class="steps">
-          <div class="step"><div class="st-t">1. Clique em "＋ nova" ao lado do nome da coleção</div><div class="st-d">Fica no topo da tela, no Painel ou no Cronograma. Só o perfil admin vê esse botão.</div></div>
+          <div class="step"><div class="st-t">1. Na tela <b>Coleções</b>, clique no cartão "Nova coleção"</div><div class="st-d">Ou use o botão "＋ nova" no topo do Painel e do Cronograma. Só o perfil admin vê essa opção.</div></div>
           <div class="step"><div class="st-t">2. Dê o nome e as duas datas mestras</div><div class="st-d">Nome como a empresa chama (ex.: "INVERNO 28"), a data em que a coleção começa e a data em que o mostruário precisa estar pronto. Se a coleção já existir por causa das referências, o sistema aproveita ela em vez de criar uma repetida.</div></div>
           <div class="step"><div class="st-t">3. Escolha de qual coleção copiar as etapas</div><div class="st-d">Use a coleção mais parecida e mais bem ajustada. Vêm junto: a lista de etapas, o macro tema de cada uma e a cadeia de quem depende de quem. Todo o ajuste que vocês já fizeram continua valendo.</div></div>
           <div class="step"><div class="st-t">4. Clique em "Criar coleção"</div><div class="st-d">Pronto. A nova coleção já fica selecionada, com as etapas no lugar e <b>sem datas</b>.</div></div>
@@ -2069,7 +2162,8 @@ const ACTIONS={
     if(!u)return;
     if(($('#pin').value||'')!==u.pin){toast('PIN incorreto.');return}
     localStorage.setItem(LS_SESS,JSON.stringify({user_id:u.id,at:agoraIso()}));
-    location.hash='#/dashboard';render();
+    // a porta de entrada é escolher a coleção; com uma só, vai direto ao painel
+    location.hash=colecoesComCronograma().length>1?'#/colecoes':'#/dashboard';render();
   },
   'modal-bg':()=>closeModal(),'modal-close':()=>closeModal(),
   'tour':()=>{let h=location.hash;if(!ROUTES[h])h='#/dashboard';startTour(h)},
@@ -2104,6 +2198,8 @@ const ACTIONS={
   'cr-nav':d=>{const c=ST.cronograma,passo=NIVEL_PASSO[c.zoom||'mes']*Number(d.d);
     c.foco=addDias(c.foco||focoPadrao(),passo);render()},
   'cr-hoje':()=>{ST.cronograma.foco=hojeStr();render()},
+  'col-entrar':d=>{setColecaoAtiva(d.id);location.hash='#/dashboard';render();
+    toast('Você está na coleção '+((db.collections.find(c=>c.id===d.id)||{}).name||''))},
   'col-nova':()=>{if(!can('admin')){toast('Só o perfil admin cria coleção.');return}mColNova()},
   'col-nova-salvar':()=>{
     const nome=$('#m-cn-nome').value.trim(),ini=$('#m-cn-ini').value,fim=$('#m-cn-fim').value,mod=$('#m-cn-modelo').value;

@@ -480,7 +480,9 @@ def main():
 
     # seed_version = timestamp de modificação da planilha (muda a cada nova versão
     # do .xlsx). O app compara com o que está salvo e oferece atualizar a coleção.
-    seed_version = int(os.path.getmtime(caminho))
+    # Considera TODAS as planilhas: se só olhasse a principal, acrescentar uma
+    # coleção nova não avisaria ninguém que já tinha aplicado a versão anterior.
+    seed_version = max(int(os.path.getmtime(c)) for c in [caminho] + extras)
     seed = {
         "schema_version": 1,
         "seed_version": seed_version,

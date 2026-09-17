@@ -36,6 +36,8 @@ Sem Node, sem npm, **sem etapa de build**. Deploy: `git push` na branch `main` �
 - **`seed_version`** (timestamp do .xlsx) dispara a faixa "atualizar coleção". `applyNewSeed()` troca o catálogo (users, collections, phases, deadlines, processos, referências) e **preserva** o trabalho operacional (tarefas, atas, KPIs, cancelamentos via `reference_log`, e o realizado dos processos via `guardarRealizado`/`reaplicarRealizado`). Preserve esse contrato.
 
 ## Multi-coleção (cada cronograma é uma ilha)
+- **Porta de entrada é `#/colecoes`** (`vColecoes`): cartão por coleção com o retrato real. `resumoColecao()` usa `comColecao(id, fn)` para rodar o motor sobre outra coleção **sem trocar a ativa** — olhar só a data congelada do marco diria "no prazo" mesmo com a cadeia empurrando.
+- **`seed_version` = maior mtime entre TODAS as planilhas** (principal + `--colecao`). Se olhasse só a principal, acrescentar uma coleção não avisaria quem já aplicou a versão anterior — foi exatamente o que aconteceu no primeiro deploy multi-coleção.
 - **Toda leitura de cronograma passa por `procsCol()`**, nunca por `db.macro_processes` direto. Escrever `db.macro_processes` numa view ou no motor faz uma coleção contaminar a outra — foi exatamente o bug que a separação corrigiu.
 - Coleção ativa em `localStorage[LS_COL]`, resolvida por `colecaoAtivaId()`; `colecoesComCronograma()` lista só as que têm etapas (as demais existem por causa das referências).
 - **Marcos vivem na coleção** (`collection.marcos = {entrega_mostruario, liberacao_pcp_seq}`); `db.marcos` global é legado/fallback.
