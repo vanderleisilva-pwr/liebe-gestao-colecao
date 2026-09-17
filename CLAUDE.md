@@ -35,6 +35,14 @@ Sem Node, sem npm, **sem etapa de build**. Deploy: `git push` na branch `main` �
 - **Migrações de schema**: acrescente uma função ao array `MIGRATIONS`; `migrate()` cuida do incremento de `schema_version`. Mesmo padrão que irá para o Postgres na fase 2 — mantenha as migrações idempotentes.
 - **`seed_version`** (timestamp do .xlsx) dispara a faixa "atualizar coleção". `applyNewSeed()` troca o catálogo (users, collections, phases, deadlines, processos, referências) e **preserva** o trabalho operacional (tarefas, atas, KPIs, cancelamentos via `reference_log`, e o realizado dos processos via `guardarRealizado`/`reaplicarRealizado`). Preserve esse contrato.
 
+## Multi-coleção (cada cronograma é uma ilha)
+- **Toda leitura de cronograma passa por `procsCol()`**, nunca por `db.macro_processes` direto. Escrever `db.macro_processes` numa view ou no motor faz uma coleção contaminar a outra — foi exatamente o bug que a separação corrigiu.
+- Coleção ativa em `localStorage[LS_COL]`, resolvida por `colecaoAtivaId()`; `colecoesComCronograma()` lista só as que têm etapas (as demais existem por causa das referências).
+- **Marcos vivem na coleção** (`collection.marcos = {entrega_mostruario, liberacao_pcp_seq}`); `db.marcos` global é legado/fallback.
+- `guardarRealizado`/`reaplicarRealizado` usam a chave `collection_id|seq` — só `seq` misturaria coleções.
+- **Predecessores são por `seq` dentro da coleção.** Ao importar ou copiar, traduza os `seq` (ver `mapa_seq` no gerador e `criarColecao()` no app); nunca copie predecessor cru entre coleções com numeração diferente.
+- Criar coleção (`criarColecao`) copia catálogo, macro tema e predecessores, e **deixa as datas em aberto de propósito**: prazo é decisão da reunião de planejamento. Se já existe coleção com o nome mas sem cronograma (veio das referências), o cronograma é anexado a ela em vez de duplicar.
+
 ## Cronograma: linha de base x realizado (o coração da v2)
 Definido com o cliente na reunião de 02/09 (Anna + Cairo). Não quebre estas regras:
 - **`start_date`/`end_date` são a LINHA DE BASE CONGELADA** — a memória do que foi combinado. A tela **nunca** os reescreve; renegociação de prazo entra pela planilha. O que a plataforma grava é `inicio_real`/`fim_real`.

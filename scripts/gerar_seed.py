@@ -155,9 +155,121 @@ CRIACAO_DESENVOLVIMENTO = {4, 6, 7, 9, 24}
 FASES_CONTINUADO = {"cadastro_de_cores_continuados", "liberacao_para_pcp",
                     "producao_de_peca_para_catalogo"}
 
+# ---------------------------------------------------------------- coleções adicionais
+# Planilha de cronograma "simples": Processo | DATA INICIAL | DATA FINAL | INICIO | FINAL
+# (as duas primeiras datas são a linha de base congelada; as duas últimas, o realizado).
+# Ela NÃO traz macro tema nem predecessor — esses são herdados do catálogo da coleção
+# modelo, casando pelo nome do processo. É assim que a governança atravessa coleções
+# sem que os dados se misturem: cada coleção tem suas próprias etapas e datas.
+def ler_colecao_extra(caminho, catalogo, seq_pcp_modelo):
+    wb = openpyxl.load_workbook(caminho, data_only=True)
+    ws = wb[wb.sheetnames[0]]
+
+    lin_cab = achar_linha(ws, 1, "Processo")
+    if lin_cab is None:
+        raise SystemExit(f"{caminho}: cabeçalho 'Processo' não encontrado na coluna A.")
+    cols = mapa_colunas(ws, lin_cab)
+
+    def c(*nomes):
+        for n in nomes:
+            if n in cols:
+                return cols[n]
+        return None
+
+    C_NOME = c("processo")
+    C_INI, C_FIM = c("data inicial", "inicio previsto"), c("data final", "fim previsto")
+    C_RINI, C_RFIM = c("inicio"), c("final")
+
+    nome_colecao = str(ws.cell(1, 1).value or "").strip()
+    nome_colecao = re.sub(r"^CRONOGRAMA\s+(PRODUTO\s*-\s*)?", "", nome_colecao, flags=re.I).strip() or "NOVA COLEÇÃO"
+    cid = "col-" + slug(nome_colecao)
+
+    # catálogo por nome normalizado, para herdar macro tema / predecessores / equipe
+    por_nome = {norm(p["name"]): p for p in catalogo}
+    usados, linhas = set(), []
+    for row in ws.iter_rows(min_row=lin_cab + 1, max_row=ws.max_row):
+        nome = row[C_NOME].value if C_NOME is not None and C_NOME < len(row) else None
+        if not nome:
+            continue
+        nome = str(nome).strip()
+        ini, fim = iso(row[C_INI].value) if C_INI is not None else None, iso(row[C_FIM].value) if C_FIM is not None else None
+        if not ini and not fim:
+            continue  # linhas de anotação no rodapé da planilha
+        modelo = por_nome.get(norm(nome))
+        if modelo is None:
+            prox = get_close_matches(norm(nome), list(por_nome), n=1, cutoff=0.72)
+            modelo = por_nome[prox[0]] if prox else None
+        if modelo is not None:
+            usados.add(modelo["seq"])
+        linhas.append({
+            "name": nome,
+            "start_date": ini,
+            "end_date": fim,
+            "inicio_real": iso(row[C_RINI].value) if C_RINI is not None and C_RINI < len(row) else None,
+            "fim_real": iso(row[C_RFIM].value) if C_RFIM is not None and C_RFIM < len(row) else None,
+            "modelo": modelo,
+        })
+
+    # Etapas do catálogo que NÃO vieram na planilha entram assim mesmo, com datas em
+    # aberto: o time preenche na plataforma. Sem elas a cadeia de dependências quebra.
+    faltantes = [p for p in catalogo if p["seq"] not in usados]
+
+    # ordena pelo seq do modelo; o que é novo vai para o fim, preservando a ordem da planilha
+    com_modelo = [l for l in linhas if l["modelo"]]
+    sem_modelo = [l for l in linhas if not l["modelo"]]
+    com_modelo.sort(key=lambda l: l["modelo"]["seq"])
+
+    procs, seq = [], 0
+    mapa_seq = {}  # seq no modelo -> seq nesta coleção (para reescrever os predecessores)
+
+    def add(nome, ini, fim, rini, rfim, modelo):
+        nonlocal seq
+        seq += 1
+        if modelo:
+            mapa_seq[modelo["seq"]] = seq
+        procs.append({
+            "id": f"{cid}-proc-{seq:02d}", "collection_id": cid, "seq": seq, "name": nome,
+            "owner_team": (modelo or {}).get("owner_team"),
+            "responsavel_user_id": None, "motivo_atraso": None, "promessas": [],
+            "macro_tema": (modelo or {}).get("macro_tema"),
+            "predecessores": [],  # preenchido no segundo passe, já com os seq desta coleção
+            "_pred_modelo": (modelo or {}).get("predecessores", []),
+            "start_date": ini, "end_date": fim,
+            "inicio_real": rini, "fim_real": rfim, "completed_at": rfim,
+            "percent_complete": 100 if rfim else 0,
+            "observacoes": None if modelo else "Etapa nova nesta coleção — sem equivalente no catálogo.",
+            "created_at": HOJE, "created_by": SEED_BY,
+        })
+
+    for l in com_modelo:
+        add(l["name"], l["start_date"], l["end_date"], l["inicio_real"], l["fim_real"], l["modelo"])
+    for p in faltantes:
+        add(p["name"], None, None, None, None, p)   # datas em aberto, para preencher
+    for l in sem_modelo:
+        add(l["name"], l["start_date"], l["end_date"], l["inicio_real"], l["fim_real"], None)
+
+    # segundo passe: traduz os predecessores do catálogo para os seq desta coleção
+    for p in procs:
+        p["predecessores"] = [mapa_seq[s] for s in p.pop("_pred_modelo") if s in mapa_seq]
+
+    datas = sorted(d for p in procs for d in (p["start_date"], p["end_date"]) if d)
+    colecao = {
+        "id": cid, "name": nome_colecao, "status": "em_andamento",
+        "start_date": datas[0] if datas else None,
+        "end_date": datas[-1] if datas else None,
+        "marcos": {
+            "entrega_mostruario": datas[-1] if datas else None,
+            "liberacao_pcp_seq": mapa_seq.get(seq_pcp_modelo),
+        },
+    }
+    return colecao, procs, len(faltantes), len(sem_modelo)
+
 
 def main():
-    caminho = sys.argv[1] if len(sys.argv) > 1 else XLSX_PADRAO
+    args = sys.argv[1:]
+    caminho = args[0] if args else XLSX_PADRAO
+    # planilhas de coleções adicionais (só cronograma): --colecao "caminho.xlsx"
+    extras = [args[i + 1] for i, a in enumerate(args) if a == "--colecao" and i + 1 < len(args)]
     wb = openpyxl.load_workbook(caminho, data_only=True)
 
     users = [
@@ -342,6 +454,9 @@ def main():
         "status": "em_andamento",
         "start_date": inicio_colecao,     # INICIO NOVA COLEÇÃO (CRONOGRAMA.V2)
         "end_date": entrega_mostruario,   # ENTREGA MOSTRUÁRIO (CRONOGRAMA.V2)
+        # marcos por coleção: cada cronograma tem os seus
+        "marcos": {**marcos, "entrega_mostruario": entrega_mostruario,
+                   "liberacao_pcp_seq": seq_pcp} if cid == col_id["INVERNO_ALTO_27"] else {},
     } for nome, cid in colecoes_vistas.items()]
     # garante a coleção principal mesmo sem refs
     if not any(c["id"] == col_id["INVERNO_ALTO_27"] for c in collections):
@@ -349,7 +464,19 @@ def main():
             "id": col_id["INVERNO_ALTO_27"], "name": "INVERNO & ALTO 27",
             "status": "em_andamento",
             "start_date": inicio_colecao, "end_date": entrega_mostruario,
+            "marcos": {**marcos, "entrega_mostruario": entrega_mostruario,
+                       "liberacao_pcp_seq": seq_pcp},
         })
+
+    # ---------------------------------------------------------- coleções adicionais
+    # Cada uma entra 100% separada: etapas, datas, marcos e governança próprios.
+    macro_extra, resumo_extra = [], []
+    for cx in extras:
+        col_x, procs_x, n_falt, n_novos = ler_colecao_extra(cx, macro, seq_pcp)
+        collections = [c for c in collections if c["id"] != col_x["id"]] + [col_x]
+        macro_extra += procs_x
+        resumo_extra.append((col_x["name"], len(procs_x), n_falt, n_novos))
+    macro = macro + macro_extra
 
     # seed_version = timestamp de modificação da planilha (muda a cada nova versão
     # do .xlsx). O app compara com o que está salvo e oferece atualizar a coleção.
@@ -392,6 +519,9 @@ def main():
           f"(novas={sum(1 for r in refs if r['flow_type']=='nova')}, "
           f"continuadas={sum(1 for r in refs if r['flow_type']=='continuado')})")
     print(f"  células de fase:   {len(ref_phases)}")
+    for nome_x, n_x, n_falt, n_novos in resumo_extra:
+        print(f"  + coleção {nome_x}: {n_x} etapas "
+              f"({n_falt} sem datas para preencher na plataforma, {n_novos} nova(s) nesta coleção)")
     sem_resp = [m['name'] for m in macro if not m['owner_team']]
     if sem_resp:
         print(f"  AVISO: processos sem responsável mapeado: {sem_resp}")

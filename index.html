@@ -73,6 +73,9 @@ body.nav-collapsed .burger{display:inline-flex;align-items:center;justify-conten
 .topbar h1{font-size:17px;font-weight:600}
 .topbar .sub{font-size:11.5px;color:var(--muted)}
 .topbar .sp{flex:1}
+.col-sel{display:flex;align-items:center;gap:6px}
+.col-sel label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+.col-sel select{border:1.5px solid var(--rose);border-radius:9px;padding:5px 9px;font-size:12px;font-weight:600;color:var(--rose-dark);background:var(--white);max-width:200px}
 .burger{display:none;font-size:20px;padding:2px 10px;border-radius:8px;color:var(--rose-dark)}
 .burger:hover{background:var(--blush)}
 .side-hide{position:absolute;top:14px;right:12px;width:30px;height:30px;border-radius:8px;background:var(--blush);color:var(--rose-dark);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
@@ -182,6 +185,9 @@ tr:hover td{background:#fdfcf9}
 .impacto .it .v.mal{color:var(--late)}.impacto .it .v.bem{color:var(--ok)}
 .impacto .it .m{font-size:10.5px;color:var(--muted)}
 /* --- simulação no modal --- */
+.passos{background:var(--cream);border-radius:10px;padding:10px 12px;margin:8px 0}
+.passo{font-size:12px;line-height:1.55;padding:3px 0;color:var(--ink)}
+.passo b{color:var(--rose-dark)}
 .promessa{border-radius:10px;padding:7px 11px;font-size:12px;font-weight:600;margin:8px 0}
 .promessa.cumprida{background:var(--ok-bg);color:var(--ok)}
 .promessa.quebrada{background:var(--late-bg);color:var(--late)}
@@ -378,7 +384,7 @@ function iniciais(n){return n.split(/\s+/).map(x=>x.replace(/[^\p{L}]/gu,'')).fi
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._x);toast._x=setTimeout(()=>t.classList.remove('show'),2600)}
 
 /* ---------------------------- store ---------------------------- */
-const LS_DB='liebe_db', LS_SESS='liebe_session', LS_TOUR='liebe_tour_seen', LS_EXP='liebe_last_export', LS_SEEDDISMISS='liebe_seed_dismissed', LS_NAV='liebe_nav_collapsed';
+const LS_DB='liebe_db', LS_COL='liebe_colecao', LS_SESS='liebe_session', LS_TOUR='liebe_tour_seen', LS_EXP='liebe_last_export', LS_SEEDDISMISS='liebe_seed_dismissed', LS_NAV='liebe_nav_collapsed';
 let db=null;
 /* ---------------------------- menu lateral (recolher/mostrar) ---------------------------- */
 function isMobile(){return window.matchMedia('(max-width:860px)').matches}
@@ -453,14 +459,14 @@ function applyNewSeed(){
 function guardarRealizado(){
   const m={};(db.macro_processes||[]).forEach(p=>{
     if(p.inicio_real||p.fim_real||p.responsavel_user_id||p.motivo_atraso||(p.promessas||[]).length)
-      m[p.seq]={inicio_real:p.inicio_real||null,fim_real:p.fim_real||null,completed_at:p.completed_at||null,
+      m[p.collection_id+'|'+p.seq]={inicio_real:p.inicio_real||null,fim_real:p.fim_real||null,completed_at:p.completed_at||null,
         percent_complete:p.percent_complete||0,responsavel_user_id:p.responsavel_user_id||null,
         motivo_atraso:p.motivo_atraso||null,promessas:p.promessas||[]}});
   return m;
 }
 function reaplicarRealizado(m){
   if(!m)return;
-  db.macro_processes.forEach(p=>{const r=m[p.seq];if(!r)return;
+  db.macro_processes.forEach(p=>{const r=m[p.collection_id+'|'+p.seq];if(!r)return;
     // a planilha pode ter avançado mais que a tela: fica a data mais recente conhecida
     p.inicio_real=p.inicio_real||r.inicio_real;
     if(r.fim_real&&(!p.fim_real||r.fim_real>p.fim_real))p.fim_real=r.fim_real;
@@ -508,14 +514,31 @@ function phaseApplies(ref,ph){return ph.flow_type==='ambos'||ph.flow_type===ref.
    é empurrada por outra; só quem tem predecessor herda atraso. Contagem em dias
    corridos, que é como a planilha conta ("Prazo em Dias").
    start_date/end_date = linha de base CONGELADA, nunca reescrita pela tela. */
-function marcosDb(){return db.marcos||(window.LIEBE_SEED&&window.LIEBE_SEED.marcos)||{}}
+/* Cada coleção é um cronograma próprio e independente: etapas, marcos, donos,
+   promessas e caminho crítico vivem dentro dela. Nada atravessa de uma para outra. */
+function colecoesComCronograma(){
+  const ids=new Set((db.macro_processes||[]).map(p=>p.collection_id));
+  return db.collections.filter(c=>ids.has(c.id));
+}
+function colecaoAtivaId(){
+  let id=null;try{id=localStorage.getItem(LS_COL)}catch(e){}
+  const cs=colecoesComCronograma();
+  if(id&&cs.some(c=>c.id===id))return id;
+  return cs.length?cs[0].id:(db.collections[0]||{}).id;
+}
+function colecaoAtiva(){const id=colecaoAtivaId();return db.collections.find(c=>c.id===id)||db.collections[0]}
+function setColecaoAtiva(id){try{localStorage.setItem(LS_COL,id)}catch(e){}
+  ST.cronograma.sel=null;ST.cronograma.foco=null}
+// Processos da coleção ativa — base de TODO o cálculo do cronograma.
+function procsCol(){const id=colecaoAtivaId();return (db.macro_processes||[]).filter(p=>p.collection_id===id)}
+function marcosDb(){const c=colecaoAtiva();return (c&&c.marcos)||db.marcos||(window.LIEBE_SEED&&window.LIEBE_SEED.marcos)||{}}
 function seqPcp(){return marcosDb().liberacao_pcp_seq||null}
 function dataEntrega(){return marcosDb().entrega_mostruario||null}
-function procsOrdenados(){return [...db.macro_processes].sort((a,b)=>a.seq-b.seq)}
+function procsOrdenados(){return [...procsCol()].sort((a,b)=>a.seq-b.seq)}
 function predsDe(p){return Array.isArray(p.predecessores)?p.predecessores:[]}
 function duracaoProc(p){return(p.start_date&&p.end_date)?Math.max(diffDias(p.start_date,p.end_date),0):null}
-function procPorSeq(){const m={};db.macro_processes.forEach(p=>m[p.seq]=p);return m}
-function sucessoresPorSeq(){const m={};db.macro_processes.forEach(p=>predsDe(p).forEach(s=>{(m[s]=m[s]||[]).push(p.seq)}));return m}
+function procPorSeq(){const m={};procsCol().forEach(p=>m[p.seq]=p);return m}
+function sucessoresPorSeq(){const m={};procsCol().forEach(p=>predsDe(p).forEach(s=>{(m[s]=m[s]||[]).push(p.seq)}));return m}
 function rodaEmParalelo(p){return predsDe(p).length===0}
 
 // Projeção de cada processo. `extra` = {seq: diasDeAtrasoSimulado} para a simulação.
@@ -556,7 +579,7 @@ function projetarCronograma(hoje,extra){
     }
     emCurso[seq]=0;return memo[seq]=r;
   }
-  const out={};db.macro_processes.forEach(p=>out[p.seq]=calc(p.seq));return out;
+  const out={};procsCol().forEach(p=>out[p.seq]=calc(p.seq));return out;
 }
 
 // Quem alcança um processo-marco andando pelos sucessores.
@@ -568,7 +591,7 @@ function alcancam(marcoSeq){
     memo[seq]=false; // corta ciclo
     return memo[seq]=(suc[seq]||[]).some(vai);
   }
-  db.macro_processes.forEach(p=>{if(vai(p.seq))ok[p.seq]=true});
+  procsCol().forEach(p=>{if(vai(p.seq))ok[p.seq]=true});
   return ok;
 }
 
@@ -597,7 +620,7 @@ function margemCronograma(hoje,alvo){
     return memo[seq]=r;
   }
   const out={};
-  db.macro_processes.forEach(p=>{
+  procsCol().forEach(p=>{
     const dentro=naCadeia?!!naCadeia[p.seq]:true;
     const l=dentro?tardio(p.seq):null,f=proj[p.seq].fim;
     // dentro da cadeia mas sem margem calculável = alguma etapa do caminho está sem data
@@ -614,7 +637,7 @@ function simularAtraso(seq,dias,hoje){
   const base=projetarCronograma(hoje),sim=projetarCronograma(hoje,{[seq]:dias}),bySeq=procPorSeq();
   const alvo=bySeq[seq],jaConcluida=!!(alvo&&(alvo.fim_real||alvo.completed_at));
   const afetados=[];
-  db.macro_processes.forEach(p=>{
+  procsCol().forEach(p=>{
     if(p.seq===seq)return;
     const a=base[p.seq].fim,b=sim[p.seq].fim;
     if(a&&b){const d=diffDias(a,b);if(d>0)afetados.push({seq:p.seq,name:p.name,macro_tema:p.macro_tema,dias:d,de:a,para:b})}
@@ -653,7 +676,7 @@ function panoramaCronograma(hoje){
     if(emAberto&&p.end_date&&p.end_date>=hoje&&p.end_date<=limite)vencendo.push({p,dias:diffDias(hoje,p.end_date)});
   });
   vencendo.sort((a,b)=>a.dias-b.dias);
-  const sp=seqPcp(),pp=sp?db.macro_processes.find(x=>x.seq===sp):null;
+  const sp=seqPcp(),pp=sp?procsCol().find(x=>x.seq===sp):null;
   return{proj,mg,atrasadas,semMargem,indefinidas,empurram,vencendo,
     fimGeral,entrega:dataEntrega(),
     pcp:pp?{p:pp,congelado:pp.end_date,previsto:proj[sp].fim,
@@ -685,7 +708,7 @@ function situacaoPromessa(p,hoje){
 // "O que foi prometido está sendo cumprido?" — o indicador que muda comportamento.
 function placarPromessas(hoje){
   let cumpridas=0,quebradas=0,abertas=0;
-  db.macro_processes.forEach(p=>{const s=situacaoPromessa(p,hoje);if(!s)return;
+  procsCol().forEach(p=>{const s=situacaoPromessa(p,hoje);if(!s)return;
     if(s.k==='cumprida')cumpridas++;else if(s.k==='quebrada')quebradas++;else abertas++});
   const fechadas=cumpridas+quebradas;
   return{cumpridas,quebradas,abertas,fechadas,pct:fechadas?Math.round(cumpridas/fechadas*100):null};
@@ -693,7 +716,7 @@ function placarPromessas(hoje){
 // Onde o tempo foi embora nesta coleção.
 function motivosAgregados(){
   const m={};
-  db.macro_processes.forEach(p=>{if(p.motivo_atraso)m[p.motivo_atraso]=(m[p.motivo_atraso]||0)+1});
+  procsCol().forEach(p=>{if(p.motivo_atraso)m[p.motivo_atraso]=(m[p.motivo_atraso]||0)+1});
   return Object.entries(m).sort((a,b)=>b[1]-a[1]);
 }
 function donoProc(p){return p.responsavel_user_id?ix.userById[p.responsavel_user_id]:null}
@@ -782,7 +805,7 @@ function kpis(){
   // Cumprimento do cronograma = REALIZADO vs PREVISTO (avanço esperado por hoje).
   // Ponderado pela duração de cada processo (estilo "valor agregado").
   let sumDur=0,sumPrev=0,sumReal=0;
-  db.macro_processes.forEach(p=>{
+  procsCol().forEach(p=>{
     if(!p.start_date||!p.end_date)return;
     const dur=Math.max(diffDias(p.start_date,p.end_date),1);
     const esperado=Math.min(1,Math.max(0,diffDias(p.start_date,hoje)/dur)); // 0..1 por hoje
@@ -813,7 +836,7 @@ function kpis(){
   const pcp=pan.pcp&&pan.pcp.desvio!=null?{v:pan.pcp.desvio,congelado:pan.pcp.congelado,previsto:pan.pcp.previsto}:null;
   const semMargem={v:pan.semMargem,indefinidas:pan.indefinidas};
   const promessa=placarPromessas(hoje);
-  const semDono=db.macro_processes.filter(p=>!p.responsavel_user_id&&!(p.fim_real||p.completed_at)).length;
+  const semDono=procsCol().filter(p=>!p.responsavel_user_id&&!(p.fim_real||p.completed_at)).length;
   const entrega=pan.entrega?{alvo:pan.entrega,previsto:pan.fimGeral,
     desvio:pan.fimGeral?diffDias(pan.entrega,pan.fimGeral):null,incompleta:pan.indefinidas>0}:null;
   return{macro,piloto,atas,rnc:manual('rnc'),otif:manual('otif_mp'),pcp,semMargem,entrega,promessa,semDono,motivos:motivosAgregados(),hoje};
@@ -827,7 +850,7 @@ function kpiClass(val,meta,alerta,inverso){
 /* ---------------------------- pauta automática ---------------------------- */
 function gerarPauta(){
   const hoje=hojeStr();
-  const atras=db.macro_processes.map(p=>({p,s:statusProcesso(p,hoje)})).filter(x=>x.s.k==='late')
+  const atras=procsCol().map(p=>({p,s:statusProcesso(p,hoje)})).filter(x=>x.s.k==='late')
     .sort((a,b)=>b.s.days-a.s.days);
   const cont=contadoresFase(db.references,hoje);
   const fasesCrit=db.phases.map(ph=>({ph,c:cont[ph.id]})).filter(x=>x.c.late>0).sort((a,b)=>b.c.late-a.c.late);
@@ -883,6 +906,7 @@ function render(){
         <button class="burger" data-action="burger" title="Mostrar/ocultar menu" aria-label="Mostrar ou ocultar menu">☰</button>
         <div><h1>${r.t}</h1><div class="sub">${r.sub}</div></div>
         <div class="sp"></div>
+        ${['#/dashboard','#/cronograma'].includes(h)?seletorColecao():''}
         ${h==='#/manual'?'':`<button class="btn btn-g btn-sm" data-action="tour">✦ Tour guiado</button>`}
         <a href="#/manual" class="btn btn-g btn-sm" ${h==='#/manual'?'style="display:none"':''}>📖 Manual</a>
         <button class="btn btn-g btn-sm" data-action="menu-dados">⛃ Dados</button>
@@ -893,6 +917,17 @@ function render(){
   </div>`;
   applyNav();
   autoTour(h);
+}
+/* Cada coleção é um cronograma separado. Trocar aqui troca Painel e Cronograma. */
+function seletorColecao(){
+  const cs=colecoesComCronograma(),atual=colecaoAtivaId();
+  if(!cs.length)return'';
+  if(cs.length<2&&!can('admin'))return `<span class="badge b-rose" style="align-self:center">${esc(cs[0].name)}</span>`;
+  return `<div class="col-sel">
+    <label>Coleção</label>
+    <select data-colsel="1">${cs.map(c=>`<option value="${c.id}" ${c.id===atual?'selected':''}>${esc(c.name)}</option>`).join('')}</select>
+    ${can('admin')?`<button class="btn btn-o btn-sm w" data-action="col-nova" title="criar uma nova coleção a partir de um modelo">＋ nova</button>`:''}
+  </div>`;
 }
 
 /* =================================================================
@@ -919,10 +954,10 @@ function vLogin(){
 /* ---------------------------- DASHBOARD ---------------------------- */
 function vDashboard(){
   const k=kpis(),hoje=k.hoje;
-  const col=db.collections.find(c=>c.id==='col-inverno-alto-27')||db.collections[0];
+  const col=colecaoAtiva();
   const diasEntrega=col&&col.end_date?diffDias(hoje,col.end_date):null;
-  const pctGeral=Math.round(db.macro_processes.reduce((s,p)=>s+(p.percent_complete||0),0)/(db.macro_processes.length||1));
-  const atras=db.macro_processes.map(p=>({p,s:statusProcesso(p,hoje)})).filter(x=>x.s.k==='late').sort((a,b)=>b.s.days-a.s.days);
+  const pctGeral=Math.round(procsCol().reduce((s,p)=>s+(p.percent_complete||0),0)/(procsCol().length||1));
+  const atras=procsCol().map(p=>({p,s:statusProcesso(p,hoje)})).filter(x=>x.s.k==='late').sort((a,b)=>b.s.days-a.s.days);
   const cont=contadoresFase(db.references,hoje);
   const fasesCrit=db.phases.map(ph=>({ph,c:cont[ph.id]})).filter(x=>x.c.late>0).sort((a,b)=>b.c.late-a.c.late);
   const tVenc=db.tasks.filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
@@ -1093,7 +1128,7 @@ function faixaImpacto(pan,hoje){
 /* --- zoom da linha do tempo: mês (coleção inteira) → semana → dia ---
    "Aproximar" desce um nível e "afastar" sobe. Clicar numa etapa já aproxima nela. */
 function focoPadrao(){
-  const hoje=hojeStr(),ds=db.macro_processes.flatMap(p=>[p.start_date,p.end_date]).filter(Boolean).sort();
+  const hoje=hojeStr(),ds=procsCol().flatMap(p=>[p.start_date,p.end_date]).filter(Boolean).sort();
   if(!ds.length)return hoje;
   return hoje<ds[0]?ds[0]:(hoje>ds[ds.length-1]?ds[ds.length-1]:hoje);
 }
@@ -1356,19 +1391,20 @@ function vRituais(){
 
 /* ---------------------------- MANUAL DE USO ---------------------------- */
 function vManual(){
-  const col=db.collections.find(c=>c.id==='col-inverno-alto-27')||db.collections[0];
-  const nRef=db.references.length,nProc=db.macro_processes.length,nFase=db.phases.length;
+  const col=colecaoAtiva();
+  const nRef=db.references.length,nProc=procsCol().length,nFase=db.phases.length;
   const toc=[
     ['s-inicio','1. Primeiros passos'],
     ['s-rotina','2. A rotina da Joice'],
     ['s-painel','3. Painel de Indicadores'],
     ['s-cronograma','4. Cronograma Macro'],
     ['s-praticas','5. Fazer o cronograma andar no prazo'],
-    ['s-colecao','6. Gestão da Coleção'],
-    ['s-tarefas','7. Quadro de Tarefas'],
-    ['s-rituais','8. Rituais & Atas'],
-    ['s-dados','9. Dados & Backup'],
-    ['s-faq','10. Perguntas frequentes'],
+    ['s-nova-colecao','6. Criar e sustentar uma coleção'],
+    ['s-colecao','7. Gestão da Coleção'],
+    ['s-tarefas','8. Quadro de Tarefas'],
+    ['s-rituais','9. Rituais & Atas'],
+    ['s-dados','10. Dados & Backup'],
+    ['s-faq','11. Perguntas frequentes'],
   ];
   return `
   <div class="man-hero">
@@ -1550,8 +1586,49 @@ function vManual(){
         <p>Anote as conclusões na ata do último ritual da coleção. É esse documento que faz a próxima coleção começar melhor que esta.</p>
       </section>
 
+      <section class="man-sec" id="s-nova-colecao">
+        <h3><span class="nicon">✦</span> 6. Criar e sustentar uma coleção</h3>
+        <div class="lead">Cada coleção é um cronograma separado. Trocar de coleção no seletor lá em cima muda o Painel e o Cronograma inteiros — nada de uma coleção se mistura com a outra.</div>
+
+        <h4>O que é separado e o que é compartilhado</h4>
+        <div class="man-leg">
+          <div><b>Separado por coleção:</b> as etapas, as datas, os donos, as promessas, os motivos de atraso e todos os indicadores. A INVERNO pode estar atrasada sem contaminar a VERÃO.</div>
+          <div><b>Compartilhado:</b> as pessoas, os rituais, o quadro de tarefas e a grade de referências. São do setor, não de uma coleção.</div>
+        </div>
+
+        <h4>Passo a passo para criar</h4>
+        <div class="steps">
+          <div class="step"><div class="st-t">1. Clique em "＋ nova" ao lado do nome da coleção</div><div class="st-d">Fica no topo da tela, no Painel ou no Cronograma. Só o perfil admin vê esse botão.</div></div>
+          <div class="step"><div class="st-t">2. Dê o nome e as duas datas mestras</div><div class="st-d">Nome como a empresa chama (ex.: "INVERNO 28"), a data em que a coleção começa e a data em que o mostruário precisa estar pronto. Se a coleção já existir por causa das referências, o sistema aproveita ela em vez de criar uma repetida.</div></div>
+          <div class="step"><div class="st-t">3. Escolha de qual coleção copiar as etapas</div><div class="st-d">Use a coleção mais parecida e mais bem ajustada. Vêm junto: a lista de etapas, o macro tema de cada uma e a cadeia de quem depende de quem. Todo o ajuste que vocês já fizeram continua valendo.</div></div>
+          <div class="step"><div class="st-t">4. Clique em "Criar coleção"</div><div class="st-d">Pronto. A nova coleção já fica selecionada, com as etapas no lugar e <b>sem datas</b>.</div></div>
+        </div>
+        <p><b>Por que nasce sem datas?</b> Porque prazo é decisão de reunião, não de sistema. Copiar as datas da coleção anterior seria repetir os mesmos atrasos. As datas que vocês definirem viram a <b>linha de base congelada</b> — e é contra ela que todo o resto vai ser medido o ano inteiro.</p>
+
+        <h4>Os quatro passos que sustentam a coleção depois de criada</h4>
+        <p>Criar é o fácil. O que faz a coleção andar é o que vem agora — e é o que faltou nas coleções passadas:</p>
+        <div class="steps">
+          <div class="step"><div class="st-t">1. Reunião de planejamento: defina o prazo de cada etapa</div><div class="st-d">Com o time todo junto, de trás para frente: a partir da entrega do mostruário, quanto tempo cada etapa precisa. Não esqueça o prazo dos fornecedores — foi o que derrubou o mostruário da última vez.</div></div>
+          <div class="step"><div class="st-t">2. Confirme quem depende de quem</div><div class="st-d">Os predecessores vieram copiados, mas cada coleção tem suas particularidades. Abra as etapas e confira: se mudar alguma dependência, todo o cálculo de impacto muda junto.</div></div>
+          <div class="step"><div class="st-t">3. Dê um dono a cada etapa</div><div class="st-d">Uma pessoa, não um setor. O filtro <b>Situação → Sem dono</b> mostra o que ainda falta atribuir.</div></div>
+          <div class="step"><div class="st-t">4. Confirme a data que não pode furar</div><div class="st-d">Normalmente é a <b>liberação da coleção para o PCP</b>, porque ela está amarrada ao prazo de compra da matéria-prima. É contra ela que o sistema calcula a margem de manobra de todas as outras.</div></div>
+        </div>
+
+        <h4>Quando uma etapa fica sem data</h4>
+        <p>Etapa sem data aparece tracejada na linha do tempo e com "sem data definida" na lista — e o sistema avisa que não consegue prever o que vem depois dela. Isso é proposital: melhor dizer "não sei" do que mostrar uma data bonita e falsa.</p>
+        <p>É comum acontecer quando uma coleção é importada de uma planilha que não trazia todas as etapas. Elas entram assim mesmo, com data em aberto, para vocês preencherem — porque sem elas a cadeia se rompe no meio e a previsão da entrega para de funcionar.</p>
+
+        <h4>Rodando duas coleções ao mesmo tempo</h4>
+        <p>É o normal do setor: uma coleção fechando enquanto a outra começa. Na prática:</p>
+        <div class="man-leg">
+          <div>No ritual semanal, passe pelas duas — troque no seletor e olhe a faixa do topo de cada uma. Leva 5 minutos a mais e evita que a coleção "do futuro" seja descoberta atrasada.</div>
+          <div>A coleção que está fechando costuma ter mais atraso; a que está começando é onde ainda dá para planejar bem. Preste mais atenção na que começa — é lá que o próximo mostruário se decide.</div>
+          <div>Quando uma coleção termina, faça o retrospecto (seção anterior) antes de criar a próxima. As conclusões dele são exatamente o que deve mudar nos prazos da coleção nova.</div>
+        </div>
+      </section>
+
       <section class="man-sec" id="s-colecao">
-        <h3><span class="nicon">❀</span> 6. Gestão da Coleção</h3>
+        <h3><span class="nicon">❀</span> 7. Gestão da Coleção</h3>
         <div class="lead">O coração do sistema: a grade de ${nRef} referências (linhas) × ${nFase} fases (colunas).</div>
         <p>Cada linha é uma peça/referência; cada coluna é uma fase do desenvolvimento (Desenho, Modelagem, Pilotagem… até Produção de Catálogo). O cabeçalho de cada fase mostra a <b>data-limite</b> e os contadores: <b>✓ no prazo</b>, <b>! em atraso</b> e <b>… pendentes</b>.</p>
         <h4>O que cada cor da célula significa</h4>
@@ -1578,7 +1655,7 @@ function vManual(){
       </section>
 
       <section class="man-sec" id="s-tarefas">
-        <h3><span class="nicon">☰</span> 7. Quadro de Tarefas</h3>
+        <h3><span class="nicon">☰</span> 8. Quadro de Tarefas</h3>
         <div class="lead">O quadro que substitui o caderno: toda demanda vira um cartão com dono e prazo.</div>
         <p>São três colunas: <b>Pendente → Em andamento → Concluída</b>. Cartões com borda rosé estão com o prazo vencido.</p>
         <div class="steps">
@@ -1590,7 +1667,7 @@ function vManual(){
       </section>
 
       <section class="man-sec" id="s-rituais">
-        <h3><span class="nicon">✎</span> 8. Rituais &amp; Atas</h3>
+        <h3><span class="nicon">✎</span> 9. Rituais &amp; Atas</h3>
         <div class="lead">As reuniões do setor, com pauta automática e atas em 24h.</div>
         <p>No topo ficam os 4 rituais oficiais. Para registrar uma reunião:</p>
         <div class="steps">
@@ -1604,7 +1681,7 @@ function vManual(){
       </section>
 
       <section class="man-sec" id="s-dados">
-        <h3><span class="nicon">⛃</span> 9. Dados & Backup</h3>
+        <h3><span class="nicon">⛃</span> 10. Dados & Backup</h3>
         <div class="lead">Importante até a plataforma migrar para a nuvem (próxima fase do projeto).</div>
         <p>Por enquanto, os dados ficam salvos <b>neste navegador, neste computador</b>. Por isso a <b>máquina da Joice é a fonte oficial da verdade</b>. No botão <b>⛃ Dados</b> no topo você pode:</p>
         <ul>
@@ -1617,7 +1694,7 @@ function vManual(){
       </section>
 
       <section class="man-sec" id="s-faq">
-        <h3><span class="nicon">❓</span> 10. Perguntas frequentes</h3>
+        <h3><span class="nicon">❓</span> 11. Perguntas frequentes</h3>
         <div class="faq"><div class="q">Uma fase teve 2 ou 3 tentativas (ex.: 1ª, 2ª, 3ª modelagem). Como registro?</div><div class="a">Clique na célula da fase: cada ocorrência é uma linha com data e observação. Use <b>＋ adicionar evento</b> para incluir a 2ª, 3ª… A célula mostra a data mais recente e um contador (ex.: <b>3×</b>); passando o mouse, você vê todas as datas.</div></div>
         <div class="faq"><div class="q">Errei uma data numa célula. Como corrijo?</div><div class="a">Clique na célula de novo e ajuste a data do evento, remova um evento pelo ✕, ou use "Limpar tudo" para zerar a célula.</div></div>
         <div class="faq"><div class="q">Por que algumas fases mostram "pendente" e não "em atraso"?</div><div class="a">Porque ainda não têm data-limite definida. O perfil de administração define o limite clicando no selo "sem limite" no cabeçalho da coluna.</div></div>
@@ -1733,8 +1810,8 @@ function mPilotoDetalhe(){
 function mProc(id){
   const p=db.macro_processes.find(x=>x.id===id),hoje=hojeStr();
   const pan=panoramaCronograma(hoje),st=situacaoProc(p,pan.proj,pan.mg);
-  const preds=predsDe(p).map(n=>{const q=db.macro_processes.find(x=>x.seq===n);return q?`${n}. ${q.name}`:`${n}`});
-  const sucs=(sucessoresPorSeq()[p.seq]||[]).map(n=>{const q=db.macro_processes.find(x=>x.seq===n);return q?`${n}. ${q.name}`:`${n}`});
+  const preds=predsDe(p).map(n=>{const q=procsCol().find(x=>x.seq===n);return q?`${n}. ${q.name}`:`${n}`});
+  const sucs=(sucessoresPorSeq()[p.seq]||[]).map(n=>{const q=procsCol().find(x=>x.seq===n);return q?`${n}. ${q.name}`:`${n}`});
   const dep=st.paralelo
     ? '<b>Roda em paralelo</b> — não depende de nenhuma outra etapa, então nenhum atraso de fora empurra esta.'
     : 'Só começa depois de: '+preds.map(esc).join(' · ');
@@ -1863,6 +1940,75 @@ function mRitOpen(id){
      ${r.minutes_published_at?'':`<button class="btn btn-p w" data-action="rit-publish" data-id="${id}">Publicar ata</button>`}
    </div>`);
 }
+/* ---------- assistente de nova coleção ----------
+   Criar coleção é ato de governança, não cadastro: a nova nasce herdando o
+   catálogo de etapas, os macro temas e a cadeia de predecessores de uma coleção
+   que já roda. As datas nascem em aberto, de propósito — quem define prazo é a
+   reunião de planejamento, não o sistema. */
+function mColNova(){
+  const modelos=colecoesComCronograma();
+  if(!modelos.length){toast('Não há coleção modelo para copiar.');return}
+  const hoje=hojeStr();
+  openModal(`
+   <h3>Nova coleção</h3>
+   <div class="sub">A nova coleção nasce separada: cronograma, donos, promessas e indicadores próprios. Nada se mistura com as que já existem.</div>
+
+   <div class="passos">
+     <div class="passo"><b>1.</b> Dê o nome da coleção e diga quando ela começa e quando o mostruário precisa estar pronto.</div>
+     <div class="passo"><b>2.</b> Escolha a coleção <b>modelo</b>. Dela vêm as etapas, os macro temas e quem depende de quem — o que você já ajustou continua valendo.</div>
+     <div class="passo"><b>3.</b> As etapas nascem <b>sem datas</b>. Você preenche o prazo de cada uma na reunião de planejamento, e é esse prazo que vira a linha de base congelada.</div>
+     <div class="passo"><b>4.</b> Depois de criada, defina o <b>dono</b> de cada etapa e confirme qual delas é a <b>liberação para o PCP</b> — a data que não pode furar.</div>
+   </div>
+
+   <div class="frm">
+     <div><label>Nome da coleção</label><input id="m-cn-nome" placeholder="ex.: INVERNO 28" autocomplete="off"></div>
+     <div class="frm-row">
+       <div><label>Início da coleção</label><input type="date" id="m-cn-ini" value="${hoje}"></div>
+       <div><label>Entrega do mostruário</label><input type="date" id="m-cn-fim"></div>
+     </div>
+     <div><label>Copiar as etapas de</label><select id="m-cn-modelo">${
+       modelos.map(c=>`<option value="${c.id}">${esc(c.name)} — ${db.macro_processes.filter(p=>p.collection_id===c.id).length} etapas</option>`).join('')}</select></div>
+   </div>
+   <div style="font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:8px">
+     O que <b>não</b> é copiado: datas, donos, promessas, motivos de atraso e avanço. Isso é a história de cada coleção e começa do zero.
+   </div>
+   <div class="modal-acts">
+     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
+     <button class="btn btn-p" data-action="col-nova-salvar">Criar coleção</button>
+   </div>`);
+  setTimeout(()=>$('#m-cn-nome')?.focus(),60);
+}
+function criarColecao(nome,ini,fim,modeloId){
+  const base=db.macro_processes.filter(p=>p.collection_id===modeloId).sort((a,b)=>a.seq-b.seq);
+  // reaproveita a coleção que já existe pelas referências (sem cronograma), se houver
+  const existente=db.collections.find(c=>c.name.trim().toLowerCase()===nome.trim().toLowerCase());
+  const cid=existente?existente.id:('col-'+slugSimples(nome)+'-'+Date.now().toString(36).slice(-4));
+  const modelo=db.collections.find(c=>c.id===modeloId);
+  // herda o marco do PCP; se o modelo não o declarar, acha pela própria etapa
+  const seqPcpModelo=(modelo&&modelo.marcos&&modelo.marcos.liberacao_pcp_seq)
+    ||(base.find(p=>/libera/i.test(p.name)&&/pcp/i.test(p.name))||{}).seq||null;
+  commit(x=>{
+    const dados={name:nome,status:'em_andamento',start_date:ini||null,end_date:fim||null,
+      marcos:{entrega_mostruario:fim||null,liberacao_pcp_seq:seqPcpModelo},
+      created_at:agoraIso(),created_by:(currentUser()||{}).id||null,copiada_de:modeloId};
+    const alvo=x.collections.find(c=>c.id===cid);
+    if(alvo)Object.assign(alvo,dados);else x.collections.push({id:cid,...dados});
+    base.forEach(p=>{
+      x.macro_processes.push({
+        id:cid+'-proc-'+String(p.seq).padStart(2,'0'),collection_id:cid,seq:p.seq,name:p.name,
+        owner_team:p.owner_team||null,macro_tema:p.macro_tema||null,
+        predecessores:Array.isArray(p.predecessores)?[...p.predecessores]:[],
+        // datas em aberto: o prazo é decidido na reunião de planejamento
+        start_date:null,end_date:null,inicio_real:null,fim_real:null,completed_at:null,
+        percent_complete:0,responsavel_user_id:null,motivo_atraso:null,promessas:[],
+        observacoes:null,created_at:agoraIso(),created_by:(currentUser()||{}).id||null});
+    });
+  });
+  setColecaoAtiva(cid);
+  return {cid,n:base.length};
+}
+function slugSimples(t){return String(t).normalize('NFD').replace(/[̀-ͯ]/g,'')
+  .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'colecao'}
 function mCharge(ritId){
   openModal(`
    <h3>Nova cobrança documentada</h3>
@@ -1948,7 +2094,7 @@ const ACTIONS={
   'cr-sel':d=>{const c=ST.cronograma,s=Number(d.seq)||null;
     c.sel=(c.sel===s)?null:s;
     // selecionar uma etapa já aproxima nela: é o drill down natural
-    if(c.sel&&c.zoom!=='mes'){const p=db.macro_processes.find(x=>x.seq===c.sel),pr=projetarCronograma(hojeStr())[c.sel];
+    if(c.sel&&c.zoom!=='mes'){const p=procsCol().find(x=>x.seq===c.sel),pr=projetarCronograma(hojeStr())[c.sel];
       c.foco=(pr&&pr.ini)||p.start_date||c.foco}
     render()},
   'cr-zoom':d=>{const c=ST.cronograma;c.zoom=d.z;if(!c.foco)c.foco=focoPadrao();render()},
@@ -1958,6 +2104,18 @@ const ACTIONS={
   'cr-nav':d=>{const c=ST.cronograma,passo=NIVEL_PASSO[c.zoom||'mes']*Number(d.d);
     c.foco=addDias(c.foco||focoPadrao(),passo);render()},
   'cr-hoje':()=>{ST.cronograma.foco=hojeStr();render()},
+  'col-nova':()=>{if(!can('admin')){toast('Só o perfil admin cria coleção.');return}mColNova()},
+  'col-nova-salvar':()=>{
+    const nome=$('#m-cn-nome').value.trim(),ini=$('#m-cn-ini').value,fim=$('#m-cn-fim').value,mod=$('#m-cn-modelo').value;
+    if(!nome){toast('Dê um nome à coleção.');return}
+    // Uma coleção pode já existir por causa das referências, sem ter cronograma ainda.
+    // Nesse caso o cronograma é anexado a ela, em vez de criar uma duplicada.
+    const jaCom=colecoesComCronograma().find(c=>c.name.trim().toLowerCase()===nome.toLowerCase());
+    if(jaCom){toast('A coleção "'+jaCom.name+'" já tem cronograma.');return}
+    if(ini&&fim&&fim<ini){toast('A entrega do mostruário não pode ser antes do início.');return}
+    const r=criarColecao(nome,ini,fim,mod);
+    closeModal();location.hash='#/cronograma';render();
+    toast(`Coleção "${nome}" criada com ${r.n} etapas — agora defina os prazos.`)},
   'proc-edit':d=>mProc(d.id),
   'proc-save':d=>{const pct=Math.max(0,Math.min(100,Number($('#m-pct').value||0))),ini=$('#m-ini-real').value,fim=$('#m-fim-real').value;
     if(ini&&fim&&fim<ini){toast('O fim real não pode ser antes do início real.');return}
@@ -2096,7 +2254,7 @@ function exportExcel(){
     const wb=XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(gridLinhas()),'Gestão da Coleção');
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['#','Processo','Equipe','Início','Prazo','% Avanço','Concluído em'],
-      ...db.macro_processes.map(p=>[p.seq,p.name,p.owner_team||'',p.start_date||'',p.end_date||'',(p.percent_complete||0)+'%',p.completed_at||''])]),'Cronograma');
+      ...procsCol().map(p=>[p.seq,p.name,p.owner_team||'',p.start_date||'',p.end_date||'',(p.percent_complete||0)+'%',p.completed_at||''])]),'Cronograma');
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Tarefa','Responsável','Prazo','Status','Detalhes'],
       ...db.tasks.map(t=>[t.title,ix.userById[t.assignee_user_id]?.name||'',t.due_date||'',t.status,t.description||''])]),'Tarefas');
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Cobrado','Por','Assunto','Prazo','Evidência','Status'],
@@ -2223,6 +2381,7 @@ document.addEventListener('change',e=>{
   const f=e.target.dataset.filter,tf=e.target.dataset.tfilter,cf=e.target.dataset.cfilter;
   if(f){ST.colecao[f]=e.target.value;render()}
   if(cf){ST.cronograma[cf]=e.target.value;render()}
+  if(e.target.dataset.colsel){setColecaoAtiva(e.target.value);render()}
   if(tf){ST.tarefas[tf]=e.target.type==='checkbox'?e.target.checked:e.target.value;render()}
 });
 document.addEventListener('input',e=>{
