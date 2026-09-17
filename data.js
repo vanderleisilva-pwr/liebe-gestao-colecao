@@ -1,8 +1,14 @@
 // Gerado por scripts/gerar_seed.py em 2026-06-10 — NÃO editar à mão; re-rode o script.
 window.LIEBE_SEED = {
  "schema_version": 1,
- "seed_version": 1781100369,
+ "seed_version": 1789663461,
  "generated_at": "2026-06-10",
+ "marcos": {
+  "fim_colecao_anterior": "2026-05-05",
+  "inicio_nova_colecao": "2026-05-12",
+  "entrega_mostruario": "2026-12-22",
+  "liberacao_pcp_seq": 25
+ },
  "users": [
   {
    "id": "user-joice",
@@ -99,28 +105,28 @@ window.LIEBE_SEED = {
    "name": "INVERNO & ALTO 27",
    "status": "em_andamento",
    "start_date": "2026-02-06",
-   "end_date": "2026-12-20"
+   "end_date": "2026-12-22"
   },
   {
    "id": "col-inverno_27",
    "name": "INVERNO 27",
    "status": "em_andamento",
    "start_date": "2026-02-06",
-   "end_date": "2026-12-20"
+   "end_date": "2026-12-22"
   },
   {
    "id": "col-inverno_28",
    "name": "INVERNO 28",
    "status": "em_andamento",
    "start_date": "2026-02-06",
-   "end_date": "2026-12-20"
+   "end_date": "2026-12-22"
   },
   {
    "id": "col-verao_27",
    "name": "VERÃO 27",
    "status": "em_andamento",
    "start_date": "2026-02-06",
-   "end_date": "2026-12-20"
+   "end_date": "2026-12-22"
   }
  ],
  "phases": [
@@ -376,10 +382,18 @@ window.LIEBE_SEED = {
    "seq": 1,
    "name": "Pesquisas inspiracionais",
    "owner_team": "Estilistas",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [],
    "start_date": "2026-02-06",
    "end_date": "2026-02-25",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-02-25",
+   "completed_at": "2026-02-25",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -389,10 +403,20 @@ window.LIEBE_SEED = {
    "seq": 2,
    "name": "Escolha e solicitação da pilotagem de rendas e tecidos importados",
    "owner_team": "Estilistas",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [
+    1
+   ],
    "start_date": "2026-02-13",
    "end_date": "2026-02-13",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-02-25",
+   "completed_at": "2026-02-25",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -402,10 +426,20 @@ window.LIEBE_SEED = {
    "seq": 3,
    "name": "Escolha de Cores exclusivas",
    "owner_team": "Estilistas",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [
+    1
+   ],
    "start_date": "2026-02-26",
    "end_date": "2026-03-03",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-02-25",
+   "completed_at": "2026-02-25",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -415,10 +449,20 @@ window.LIEBE_SEED = {
    "seq": 4,
    "name": "Desenvolvimento de Cores exclusivas",
    "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Desenvolvimento",
+   "predecessores": [
+    3
+   ],
    "start_date": "2026-03-04",
    "end_date": "2026-03-27",
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
    "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -428,10 +472,18 @@ window.LIEBE_SEED = {
    "seq": 5,
    "name": "Reunião de Inteligência de mercado",
    "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [],
    "start_date": "2026-03-13",
    "end_date": "2026-03-13",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-03-24",
+   "completed_at": "2026-03-24",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -441,10 +493,20 @@ window.LIEBE_SEED = {
    "seq": 6,
    "name": "Atendimento a fornecedores",
    "owner_team": "Estilistas",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Desenvolvimento",
+   "predecessores": [
+    1
+   ],
    "start_date": "2026-03-02",
    "end_date": "2026-03-16",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-03-11",
+   "completed_at": "2026-03-11",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -454,10 +516,20 @@ window.LIEBE_SEED = {
    "seq": 7,
    "name": "Solicitação de materiais novos para desenvolvimento",
    "owner_team": "Pilotagem",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Desenvolvimento",
+   "predecessores": [
+    6
+   ],
    "start_date": "2026-03-02",
    "end_date": "2026-03-16",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-03-10",
+   "completed_at": "2026-03-10",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -467,10 +539,21 @@ window.LIEBE_SEED = {
    "seq": 8,
    "name": "Elaboração do planejamento de mix",
    "owner_team": "Supervisão",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [
+    1,
+    5
+   ],
    "start_date": "2026-03-06",
    "end_date": "2026-03-13",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-03-13",
+   "completed_at": "2026-03-13",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -480,10 +563,20 @@ window.LIEBE_SEED = {
    "seq": 9,
    "name": "Envio de amostras para desenvolvimento de Cores nos aviamentos",
    "owner_team": "Supervisão",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Desenvolvimento",
+   "predecessores": [
+    4
+   ],
    "start_date": "2026-04-01",
    "end_date": "2026-04-08",
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
    "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -493,10 +586,21 @@ window.LIEBE_SEED = {
    "seq": 10,
    "name": "Reunião de Planejamento de coleção",
    "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [
+    5,
+    8
+   ],
    "start_date": "2026-03-16",
    "end_date": "2026-03-16",
-   "completed_at": null,
+   "inicio_real": null,
+   "fim_real": "2026-03-24",
+   "completed_at": "2026-03-24",
    "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -506,10 +610,20 @@ window.LIEBE_SEED = {
    "seq": 11,
    "name": "Chegada de novos materiais e informações técnicas para protótipos",
    "owner_team": "Supervisão",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    6
+   ],
    "start_date": "2026-02-26",
    "end_date": "2026-03-20",
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
    "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -519,10 +633,20 @@ window.LIEBE_SEED = {
    "seq": 12,
    "name": "Entrega de materiais novos para negociação de compras",
    "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    6
+   ],
    "start_date": "2026-03-24",
    "end_date": "2026-04-16",
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
-   "percent_complete": 17,
+   "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -532,10 +656,20 @@ window.LIEBE_SEED = {
    "seq": 13,
    "name": "Entrega de materiais novo para testes de qualidade",
    "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    6
+   ],
    "start_date": "2026-03-24",
    "end_date": "2026-04-16",
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
-   "percent_complete": 17,
+   "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -545,10 +679,18 @@ window.LIEBE_SEED = {
    "seq": 14,
    "name": "Pesquisas de modelos/tendências",
    "owner_team": "Pilotagem",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [],
    "start_date": "2026-03-02",
    "end_date": "2026-03-16",
-   "completed_at": null,
+   "inicio_real": null,
+   "fim_real": "2026-03-16",
+   "completed_at": "2026-03-16",
    "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -558,10 +700,21 @@ window.LIEBE_SEED = {
    "seq": 15,
    "name": "Desenho Técnico",
    "owner_team": "Gerente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [
+    5,
+    8
+   ],
    "start_date": "2026-03-17",
    "end_date": "2026-04-01",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-04-06",
+   "completed_at": "2026-04-06",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -571,10 +724,22 @@ window.LIEBE_SEED = {
    "seq": 16,
    "name": "Modelagem do protótipo - (Até a aprovação)",
    "owner_team": "Pilotagem",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    6,
+    7,
+    15
+   ],
    "start_date": "2026-03-23",
    "end_date": "2026-05-08",
-   "completed_at": null,
-   "percent_complete": 0,
+   "inicio_real": null,
+   "fim_real": "2026-06-02",
+   "completed_at": "2026-06-02",
+   "percent_complete": 94,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -582,12 +747,22 @@ window.LIEBE_SEED = {
    "id": "proc-17",
    "collection_id": "col-inverno-alto-27",
    "seq": 17,
-   "name": "Fluxo operacional",
-   "owner_team": "Assistente",
-   "start_date": "2026-03-27",
-   "end_date": "2026-05-13",
+   "name": "Cronoanálise das Peças",
+   "owner_team": null,
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    16
+   ],
+   "start_date": null,
+   "end_date": null,
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
    "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -595,12 +770,22 @@ window.LIEBE_SEED = {
    "id": "proc-18",
    "collection_id": "col-inverno-alto-27",
    "seq": 18,
-   "name": "Comitê Operacional",
-   "owner_team": "Modelagem",
-   "start_date": "2026-04-02",
-   "end_date": "2026-05-18",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Fluxo operacional",
+   "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    17
+   ],
+   "start_date": "2026-03-27",
+   "end_date": "2026-05-13",
+   "inicio_real": null,
+   "fim_real": "2026-07-13",
+   "completed_at": "2026-07-13",
+   "percent_complete": 94,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -608,12 +793,23 @@ window.LIEBE_SEED = {
    "id": "proc-19",
    "collection_id": "col-inverno-alto-27",
    "seq": 19,
-   "name": "Cadastro de referências",
-   "owner_team": "Assistente",
-   "start_date": "2026-04-29",
-   "end_date": "2026-05-21",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Comitê Operacional",
+   "owner_team": "Modelagem",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    17,
+    18
+   ],
+   "start_date": "2026-04-02",
+   "end_date": "2026-05-18",
+   "inicio_real": null,
+   "fim_real": "2026-07-13",
+   "completed_at": "2026-07-13",
+   "percent_complete": 92,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -621,12 +817,22 @@ window.LIEBE_SEED = {
    "id": "proc-20",
    "collection_id": "col-inverno-alto-27",
    "seq": 20,
-   "name": "Análise de preços e custos",
-   "owner_team": "Estilistas",
-   "start_date": "2026-05-04",
-   "end_date": "2026-05-28",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Cadastro de referências",
+   "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    19
+   ],
+   "start_date": "2026-04-29",
+   "end_date": "2026-05-21",
+   "inicio_real": null,
+   "fim_real": "2026-07-08",
+   "completed_at": "2026-07-08",
+   "percent_complete": 95,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -634,12 +840,22 @@ window.LIEBE_SEED = {
    "id": "proc-21",
    "collection_id": "col-inverno-alto-27",
    "seq": 21,
-   "name": "Reunião estratégica (apresentação da coleção)",
-   "owner_team": "Assistente",
-   "start_date": "2026-05-29",
-   "end_date": "2026-05-29",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Análise de preços e custos",
+   "owner_team": "Estilistas",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    20
+   ],
+   "start_date": "2026-05-04",
+   "end_date": "2026-05-28",
+   "inicio_real": null,
+   "fim_real": "2026-08-18",
+   "completed_at": "2026-08-18",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -647,12 +863,22 @@ window.LIEBE_SEED = {
    "id": "proc-22",
    "collection_id": "col-inverno-alto-27",
    "seq": 22,
-   "name": "Alterações comerciais (solicitadas na reunião estratégica)",
-   "owner_team": "Pilotagem",
-   "start_date": "2026-06-01",
-   "end_date": "2026-06-08",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Reunião estratégica (apresentação da coleção)",
+   "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [
+    21
+   ],
+   "start_date": "2026-05-29",
+   "end_date": "2026-05-29",
+   "inicio_real": null,
+   "fim_real": "2026-05-28",
+   "completed_at": "2026-05-28",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -660,12 +886,22 @@ window.LIEBE_SEED = {
    "id": "proc-23",
    "collection_id": "col-inverno-alto-27",
    "seq": 23,
-   "name": "Cadastro de cores nas referências continuadas",
-   "owner_team": "Modelagem",
+   "name": "Alterações comerciais (solicitadas na reunião estratégica)",
+   "owner_team": "Pilotagem",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Estilo",
+   "predecessores": [
+    22
+   ],
    "start_date": "2026-06-01",
-   "end_date": "2026-06-04",
-   "completed_at": null,
-   "percent_complete": 0,
+   "end_date": "2026-06-08",
+   "inicio_real": null,
+   "fim_real": "2026-06-12",
+   "completed_at": "2026-06-12",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -673,12 +909,22 @@ window.LIEBE_SEED = {
    "id": "proc-24",
    "collection_id": "col-inverno-alto-27",
    "seq": 24,
-   "name": "Liberação da coleção para PCP",
-   "owner_team": "Assistente",
-   "start_date": "2026-06-05",
-   "end_date": "2026-06-05",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Cadastro de cores nas referências continuadas",
+   "owner_team": "Modelagem",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Desenvolvimento",
+   "predecessores": [
+    22
+   ],
+   "start_date": "2026-06-01",
+   "end_date": "2026-06-04",
+   "inicio_real": null,
+   "fim_real": "2026-07-31",
+   "completed_at": "2026-07-31",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -686,12 +932,23 @@ window.LIEBE_SEED = {
    "id": "proc-25",
    "collection_id": "col-inverno-alto-27",
    "seq": 25,
-   "name": "Solicitação de materiais novos para produção de peças de fotos",
+   "name": "Liberação da coleção para PCP",
    "owner_team": "Assistente",
-   "start_date": "2026-05-12",
-   "end_date": "2026-05-13",
-   "completed_at": null,
-   "percent_complete": 0,
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    22,
+    24
+   ],
+   "start_date": "2026-06-05",
+   "end_date": "2026-06-05",
+   "inicio_real": null,
+   "fim_real": "2026-08-05",
+   "completed_at": "2026-08-05",
+   "percent_complete": 97,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -699,12 +956,22 @@ window.LIEBE_SEED = {
    "id": "proc-26",
    "collection_id": "col-inverno-alto-27",
    "seq": 26,
-   "name": "Organização de materiais a serem tingidos para peças de fotos",
-   "owner_team": "Pilotagem",
-   "start_date": "2026-06-23",
-   "end_date": "2026-06-30",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Solicitação de materiais novos para produção de peças de fotos",
+   "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Catálogo",
+   "predecessores": [
+    22
+   ],
+   "start_date": "2026-05-12",
+   "end_date": "2026-05-13",
+   "inicio_real": null,
+   "fim_real": "2026-08-04",
+   "completed_at": "2026-08-04",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -712,12 +979,22 @@ window.LIEBE_SEED = {
    "id": "proc-27",
    "collection_id": "col-inverno-alto-27",
    "seq": 27,
-   "name": "Produção das grade de peças (até a aprovação)",
-   "owner_team": "PCP",
-   "start_date": "2026-05-11",
-   "end_date": "2026-08-03",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Organização de materiais a serem tingidos para peças de fotos",
+   "owner_team": "Pilotagem",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Catálogo",
+   "predecessores": [
+    26
+   ],
+   "start_date": "2026-06-23",
+   "end_date": "2026-06-30",
+   "inicio_real": null,
+   "fim_real": "2026-08-06",
+   "completed_at": "2026-08-06",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -725,12 +1002,20 @@ window.LIEBE_SEED = {
    "id": "proc-28",
    "collection_id": "col-inverno-alto-27",
    "seq": 28,
-   "name": "Elaboração das fichas de medidas com desenho técnico atulaizado e marcações",
-   "owner_team": "Estilistas",
-   "start_date": "2026-07-20",
-   "end_date": "2026-08-10",
+   "name": "Envio de peças para tingimento",
+   "owner_team": null,
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Catálogo",
+   "predecessores": [],
+   "start_date": null,
+   "end_date": null,
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
    "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -738,12 +1023,22 @@ window.LIEBE_SEED = {
    "id": "proc-29",
    "collection_id": "col-inverno-alto-27",
    "seq": 29,
-   "name": "Preenchimento das fichas de medidas",
-   "owner_team": "Assistente",
-   "start_date": "2026-07-21",
-   "end_date": "2026-08-11",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Produção das grade de peças (até a aprovação)",
+   "owner_team": "PCP",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Plano de Produção/Mostruário",
+   "predecessores": [
+    25
+   ],
+   "start_date": "2026-05-11",
+   "end_date": "2026-08-03",
+   "inicio_real": null,
+   "fim_real": "2026-08-26",
+   "completed_at": "2026-08-26",
+   "percent_complete": 97,
+   "observacoes": "Previsão até 26/08/2026",
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -751,12 +1046,22 @@ window.LIEBE_SEED = {
    "id": "proc-30",
    "collection_id": "col-inverno-alto-27",
    "seq": 30,
-   "name": "Digitação de fichas físicas no drive",
-   "owner_team": "Assistente",
-   "start_date": "2026-08-07",
-   "end_date": "2026-08-28",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Elaboração das fichas de medidas com desenho técnico atualizado e marcações",
+   "owner_team": "Estilistas",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    29
+   ],
+   "start_date": "2026-07-20",
+   "end_date": "2026-08-10",
+   "inicio_real": null,
+   "fim_real": "2026-08-24",
+   "completed_at": "2026-08-24",
+   "percent_complete": 52,
+   "observacoes": "Deve ser concluido até 01/09/2026",
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -764,12 +1069,22 @@ window.LIEBE_SEED = {
    "id": "proc-31",
    "collection_id": "col-inverno-alto-27",
    "seq": 31,
-   "name": "Liberação de Peça Piloto para qualidade",
-   "owner_team": "PCP",
-   "start_date": "2026-08-31",
-   "end_date": "2026-09-01",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Preenchimento das fichas de medidas",
+   "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    30
+   ],
+   "start_date": "2026-07-21",
+   "end_date": "2026-08-11",
+   "inicio_real": null,
+   "fim_real": "2026-08-24",
+   "completed_at": "2026-08-24",
+   "percent_complete": 32,
+   "observacoes": "Deve ser concluido até 01/09/2026",
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -777,12 +1092,22 @@ window.LIEBE_SEED = {
    "id": "proc-32",
    "collection_id": "col-inverno-alto-27",
    "seq": 32,
-   "name": "Informações de tamanhos das modelos",
-   "owner_team": null,
-   "start_date": null,
-   "end_date": "2026-07-24",
+   "name": "Digitação de fichas físicas no drive",
+   "owner_team": "Assistente",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    31
+   ],
+   "start_date": "2026-08-07",
+   "end_date": "2026-08-28",
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
-   "percent_complete": 0,
+   "percent_complete": 10,
+   "observacoes": "Deve ser concluido até 01/09/2026",
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -790,12 +1115,22 @@ window.LIEBE_SEED = {
    "id": "proc-33",
    "collection_id": "col-inverno-alto-27",
    "seq": 33,
-   "name": "Chegada de materiais para peças de fotos",
-   "owner_team": "Pilotagem",
-   "start_date": null,
-   "end_date": "2026-08-03",
-   "completed_at": null,
-   "percent_complete": 0,
+   "name": "Liberação de Peça Piloto para qualidade",
+   "owner_team": "PCP",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    31
+   ],
+   "start_date": "2026-08-31",
+   "end_date": "2026-09-01",
+   "inicio_real": null,
+   "fim_real": "2026-08-25",
+   "completed_at": "2026-08-25",
+   "percent_complete": 32,
+   "observacoes": "Deve ser concluido até 01/09/2026",
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -803,12 +1138,20 @@ window.LIEBE_SEED = {
    "id": "proc-34",
    "collection_id": "col-inverno-alto-27",
    "seq": 34,
-   "name": "ODD de peças com cores e tamanhos para fotos",
+   "name": "Informações de tamanhos das modelos",
    "owner_team": null,
-   "start_date": "2026-07-27",
-   "end_date": "2026-08-03",
-   "completed_at": null,
-   "percent_complete": 0,
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Catálogo",
+   "predecessores": [],
+   "start_date": "2026-07-10",
+   "end_date": "2026-07-24",
+   "inicio_real": null,
+   "fim_real": "2026-08-18",
+   "completed_at": "2026-08-18",
+   "percent_complete": 100,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   },
@@ -816,12 +1159,137 @@ window.LIEBE_SEED = {
    "id": "proc-35",
    "collection_id": "col-inverno-alto-27",
    "seq": 35,
+   "name": "Chegada de materiais para peças de fotos",
+   "owner_team": null,
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Catálogo",
+   "predecessores": [
+    28
+   ],
+   "start_date": null,
+   "end_date": "2026-08-03",
+   "inicio_real": null,
+   "fim_real": "2026-08-20",
+   "completed_at": "2026-08-20",
+   "percent_complete": 100,
+   "observacoes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "proc-36",
+   "collection_id": "col-inverno-alto-27",
+   "seq": 36,
+   "name": "ODD de peças com cores e tamanhos para fotos",
+   "owner_team": null,
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Catálogo",
+   "predecessores": [
+    34
+   ],
+   "start_date": "2026-07-27",
+   "end_date": "2026-08-03",
+   "inicio_real": null,
+   "fim_real": "2026-08-24",
+   "completed_at": "2026-08-24",
+   "percent_complete": 100,
+   "observacoes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "proc-37",
+   "collection_id": "col-inverno-alto-27",
+   "seq": 37,
    "name": "Produção de peças para foto de catálogo",
    "owner_team": null,
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Catálogo",
+   "predecessores": [
+    36
+   ],
    "start_date": "2026-08-04",
    "end_date": "2026-09-04",
+   "inicio_real": null,
+   "fim_real": "2026-08-25",
+   "completed_at": "2026-08-25",
+   "percent_complete": 21,
+   "observacoes": "Deve ser concluido até 15/10/2026 por conta do atraso da entrega das rendas importadas nas cores da coleção.",
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "proc-38",
+   "collection_id": "col-inverno-alto-27",
+   "seq": 38,
+   "name": "Explosão do Plano de Produção",
+   "owner_team": "PCP",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    25
+   ],
+   "start_date": null,
+   "end_date": null,
+   "inicio_real": null,
+   "fim_real": null,
    "completed_at": null,
    "percent_complete": 0,
+   "observacoes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "proc-39",
+   "collection_id": "col-inverno-alto-27",
+   "seq": 39,
+   "name": "Finalização do Pedido de Compra das Materiais Primas",
+   "owner_team": "Compras",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    38
+   ],
+   "start_date": null,
+   "end_date": null,
+   "inicio_real": null,
+   "fim_real": null,
+   "completed_at": null,
+   "percent_complete": 0,
+   "observacoes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "proc-40",
+   "collection_id": "col-inverno-alto-27",
+   "seq": 40,
+   "name": "Recebimento de materias primas para produção dos mostruários",
+   "owner_team": "PCP",
+   "responsavel_user_id": null,
+   "motivo_atraso": null,
+   "promessas": [],
+   "macro_tema": "Mostruário",
+   "predecessores": [
+    39
+   ],
+   "start_date": null,
+   "end_date": "2026-11-30",
+   "inicio_real": null,
+   "fim_real": null,
+   "completed_at": null,
+   "percent_complete": 0,
+   "observacoes": null,
    "created_at": "2026-06-10",
    "created_by": "user-vanderlei"
   }
@@ -831,9 +1299,9 @@ window.LIEBE_SEED = {
    "id": "ref-001",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "503151",
+   "code": "506644",
    "line": "FASHION",
-   "family": "LE PETIT FLEUR",
+   "family": "FIRST LIGHT",
    "stylist": "ANNA KAROLINE",
    "flow_type": "nova",
    "notes": null,
@@ -850,9 +1318,9 @@ window.LIEBE_SEED = {
    "id": "ref-002",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "503451",
+   "code": "501752",
    "line": "FASHION",
-   "family": "LE PETIT FLEUR",
+   "family": "FIRST LIGHT",
    "stylist": "ANNA KAROLINE",
    "flow_type": "nova",
    "notes": null,
@@ -869,9 +1337,9 @@ window.LIEBE_SEED = {
    "id": "ref-003",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "501751",
+   "code": "505244",
    "line": "FASHION",
-   "family": "LE PETIT FLEUR",
+   "family": "FIRST LIGHT",
    "stylist": "ANNA KAROLINE",
    "flow_type": "nova",
    "notes": null,
@@ -888,9 +1356,9 @@ window.LIEBE_SEED = {
    "id": "ref-004",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "501151",
+   "code": "506124",
    "line": "FASHION",
-   "family": "LE PETIT FLEUR",
+   "family": "FIRST LIGHT",
    "stylist": "ANNA KAROLINE",
    "flow_type": "nova",
    "notes": null,
@@ -905,25 +1373,6 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-005",
-   "collection_id": "col-inverno_27",
-   "collection_name": "INVERNO 27",
-   "code": "506651",
-   "line": "FASHION",
-   "family": "LE PETIT FLEUR",
-   "stylist": "ANNA KAROLINE",
-   "flow_type": "nova",
-   "notes": null,
-   "active": true,
-   "status": "ativa",
-   "canceled_at": null,
-   "canceled_by": null,
-   "cancel_category": null,
-   "cancel_reason": null,
-   "created_at": "2026-06-10",
-   "created_by": "user-vanderlei"
-  },
-  {
-   "id": "ref-006",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503352",
@@ -942,7 +1391,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-007",
+   "id": "ref-006",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503152",
@@ -961,7 +1410,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-008",
+   "id": "ref-007",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "703352",
@@ -980,7 +1429,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-009",
+   "id": "ref-008",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501252",
@@ -999,7 +1448,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-010",
+   "id": "ref-009",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501052",
@@ -1018,7 +1467,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-011",
+   "id": "ref-010",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "701752",
@@ -1037,7 +1486,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-012",
+   "id": "ref-011",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "506152",
@@ -1056,7 +1505,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-013",
+   "id": "ref-012",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "504053",
@@ -1075,7 +1524,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-014",
+   "id": "ref-013",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503153",
@@ -1094,7 +1543,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-015",
+   "id": "ref-014",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503806",
@@ -1113,7 +1562,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-016",
+   "id": "ref-015",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501753",
@@ -1132,7 +1581,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-017",
+   "id": "ref-016",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501053",
@@ -1151,7 +1600,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-018",
+   "id": "ref-017",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503306",
@@ -1170,7 +1619,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-019",
+   "id": "ref-018",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "604088",
@@ -1189,7 +1638,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-020",
+   "id": "ref-019",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603188",
@@ -1208,7 +1657,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-021",
+   "id": "ref-020",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603488",
@@ -1227,7 +1676,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-022",
+   "id": "ref-021",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601188",
@@ -1246,7 +1695,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-023",
+   "id": "ref-022",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601788",
@@ -1265,7 +1714,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-024",
+   "id": "ref-023",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601288",
@@ -1284,7 +1733,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-025",
+   "id": "ref-024",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603387",
@@ -1303,7 +1752,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-026",
+   "id": "ref-025",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603187",
@@ -1322,7 +1771,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-027",
+   "id": "ref-026",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "604087",
@@ -1341,7 +1790,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-028",
+   "id": "ref-027",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "703387",
@@ -1360,7 +1809,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-029",
+   "id": "ref-028",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601187",
@@ -1379,7 +1828,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-030",
+   "id": "ref-029",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601287",
@@ -1398,7 +1847,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-031",
+   "id": "ref-030",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601787",
@@ -1417,7 +1866,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-032",
+   "id": "ref-031",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "701787",
@@ -1436,7 +1885,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-033",
+   "id": "ref-032",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603390",
@@ -1455,7 +1904,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-034",
+   "id": "ref-033",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603190",
@@ -1474,7 +1923,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-035",
+   "id": "ref-034",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601790",
@@ -1493,7 +1942,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-036",
+   "id": "ref-035",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601290",
@@ -1512,10 +1961,10 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-037",
+   "id": "ref-036",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "603490",
+   "code": "603410",
    "line": "LUXE",
    "family": "GOLDEN PULSE",
    "stylist": "ANNA KAROLINE",
@@ -1531,7 +1980,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-038",
+   "id": "ref-037",
    "collection_id": "col-inverno_28",
    "collection_name": "INVERNO 28",
    "code": "606790",
@@ -1550,7 +1999,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-039",
+   "id": "ref-038",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "302105",
@@ -1569,12 +2018,31 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-040",
+   "id": "ref-039",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136222",
    "line": "LOUNGEWEAR",
-   "family": "VISCOW",
+   "family": "LACE",
+   "stylist": "ANNA KAROLINE",
+   "flow_type": "nova",
+   "notes": null,
+   "active": true,
+   "status": "ativa",
+   "canceled_at": null,
+   "canceled_by": null,
+   "cancel_category": null,
+   "cancel_reason": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "ref-040",
+   "collection_id": "col-inverno_27",
+   "collection_name": "INVERNO 27",
+   "code": "136122",
+   "line": "LOUNGEWEAR",
+   "family": "VISCIW",
    "stylist": "ANNA KAROLINE",
    "flow_type": "nova",
    "notes": null,
@@ -1591,9 +2059,9 @@ window.LIEBE_SEED = {
    "id": "ref-041",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "136122",
-   "line": "LOUNGEWEAR",
-   "family": "LACE",
+   "code": "123605",
+   "line": "IDEAL",
+   "family": "BÁSICOS",
    "stylist": "ANNA KAROLINE",
    "flow_type": "nova",
    "notes": null,
@@ -1610,7 +2078,7 @@ window.LIEBE_SEED = {
    "id": "ref-042",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "SUTIÃ TQC",
+   "code": "123018",
    "line": "IDEAL",
    "family": "BÁSICOS",
    "stylist": "ANNA KAROLINE",
@@ -1629,7 +2097,7 @@ window.LIEBE_SEED = {
    "id": "ref-043",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "SUTIÃ MTÇ",
+   "code": "121105",
    "line": "IDEAL",
    "family": "BÁSICOS",
    "stylist": "ANNA KAROLINE",
@@ -1648,7 +2116,7 @@ window.LIEBE_SEED = {
    "id": "ref-044",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "CALCINHA",
+   "code": "121305",
    "line": "IDEAL",
    "family": "BÁSICOS",
    "stylist": "ANNA KAROLINE",
@@ -1667,44 +2135,6 @@ window.LIEBE_SEED = {
    "id": "ref-045",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
-   "code": "CALCINHA",
-   "line": "IDEAL",
-   "family": "BÁSICOS",
-   "stylist": "ANNA KAROLINE",
-   "flow_type": "nova",
-   "notes": null,
-   "active": true,
-   "status": "ativa",
-   "canceled_at": null,
-   "canceled_by": null,
-   "cancel_category": null,
-   "cancel_reason": null,
-   "created_at": "2026-06-10",
-   "created_by": "user-vanderlei"
-  },
-  {
-   "id": "ref-046",
-   "collection_id": "col-inverno_27",
-   "collection_name": "INVERNO 27",
-   "code": "CALCINHA",
-   "line": "IDEAL",
-   "family": "BÁSICOS",
-   "stylist": "ANNA KAROLINE",
-   "flow_type": "nova",
-   "notes": null,
-   "active": true,
-   "status": "ativa",
-   "canceled_at": null,
-   "canceled_by": null,
-   "cancel_category": null,
-   "cancel_reason": null,
-   "created_at": "2026-06-10",
-   "created_by": "user-vanderlei"
-  },
-  {
-   "id": "ref-047",
-   "collection_id": "col-inverno_27",
-   "collection_name": "INVERNO 27",
    "code": "603589",
    "line": "LUXE",
    "family": "NOIVAS",
@@ -1721,7 +2151,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-048",
+   "id": "ref-046",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603189",
@@ -1740,7 +2170,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-049",
+   "id": "ref-047",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601289",
@@ -1759,7 +2189,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-050",
+   "id": "ref-048",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601778",
@@ -1778,7 +2208,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-051",
+   "id": "ref-049",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "606189",
@@ -1797,7 +2227,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-052",
+   "id": "ref-050",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "606789",
@@ -1816,7 +2246,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-053",
+   "id": "ref-051",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603191",
@@ -1835,7 +2265,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-054",
+   "id": "ref-052",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603091",
@@ -1854,7 +2284,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-055",
+   "id": "ref-053",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "603391",
@@ -1873,7 +2303,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-056",
+   "id": "ref-054",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601791",
@@ -1892,7 +2322,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-057",
+   "id": "ref-055",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601291",
@@ -1911,7 +2341,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-058",
+   "id": "ref-056",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "601271",
@@ -1930,7 +2360,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-059",
+   "id": "ref-057",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "606691",
@@ -1949,7 +2379,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-060",
+   "id": "ref-058",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501723",
@@ -1968,7 +2398,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-061",
+   "id": "ref-059",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501742",
@@ -1987,7 +2417,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-062",
+   "id": "ref-060",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501745",
@@ -2006,7 +2436,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-063",
+   "id": "ref-061",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503303",
@@ -2025,7 +2455,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-064",
+   "id": "ref-062",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503503",
@@ -2044,7 +2474,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-065",
+   "id": "ref-063",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501602",
@@ -2063,7 +2493,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-066",
+   "id": "ref-064",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501701",
@@ -2082,7 +2512,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-067",
+   "id": "ref-065",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501715",
@@ -2101,7 +2531,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-068",
+   "id": "ref-066",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503001",
@@ -2120,7 +2550,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-069",
+   "id": "ref-067",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501003",
@@ -2139,7 +2569,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-070",
+   "id": "ref-068",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501302",
@@ -2158,7 +2588,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-071",
+   "id": "ref-069",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501000",
@@ -2177,7 +2607,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-072",
+   "id": "ref-070",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "503400",
@@ -2196,7 +2626,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-073",
+   "id": "ref-071",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "501700",
@@ -2215,7 +2645,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-074",
+   "id": "ref-072",
    "collection_id": "col-verao_27",
    "collection_name": "VERÃO 27",
    "code": "503303",
@@ -2234,7 +2664,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-075",
+   "id": "ref-073",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "703402",
@@ -2253,7 +2683,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-076",
+   "id": "ref-074",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "703021",
@@ -2272,7 +2702,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-077",
+   "id": "ref-075",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "703302",
@@ -2291,7 +2721,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-078",
+   "id": "ref-076",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "701306",
@@ -2310,7 +2740,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-079",
+   "id": "ref-077",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "701708",
@@ -2329,7 +2759,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-080",
+   "id": "ref-078",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "701709",
@@ -2348,7 +2778,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-081",
+   "id": "ref-079",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "701502",
@@ -2367,7 +2797,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-082",
+   "id": "ref-080",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "106601",
@@ -2386,7 +2816,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-083",
+   "id": "ref-081",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "103101",
@@ -2405,7 +2835,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-084",
+   "id": "ref-082",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "103009",
@@ -2424,7 +2854,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-085",
+   "id": "ref-083",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "341001",
@@ -2443,7 +2873,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-086",
+   "id": "ref-084",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "103605",
@@ -2462,7 +2892,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-087",
+   "id": "ref-085",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "101700",
@@ -2481,7 +2911,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-088",
+   "id": "ref-086",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "201301",
@@ -2500,7 +2930,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-089",
+   "id": "ref-087",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "201702",
@@ -2519,7 +2949,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-090",
+   "id": "ref-088",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "101000",
@@ -2538,7 +2968,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-091",
+   "id": "ref-089",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "101500",
@@ -2557,7 +2987,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-092",
+   "id": "ref-090",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "101701",
@@ -2576,7 +3006,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-093",
+   "id": "ref-091",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "301701",
@@ -2595,7 +3025,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-094",
+   "id": "ref-092",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "301103",
@@ -2614,7 +3044,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-095",
+   "id": "ref-093",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "301705",
@@ -2633,7 +3063,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-096",
+   "id": "ref-094",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "306602",
@@ -2652,7 +3082,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-097",
+   "id": "ref-095",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136117",
@@ -2671,7 +3101,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-098",
+   "id": "ref-096",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136219",
@@ -2690,7 +3120,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-099",
+   "id": "ref-097",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136213",
@@ -2709,7 +3139,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-100",
+   "id": "ref-098",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136113",
@@ -2728,7 +3158,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-101",
+   "id": "ref-099",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136112",
@@ -2747,7 +3177,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-102",
+   "id": "ref-100",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136118",
@@ -2766,7 +3196,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-103",
+   "id": "ref-101",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136218",
@@ -2785,7 +3215,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-104",
+   "id": "ref-102",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136910",
@@ -2804,7 +3234,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-105",
+   "id": "ref-103",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136221",
@@ -2823,7 +3253,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-106",
+   "id": "ref-104",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136121",
@@ -2842,7 +3272,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-107",
+   "id": "ref-105",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136109",
@@ -2861,7 +3291,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-108",
+   "id": "ref-106",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136209",
@@ -2880,7 +3310,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-109",
+   "id": "ref-107",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136119",
@@ -2899,7 +3329,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-110",
+   "id": "ref-108",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136120",
@@ -2918,7 +3348,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-111",
+   "id": "ref-109",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136220",
@@ -2937,7 +3367,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-112",
+   "id": "ref-110",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136200",
@@ -2956,7 +3386,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-113",
+   "id": "ref-111",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "136110",
@@ -2975,7 +3405,7 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
-   "id": "ref-114",
+   "id": "ref-112",
    "collection_id": "col-inverno_27",
    "collection_name": "INVERNO 27",
    "code": "605366",
@@ -2996,10 +3426,1780 @@ window.LIEBE_SEED = {
  ],
  "reference_phases": [
   {
+   "id": "rp-001-modelagem",
+   "reference_id": "ref-001",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2025-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-001-pilotagem",
+   "reference_id": "ref-001",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2025-11-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-001-cadastro",
+   "reference_id": "ref-001",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-001-pre_custo_aprovacao",
+   "reference_id": "ref-001",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-001-cadastro_de_cores_continuados",
+   "reference_id": "ref-001",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-001-liberacao_para_pcp",
+   "reference_id": "ref-001",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-001-pilotagem_grades",
+   "reference_id": "ref-001",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-001-prova_grades",
+   "reference_id": "ref-001",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-001-aprovacao_grade",
+   "reference_id": "ref-001",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-modelagem",
+   "reference_id": "ref-002",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-03-03",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-pilotagem",
+   "reference_id": "ref-002",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-03-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-prova",
+   "reference_id": "ref-002",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-07-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-aprov_mod",
+   "reference_id": "ref-002",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-comite",
+   "reference_id": "ref-002",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-cadastro",
+   "reference_id": "ref-002",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-pre_custo_aprovacao",
+   "reference_id": "ref-002",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-cadastro_de_cores_continuados",
+   "reference_id": "ref-002",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-liberacao_para_pcp",
+   "reference_id": "ref-002",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-pilotagem_grades",
+   "reference_id": "ref-002",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-prova_grades",
+   "reference_id": "ref-002",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-002-aprovacao_grade",
+   "reference_id": "ref-002",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-003-modelagem",
+   "reference_id": "ref-003",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2025-11-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-003-pilotagem",
+   "reference_id": "ref-003",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2025-11-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-003-cadastro",
+   "reference_id": "ref-003",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-003-pre_custo_aprovacao",
+   "reference_id": "ref-003",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-003-cadastro_de_cores_continuados",
+   "reference_id": "ref-003",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-003-liberacao_para_pcp",
+   "reference_id": "ref-003",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-003-prova_grades",
+   "reference_id": "ref-003",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-003-aprovacao_grade",
+   "reference_id": "ref-003",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-004-cadastro",
+   "reference_id": "ref-004",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-004-pre_custo_aprovacao",
+   "reference_id": "ref-004",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-004-cadastro_de_cores_continuados",
+   "reference_id": "ref-004",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-004-liberacao_para_pcp",
+   "reference_id": "ref-004",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-004-prova_grades",
+   "reference_id": "ref-004",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-004-aprovacao_grade",
+   "reference_id": "ref-004",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-modelagem",
+   "reference_id": "ref-005",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-03",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-pilotagem",
+   "reference_id": "ref-005",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-prova",
+   "reference_id": "ref-005",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-06-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-aprov_mod",
+   "reference_id": "ref-005",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-27",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-fluxo_operacional",
+   "reference_id": "ref-005",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-comite",
+   "reference_id": "ref-005",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-pre_custo_aprovacao",
+   "reference_id": "ref-005",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-cadastro_de_cores_continuados",
+   "reference_id": "ref-005",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-liberacao_para_pcp",
+   "reference_id": "ref-005",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-pilotagem_grades",
+   "reference_id": "ref-005",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-prova_grades",
+   "reference_id": "ref-005",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-005-aprovacao_grade",
+   "reference_id": "ref-005",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-modelagem",
+   "reference_id": "ref-006",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-07",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-pilotagem",
+   "reference_id": "ref-006",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-prova",
+   "reference_id": "ref-006",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-06-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-aprov_mod",
+   "reference_id": "ref-006",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-27",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-fluxo_operacional",
+   "reference_id": "ref-006",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-comite",
+   "reference_id": "ref-006",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-pre_custo_aprovacao",
+   "reference_id": "ref-006",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-cadastro_de_cores_continuados",
+   "reference_id": "ref-006",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-liberacao_para_pcp",
+   "reference_id": "ref-006",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-prova_grades",
+   "reference_id": "ref-006",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-006-aprovacao_grade",
+   "reference_id": "ref-006",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-modelagem",
+   "reference_id": "ref-007",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-03",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-pilotagem",
+   "reference_id": "ref-007",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-prova",
+   "reference_id": "ref-007",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-aprov_mod",
+   "reference_id": "ref-007",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-07-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-fluxo_operacional",
+   "reference_id": "ref-007",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-comite",
+   "reference_id": "ref-007",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-cadastro",
+   "reference_id": "ref-007",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-pre_custo_aprovacao",
+   "reference_id": "ref-007",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-cadastro_de_cores_continuados",
+   "reference_id": "ref-007",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-liberacao_para_pcp",
+   "reference_id": "ref-007",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-pilotagem_grades",
+   "reference_id": "ref-007",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-prova_grades",
+   "reference_id": "ref-007",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-007-aprovacao_grade",
+   "reference_id": "ref-007",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-modelagem",
+   "reference_id": "ref-008",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-03",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-pilotagem",
+   "reference_id": "ref-008",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-prova",
+   "reference_id": "ref-008",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-aprov_mod",
+   "reference_id": "ref-008",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-fluxo_operacional",
+   "reference_id": "ref-008",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-comite",
+   "reference_id": "ref-008",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-pre_custo_aprovacao",
+   "reference_id": "ref-008",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-cadastro_de_cores_continuados",
+   "reference_id": "ref-008",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-liberacao_para_pcp",
+   "reference_id": "ref-008",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-prova_grades",
+   "reference_id": "ref-008",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-008-aprovacao_grade",
+   "reference_id": "ref-008",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-modelagem",
+   "reference_id": "ref-009",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-03",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-pilotagem",
+   "reference_id": "ref-009",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-prova",
+   "reference_id": "ref-009",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-aprov_mod",
+   "reference_id": "ref-009",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-fluxo_operacional",
+   "reference_id": "ref-009",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-comite",
+   "reference_id": "ref-009",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-pre_custo_aprovacao",
+   "reference_id": "ref-009",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-cadastro_de_cores_continuados",
+   "reference_id": "ref-009",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-liberacao_para_pcp",
+   "reference_id": "ref-009",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-pilotagem_grades",
+   "reference_id": "ref-009",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-prova_grades",
+   "reference_id": "ref-009",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-009-aprovacao_grade",
+   "reference_id": "ref-009",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-modelagem",
+   "reference_id": "ref-010",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-03",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-pilotagem",
+   "reference_id": "ref-010",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-prova",
+   "reference_id": "ref-010",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-aprov_mod",
+   "reference_id": "ref-010",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-fluxo_operacional",
+   "reference_id": "ref-010",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-comite",
+   "reference_id": "ref-010",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-cadastro",
+   "reference_id": "ref-010",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-pre_custo_aprovacao",
+   "reference_id": "ref-010",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-cadastro_de_cores_continuados",
+   "reference_id": "ref-010",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-liberacao_para_pcp",
+   "reference_id": "ref-010",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-pilotagem_grades",
+   "reference_id": "ref-010",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-prova_grades",
+   "reference_id": "ref-010",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-010-aprovacao_grade",
+   "reference_id": "ref-010",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-011-modelagem",
+   "reference_id": "ref-011",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-011-pilotagem",
+   "reference_id": "ref-011",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-011-prova",
+   "reference_id": "ref-011",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-011-aprov_mod",
+   "reference_id": "ref-011",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-011-fluxo_operacional",
+   "reference_id": "ref-011",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-011-comite",
+   "reference_id": "ref-011",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-011-cadastro_de_cores_continuados",
+   "reference_id": "ref-011",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-011-liberacao_para_pcp",
+   "reference_id": "ref-011",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-modelagem",
+   "reference_id": "ref-012",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-pilotagem",
+   "reference_id": "ref-012",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-prova",
+   "reference_id": "ref-012",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-aprov_mod",
+   "reference_id": "ref-012",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-fluxo_operacional",
+   "reference_id": "ref-012",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-comite",
+   "reference_id": "ref-012",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-pre_custo_aprovacao",
+   "reference_id": "ref-012",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-cadastro_de_cores_continuados",
+   "reference_id": "ref-012",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-liberacao_para_pcp",
+   "reference_id": "ref-012",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-pilotagem_grades",
+   "reference_id": "ref-012",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-012",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-012-producao_de_peca_para_catalogo",
+   "reference_id": "ref-012",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-modelagem",
+   "reference_id": "ref-013",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-pilotagem",
+   "reference_id": "ref-013",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-prova",
+   "reference_id": "ref-013",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-aprov_mod",
+   "reference_id": "ref-013",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-fluxo_operacional",
+   "reference_id": "ref-013",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-comite",
+   "reference_id": "ref-013",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-pre_custo_aprovacao",
+   "reference_id": "ref-013",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-cadastro_de_cores_continuados",
+   "reference_id": "ref-013",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-liberacao_para_pcp",
+   "reference_id": "ref-013",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-pilotagem_grades",
+   "reference_id": "ref-013",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-013",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-013-producao_de_peca_para_catalogo",
+   "reference_id": "ref-013",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-modelagem",
+   "reference_id": "ref-014",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-pilotagem",
+   "reference_id": "ref-014",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-prova",
+   "reference_id": "ref-014",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-aprov_mod",
+   "reference_id": "ref-014",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-fluxo_operacional",
+   "reference_id": "ref-014",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-03",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-comite",
+   "reference_id": "ref-014",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-pre_custo_aprovacao",
+   "reference_id": "ref-014",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-cadastro_de_cores_continuados",
+   "reference_id": "ref-014",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-liberacao_para_pcp",
+   "reference_id": "ref-014",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-pilotagem_grades",
+   "reference_id": "ref-014",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-prova_grades",
+   "reference_id": "ref-014",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-aprovacao_grade",
+   "reference_id": "ref-014",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-014",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-014-producao_de_peca_para_catalogo",
+   "reference_id": "ref-014",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-modelagem",
+   "reference_id": "ref-015",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-pilotagem",
+   "reference_id": "ref-015",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-prova",
+   "reference_id": "ref-015",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-aprov_mod",
+   "reference_id": "ref-015",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-fluxo_operacional",
+   "reference_id": "ref-015",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-comite",
+   "reference_id": "ref-015",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-pre_custo_aprovacao",
+   "reference_id": "ref-015",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-cadastro_de_cores_continuados",
+   "reference_id": "ref-015",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-liberacao_para_pcp",
+   "reference_id": "ref-015",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-pilotagem_grades",
+   "reference_id": "ref-015",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-015",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-015-producao_de_peca_para_catalogo",
+   "reference_id": "ref-015",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-modelagem",
+   "reference_id": "ref-016",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-pilotagem",
+   "reference_id": "ref-016",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-prova",
+   "reference_id": "ref-016",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-aprov_mod",
+   "reference_id": "ref-016",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-fluxo_operacional",
+   "reference_id": "ref-016",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-01",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-comite",
+   "reference_id": "ref-016",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-pre_custo_aprovacao",
+   "reference_id": "ref-016",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-cadastro_de_cores_continuados",
+   "reference_id": "ref-016",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-liberacao_para_pcp",
+   "reference_id": "ref-016",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-pilotagem_grades",
+   "reference_id": "ref-016",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-016",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-016-producao_de_peca_para_catalogo",
+   "reference_id": "ref-016",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
    "id": "rp-017-modelagem",
    "reference_id": "ref-017",
    "phase_id": "phase-modelagem",
-   "completed_at": "2026-04-11",
+   "completed_at": "2026-06-02",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3009,7 +5209,7 @@ window.LIEBE_SEED = {
    "id": "rp-017-pilotagem",
    "reference_id": "ref-017",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-05",
+   "completed_at": "2026-06-03",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3019,7 +5219,7 @@ window.LIEBE_SEED = {
    "id": "rp-017-prova",
    "reference_id": "ref-017",
    "phase_id": "phase-prova",
-   "completed_at": "2026-05-19",
+   "completed_at": "2026-06-08",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3029,7 +5229,7 @@ window.LIEBE_SEED = {
    "id": "rp-017-aprov_mod",
    "reference_id": "ref-017",
    "phase_id": "phase-aprov_mod",
-   "completed_at": "2026-06-02",
+   "completed_at": "2026-06-08",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3039,7 +5239,227 @@ window.LIEBE_SEED = {
    "id": "rp-017-fluxo_operacional",
    "reference_id": "ref-017",
    "phase_id": "phase-fluxo_operacional",
-   "completed_at": "2026-06-01",
+   "completed_at": "2026-06-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-comite",
+   "reference_id": "ref-017",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-cadastro",
+   "reference_id": "ref-017",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-29",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-pre_custo_aprovacao",
+   "reference_id": "ref-017",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-cadastro_de_cores_continuados",
+   "reference_id": "ref-017",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-liberacao_para_pcp",
+   "reference_id": "ref-017",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-prova_grades",
+   "reference_id": "ref-017",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-aprovacao_grade",
+   "reference_id": "ref-017",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-017",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-017-producao_de_peca_para_catalogo",
+   "reference_id": "ref-017",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-modelagem",
+   "reference_id": "ref-018",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-pilotagem",
+   "reference_id": "ref-018",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-27",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-prova",
+   "reference_id": "ref-018",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-aprov_mod",
+   "reference_id": "ref-018",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-fluxo_operacional",
+   "reference_id": "ref-018",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-28",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-comite",
+   "reference_id": "ref-018",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-pre_custo_aprovacao",
+   "reference_id": "ref-018",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-cadastro_de_cores_continuados",
+   "reference_id": "ref-018",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-liberacao_para_pcp",
+   "reference_id": "ref-018",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-pilotagem_grades",
+   "reference_id": "ref-018",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-018",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-ficha_de_medidas",
+   "reference_id": "ref-018",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-018-liberacao_de_peca_piloto",
+   "reference_id": "ref-018",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-25",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3049,7 +5469,7 @@ window.LIEBE_SEED = {
    "id": "rp-019-modelagem",
    "reference_id": "ref-019",
    "phase_id": "phase-modelagem",
-   "completed_at": "2026-04-04",
+   "completed_at": "2026-04-06",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3059,7 +5479,7 @@ window.LIEBE_SEED = {
    "id": "rp-019-pilotagem",
    "reference_id": "ref-019",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-27",
+   "completed_at": "2026-05-21",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3079,7 +5499,7 @@ window.LIEBE_SEED = {
    "id": "rp-019-aprov_mod",
    "reference_id": "ref-019",
    "phase_id": "phase-aprov_mod",
-   "completed_at": "2026-06-02",
+   "completed_at": "2026-05-29",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3089,7 +5509,507 @@ window.LIEBE_SEED = {
    "id": "rp-019-fluxo_operacional",
    "reference_id": "ref-019",
    "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-019-comite",
+   "reference_id": "ref-019",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-019-pre_custo_aprovacao",
+   "reference_id": "ref-019",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-06-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-019-cadastro_de_cores_continuados",
+   "reference_id": "ref-019",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-019-liberacao_para_pcp",
+   "reference_id": "ref-019",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-019-pilotagem_grades",
+   "reference_id": "ref-019",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-019-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-019",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-019-ficha_de_medidas",
+   "reference_id": "ref-019",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-019-liberacao_de_peca_piloto",
+   "reference_id": "ref-019",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-modelagem",
+   "reference_id": "ref-020",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-pilotagem",
+   "reference_id": "ref-020",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-prova",
+   "reference_id": "ref-020",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-29",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-aprov_mod",
+   "reference_id": "ref-020",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-fluxo_operacional",
+   "reference_id": "ref-020",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-comite",
+   "reference_id": "ref-020",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-cadastro",
+   "reference_id": "ref-020",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-pre_custo_aprovacao",
+   "reference_id": "ref-020",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-cadastro_de_cores_continuados",
+   "reference_id": "ref-020",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-liberacao_para_pcp",
+   "reference_id": "ref-020",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-aprovacao_grade",
+   "reference_id": "ref-020",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-020",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-ficha_de_medidas",
+   "reference_id": "ref-020",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-020-liberacao_de_peca_piloto",
+   "reference_id": "ref-020",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-modelagem",
+   "reference_id": "ref-021",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-07",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-pilotagem",
+   "reference_id": "ref-021",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-prova",
+   "reference_id": "ref-021",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-aprov_mod",
+   "reference_id": "ref-021",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-29",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-fluxo_operacional",
+   "reference_id": "ref-021",
+   "phase_id": "phase-fluxo_operacional",
    "completed_at": "2026-05-28",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-comite",
+   "reference_id": "ref-021",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-pre_custo_aprovacao",
+   "reference_id": "ref-021",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-cadastro_de_cores_continuados",
+   "reference_id": "ref-021",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-liberacao_para_pcp",
+   "reference_id": "ref-021",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-aprovacao_grade",
+   "reference_id": "ref-021",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-021",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-ficha_de_medidas",
+   "reference_id": "ref-021",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-021-liberacao_de_peca_piloto",
+   "reference_id": "ref-021",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-modelagem",
+   "reference_id": "ref-022",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-05-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-pilotagem",
+   "reference_id": "ref-022",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-prova",
+   "reference_id": "ref-022",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-aprov_mod",
+   "reference_id": "ref-022",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-fluxo_operacional",
+   "reference_id": "ref-022",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-27",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-comite",
+   "reference_id": "ref-022",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-pre_custo_aprovacao",
+   "reference_id": "ref-022",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-cadastro_de_cores_continuados",
+   "reference_id": "ref-022",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-liberacao_para_pcp",
+   "reference_id": "ref-022",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-pilotagem_grades",
+   "reference_id": "ref-022",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-28",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-prova_grades",
+   "reference_id": "ref-022",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-aprovacao_grade",
+   "reference_id": "ref-022",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-022",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-ficha_de_medidas",
+   "reference_id": "ref-022",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-022-liberacao_de_peca_piloto",
+   "reference_id": "ref-022",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-25",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3099,7 +6019,7 @@ window.LIEBE_SEED = {
    "id": "rp-023-modelagem",
    "reference_id": "ref-023",
    "phase_id": "phase-modelagem",
-   "completed_at": "2026-05-18",
+   "completed_at": "2026-04-07",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3146,10 +6066,110 @@ window.LIEBE_SEED = {
    "created_by": "user-vanderlei"
   },
   {
+   "id": "rp-023-comite",
+   "reference_id": "ref-023",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-pre_custo_aprovacao",
+   "reference_id": "ref-023",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-cadastro_de_cores_continuados",
+   "reference_id": "ref-023",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-liberacao_para_pcp",
+   "reference_id": "ref-023",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-pilotagem_grades",
+   "reference_id": "ref-023",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-prova_grades",
+   "reference_id": "ref-023",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-aprovacao_grade",
+   "reference_id": "ref-023",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-023",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-ficha_de_medidas",
+   "reference_id": "ref-023",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-023-liberacao_de_peca_piloto",
+   "reference_id": "ref-023",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
    "id": "rp-024-modelagem",
    "reference_id": "ref-024",
    "phase_id": "phase-modelagem",
-   "completed_at": "2026-04-07",
+   "completed_at": "2026-04-22",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3159,7 +6179,7 @@ window.LIEBE_SEED = {
    "id": "rp-024-pilotagem",
    "reference_id": "ref-024",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-20",
+   "completed_at": "2026-05-08",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3169,7 +6189,7 @@ window.LIEBE_SEED = {
    "id": "rp-024-prova",
    "reference_id": "ref-024",
    "phase_id": "phase-prova",
-   "completed_at": "2026-05-25",
+   "completed_at": "2026-05-19",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3179,7 +6199,7 @@ window.LIEBE_SEED = {
    "id": "rp-024-aprov_mod",
    "reference_id": "ref-024",
    "phase_id": "phase-aprov_mod",
-   "completed_at": "2026-06-02",
+   "completed_at": "2026-05-19",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3189,7 +6209,1337 @@ window.LIEBE_SEED = {
    "id": "rp-024-fluxo_operacional",
    "reference_id": "ref-024",
    "phase_id": "phase-fluxo_operacional",
-   "completed_at": "2026-05-27",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-024-comite",
+   "reference_id": "ref-024",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-024-pre_custo_aprovacao",
+   "reference_id": "ref-024",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-024-cadastro_de_cores_continuados",
+   "reference_id": "ref-024",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-024-liberacao_para_pcp",
+   "reference_id": "ref-024",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-024-aprovacao_grade",
+   "reference_id": "ref-024",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-024-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-024",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-024-ficha_de_medidas",
+   "reference_id": "ref-024",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-024-liberacao_de_peca_piloto",
+   "reference_id": "ref-024",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-modelagem",
+   "reference_id": "ref-025",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-pilotagem",
+   "reference_id": "ref-025",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-04-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-prova",
+   "reference_id": "ref-025",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-aprov_mod",
+   "reference_id": "ref-025",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-fluxo_operacional",
+   "reference_id": "ref-025",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-comite",
+   "reference_id": "ref-025",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-pre_custo_aprovacao",
+   "reference_id": "ref-025",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-cadastro_de_cores_continuados",
+   "reference_id": "ref-025",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-liberacao_para_pcp",
+   "reference_id": "ref-025",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-prova_grades",
+   "reference_id": "ref-025",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-aprovacao_grade",
+   "reference_id": "ref-025",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-025",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-ficha_de_medidas",
+   "reference_id": "ref-025",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-025-liberacao_de_peca_piloto",
+   "reference_id": "ref-025",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-modelagem",
+   "reference_id": "ref-026",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-07",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-pilotagem",
+   "reference_id": "ref-026",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-04-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-prova",
+   "reference_id": "ref-026",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-aprov_mod",
+   "reference_id": "ref-026",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-fluxo_operacional",
+   "reference_id": "ref-026",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-28",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-comite",
+   "reference_id": "ref-026",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-cadastro",
+   "reference_id": "ref-026",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-29",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-pre_custo_aprovacao",
+   "reference_id": "ref-026",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-cadastro_de_cores_continuados",
+   "reference_id": "ref-026",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-liberacao_para_pcp",
+   "reference_id": "ref-026",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-aprovacao_grade",
+   "reference_id": "ref-026",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-026",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-ficha_de_medidas",
+   "reference_id": "ref-026",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-026-liberacao_de_peca_piloto",
+   "reference_id": "ref-026",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-modelagem",
+   "reference_id": "ref-027",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-pilotagem",
+   "reference_id": "ref-027",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-prova",
+   "reference_id": "ref-027",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-aprov_mod",
+   "reference_id": "ref-027",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "1900-01-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-fluxo_operacional",
+   "reference_id": "ref-027",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-comite",
+   "reference_id": "ref-027",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-cadastro",
+   "reference_id": "ref-027",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-07-01",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-pre_custo_aprovacao",
+   "reference_id": "ref-027",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-cadastro_de_cores_continuados",
+   "reference_id": "ref-027",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-liberacao_para_pcp",
+   "reference_id": "ref-027",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-pilotagem_grades",
+   "reference_id": "ref-027",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-prova_grades",
+   "reference_id": "ref-027",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-aprovacao_grade",
+   "reference_id": "ref-027",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-027",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-ficha_de_medidas",
+   "reference_id": "ref-027",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-027-liberacao_de_peca_piloto",
+   "reference_id": "ref-027",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-modelagem",
+   "reference_id": "ref-028",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-07",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-pilotagem",
+   "reference_id": "ref-028",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-04-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-prova",
+   "reference_id": "ref-028",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-aprov_mod",
+   "reference_id": "ref-028",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-fluxo_operacional",
+   "reference_id": "ref-028",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-comite",
+   "reference_id": "ref-028",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-pre_custo_aprovacao",
+   "reference_id": "ref-028",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-cadastro_de_cores_continuados",
+   "reference_id": "ref-028",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-liberacao_para_pcp",
+   "reference_id": "ref-028",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-aprovacao_grade",
+   "reference_id": "ref-028",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-028",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-ficha_de_medidas",
+   "reference_id": "ref-028",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-028-liberacao_de_peca_piloto",
+   "reference_id": "ref-028",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-modelagem",
+   "reference_id": "ref-029",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-22",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-pilotagem",
+   "reference_id": "ref-029",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-prova",
+   "reference_id": "ref-029",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-aprov_mod",
+   "reference_id": "ref-029",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-fluxo_operacional",
+   "reference_id": "ref-029",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-comite",
+   "reference_id": "ref-029",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-pre_custo_aprovacao",
+   "reference_id": "ref-029",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-cadastro_de_cores_continuados",
+   "reference_id": "ref-029",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-liberacao_para_pcp",
+   "reference_id": "ref-029",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-pilotagem_grades",
+   "reference_id": "ref-029",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-prova_grades",
+   "reference_id": "ref-029",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-aprovacao_grade",
+   "reference_id": "ref-029",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-029",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-ficha_de_medidas",
+   "reference_id": "ref-029",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-029-liberacao_de_peca_piloto",
+   "reference_id": "ref-029",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-modelagem",
+   "reference_id": "ref-030",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-07",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-pilotagem",
+   "reference_id": "ref-030",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-prova",
+   "reference_id": "ref-030",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-aprov_mod",
+   "reference_id": "ref-030",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-fluxo_operacional",
+   "reference_id": "ref-030",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-comite",
+   "reference_id": "ref-030",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-pre_custo_aprovacao",
+   "reference_id": "ref-030",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-cadastro_de_cores_continuados",
+   "reference_id": "ref-030",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-liberacao_para_pcp",
+   "reference_id": "ref-030",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-aprovacao_grade",
+   "reference_id": "ref-030",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-030",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-ficha_de_medidas",
+   "reference_id": "ref-030",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-030-liberacao_de_peca_piloto",
+   "reference_id": "ref-030",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-modelagem",
+   "reference_id": "ref-031",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-pilotagem",
+   "reference_id": "ref-031",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-04-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-prova",
+   "reference_id": "ref-031",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-aprov_mod",
+   "reference_id": "ref-031",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-fluxo_operacional",
+   "reference_id": "ref-031",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-comite",
+   "reference_id": "ref-031",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-pre_custo_aprovacao",
+   "reference_id": "ref-031",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-cadastro_de_cores_continuados",
+   "reference_id": "ref-031",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-liberacao_para_pcp",
+   "reference_id": "ref-031",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-prova_grades",
+   "reference_id": "ref-031",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-aprovacao_grade",
+   "reference_id": "ref-031",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-031",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-ficha_de_medidas",
+   "reference_id": "ref-031",
+   "phase_id": "phase-ficha_de_medidas",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-031-liberacao_de_peca_piloto",
+   "reference_id": "ref-031",
+   "phase_id": "phase-liberacao_de_peca_piloto",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-modelagem",
+   "reference_id": "ref-032",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-pilotagem",
+   "reference_id": "ref-032",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-prova",
+   "reference_id": "ref-032",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-aprov_mod",
+   "reference_id": "ref-032",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-29",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-fluxo_operacional",
+   "reference_id": "ref-032",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-comite",
+   "reference_id": "ref-032",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-pre_custo_aprovacao",
+   "reference_id": "ref-032",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-cadastro_de_cores_continuados",
+   "reference_id": "ref-032",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-liberacao_para_pcp",
+   "reference_id": "ref-032",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-aprovacao_grade",
+   "reference_id": "ref-032",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-032",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-032-producao_de_peca_para_catalogo",
+   "reference_id": "ref-032",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-modelagem",
+   "reference_id": "ref-033",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-pilotagem",
+   "reference_id": "ref-033",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-prova",
+   "reference_id": "ref-033",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-aprov_mod",
+   "reference_id": "ref-033",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-fluxo_operacional",
+   "reference_id": "ref-033",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-01",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-comite",
+   "reference_id": "ref-033",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-cadastro",
+   "reference_id": "ref-033",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-pre_custo_aprovacao",
+   "reference_id": "ref-033",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-cadastro_de_cores_continuados",
+   "reference_id": "ref-033",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-liberacao_para_pcp",
+   "reference_id": "ref-033",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-pilotagem_grades",
+   "reference_id": "ref-033",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-aprovacao_grade",
+   "reference_id": "ref-033",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-033",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-033-producao_de_peca_para_catalogo",
+   "reference_id": "ref-033",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-24",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3209,7 +7559,7 @@ window.LIEBE_SEED = {
    "id": "rp-034-pilotagem",
    "reference_id": "ref-034",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-15",
+   "completed_at": "2026-05-14",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3229,7 +7579,7 @@ window.LIEBE_SEED = {
    "id": "rp-034-aprov_mod",
    "reference_id": "ref-034",
    "phase_id": "phase-aprov_mod",
-   "completed_at": "2026-06-02",
+   "completed_at": "2026-05-25",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3239,7 +7589,197 @@ window.LIEBE_SEED = {
    "id": "rp-034-fluxo_operacional",
    "reference_id": "ref-034",
    "phase_id": "phase-fluxo_operacional",
-   "completed_at": "2026-06-01",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-034-comite",
+   "reference_id": "ref-034",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-034-pre_custo_aprovacao",
+   "reference_id": "ref-034",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-034-cadastro_de_cores_continuados",
+   "reference_id": "ref-034",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-034-liberacao_para_pcp",
+   "reference_id": "ref-034",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-034-aprovacao_grade",
+   "reference_id": "ref-034",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-034-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-034",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-034-producao_de_peca_para_catalogo",
+   "reference_id": "ref-034",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-modelagem",
+   "reference_id": "ref-035",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-pilotagem",
+   "reference_id": "ref-035",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-prova",
+   "reference_id": "ref-035",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-aprov_mod",
+   "reference_id": "ref-035",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-fluxo_operacional",
+   "reference_id": "ref-035",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-comite",
+   "reference_id": "ref-035",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-pre_custo_aprovacao",
+   "reference_id": "ref-035",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-cadastro_de_cores_continuados",
+   "reference_id": "ref-035",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-liberacao_para_pcp",
+   "reference_id": "ref-035",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-aprovacao_grade",
+   "reference_id": "ref-035",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-035",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-035-producao_de_peca_para_catalogo",
+   "reference_id": "ref-035",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-24",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3249,7 +7789,7 @@ window.LIEBE_SEED = {
    "id": "rp-036-modelagem",
    "reference_id": "ref-036",
    "phase_id": "phase-modelagem",
-   "completed_at": "2026-04-15",
+   "completed_at": "2026-04-14",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3259,7 +7799,7 @@ window.LIEBE_SEED = {
    "id": "rp-036-pilotagem",
    "reference_id": "ref-036",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-15",
+   "completed_at": "2026-05-19",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3269,7 +7809,7 @@ window.LIEBE_SEED = {
    "id": "rp-036-prova",
    "reference_id": "ref-036",
    "phase_id": "phase-prova",
-   "completed_at": "2026-06-02",
+   "completed_at": "2026-05-19",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3279,7 +7819,7 @@ window.LIEBE_SEED = {
    "id": "rp-036-aprov_mod",
    "reference_id": "ref-036",
    "phase_id": "phase-aprov_mod",
-   "completed_at": "2026-06-02",
+   "completed_at": "2026-06-17",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3289,7 +7829,437 @@ window.LIEBE_SEED = {
    "id": "rp-036-fluxo_operacional",
    "reference_id": "ref-036",
    "phase_id": "phase-fluxo_operacional",
-   "completed_at": "2026-06-01",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-comite",
+   "reference_id": "ref-036",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-cadastro",
+   "reference_id": "ref-036",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-pre_custo_aprovacao",
+   "reference_id": "ref-036",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-cadastro_de_cores_continuados",
+   "reference_id": "ref-036",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-liberacao_para_pcp",
+   "reference_id": "ref-036",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-pilotagem_grades",
+   "reference_id": "ref-036",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-aprovacao_grade",
+   "reference_id": "ref-036",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-036",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-036-producao_de_peca_para_catalogo",
+   "reference_id": "ref-036",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-modelagem",
+   "reference_id": "ref-037",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-pilotagem",
+   "reference_id": "ref-037",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-prova",
+   "reference_id": "ref-037",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-aprov_mod",
+   "reference_id": "ref-037",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-fluxo_operacional",
+   "reference_id": "ref-037",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-comite",
+   "reference_id": "ref-037",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-pre_custo_aprovacao",
+   "reference_id": "ref-037",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-cadastro_de_cores_continuados",
+   "reference_id": "ref-037",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-liberacao_para_pcp",
+   "reference_id": "ref-037",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-pilotagem_grades",
+   "reference_id": "ref-037",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-aprovacao_grade",
+   "reference_id": "ref-037",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-marcacao_de_fichas_de_medida",
+   "reference_id": "ref-037",
+   "phase_id": "phase-marcacao_de_fichas_de_medida",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-037-producao_de_peca_para_catalogo",
+   "reference_id": "ref-037",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-modelagem",
+   "reference_id": "ref-038",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-pilotagem",
+   "reference_id": "ref-038",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-prova",
+   "reference_id": "ref-038",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-fluxo_operacional",
+   "reference_id": "ref-038",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-comite",
+   "reference_id": "ref-038",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-pre_custo_aprovacao",
+   "reference_id": "ref-038",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-28",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-cadastro_de_cores_continuados",
+   "reference_id": "ref-038",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-liberacao_para_pcp",
+   "reference_id": "ref-038",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-aprovacao_grade",
+   "reference_id": "ref-038",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-038-producao_de_peca_para_catalogo",
+   "reference_id": "ref-038",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-modelagem",
+   "reference_id": "ref-039",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-pilotagem",
+   "reference_id": "ref-039",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-prova",
+   "reference_id": "ref-039",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-aprov_mod",
+   "reference_id": "ref-039",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-fluxo_operacional",
+   "reference_id": "ref-039",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-comite",
+   "reference_id": "ref-039",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-cadastro",
+   "reference_id": "ref-039",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-pre_custo_aprovacao",
+   "reference_id": "ref-039",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-23",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-cadastro_de_cores_continuados",
+   "reference_id": "ref-039",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-liberacao_para_pcp",
+   "reference_id": "ref-039",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-039-aprovacao_grade",
+   "reference_id": "ref-039",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3299,7 +8269,7 @@ window.LIEBE_SEED = {
    "id": "rp-040-modelagem",
    "reference_id": "ref-040",
    "phase_id": "phase-modelagem",
-   "completed_at": "2026-04-15",
+   "completed_at": "2026-04-13",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3309,7 +8279,7 @@ window.LIEBE_SEED = {
    "id": "rp-040-pilotagem",
    "reference_id": "ref-040",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-06",
+   "completed_at": "2026-05-07",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3319,7 +8289,7 @@ window.LIEBE_SEED = {
    "id": "rp-040-prova",
    "reference_id": "ref-040",
    "phase_id": "phase-prova",
-   "completed_at": "2026-05-19",
+   "completed_at": "2026-06-19",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3339,7 +8309,867 @@ window.LIEBE_SEED = {
    "id": "rp-040-fluxo_operacional",
    "reference_id": "ref-040",
    "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-040-comite",
+   "reference_id": "ref-040",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-040-pre_custo_aprovacao",
+   "reference_id": "ref-040",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-07-28",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-040-cadastro_de_cores_continuados",
+   "reference_id": "ref-040",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-040-liberacao_para_pcp",
+   "reference_id": "ref-040",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-040-pilotagem_grades",
+   "reference_id": "ref-040",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-040-aprovacao_grade",
+   "reference_id": "ref-040",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-041-pilotagem",
+   "reference_id": "ref-041",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-07-01",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-041-prova",
+   "reference_id": "ref-041",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-041-pre_custo_aprovacao",
+   "reference_id": "ref-041",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-041-cadastro_de_cores_continuados",
+   "reference_id": "ref-041",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-042-pilotagem",
+   "reference_id": "ref-042",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-07-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-042-prova",
+   "reference_id": "ref-042",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-042-pre_custo_aprovacao",
+   "reference_id": "ref-042",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-042-cadastro_de_cores_continuados",
+   "reference_id": "ref-042",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-043-pilotagem",
+   "reference_id": "ref-043",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-06-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-043-prova",
+   "reference_id": "ref-043",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-043-cadastro",
+   "reference_id": "ref-043",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-07-01",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-043-pre_custo_aprovacao",
+   "reference_id": "ref-043",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-043-cadastro_de_cores_continuados",
+   "reference_id": "ref-043",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-043-prova_grades",
+   "reference_id": "ref-043",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-043-aprovacao_grade",
+   "reference_id": "ref-043",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-044-pilotagem",
+   "reference_id": "ref-044",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-06-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-044-prova",
+   "reference_id": "ref-044",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-044-cadastro",
+   "reference_id": "ref-044",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-07-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-044-pre_custo_aprovacao",
+   "reference_id": "ref-044",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-044-cadastro_de_cores_continuados",
+   "reference_id": "ref-044",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-044-prova_grades",
+   "reference_id": "ref-044",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-044-aprovacao_grade",
+   "reference_id": "ref-044",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-modelagem",
+   "reference_id": "ref-045",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-pilotagem",
+   "reference_id": "ref-045",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-prova",
+   "reference_id": "ref-045",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-aprov_mod",
+   "reference_id": "ref-045",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-fluxo_operacional",
+   "reference_id": "ref-045",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-comite",
+   "reference_id": "ref-045",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-cadastro",
+   "reference_id": "ref-045",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-24",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-pre_custo_aprovacao",
+   "reference_id": "ref-045",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-cadastro_de_cores_continuados",
+   "reference_id": "ref-045",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-liberacao_para_pcp",
+   "reference_id": "ref-045",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-aprovacao_grade",
+   "reference_id": "ref-045",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-045-producao_de_peca_para_catalogo",
+   "reference_id": "ref-045",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-desenho",
+   "reference_id": "ref-046",
+   "phase_id": "phase-desenho",
+   "completed_at": "2026-06-09",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-modelagem",
+   "reference_id": "ref-046",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-pilotagem",
+   "reference_id": "ref-046",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-prova",
+   "reference_id": "ref-046",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-aprov_mod",
+   "reference_id": "ref-046",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-fluxo_operacional",
+   "reference_id": "ref-046",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-01",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-comite",
+   "reference_id": "ref-046",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-pre_custo_aprovacao",
+   "reference_id": "ref-046",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-cadastro_de_cores_continuados",
+   "reference_id": "ref-046",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-liberacao_para_pcp",
+   "reference_id": "ref-046",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-prova_grades",
+   "reference_id": "ref-046",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-aprovacao_grade",
+   "reference_id": "ref-046",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-046-producao_de_peca_para_catalogo",
+   "reference_id": "ref-046",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-modelagem",
+   "reference_id": "ref-047",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-pilotagem",
+   "reference_id": "ref-047",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-14",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-prova",
+   "reference_id": "ref-047",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-27",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-aprov_mod",
+   "reference_id": "ref-047",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-27",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-fluxo_operacional",
+   "reference_id": "ref-047",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-29",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-comite",
+   "reference_id": "ref-047",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-pre_custo_aprovacao",
+   "reference_id": "ref-047",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-cadastro_de_cores_continuados",
+   "reference_id": "ref-047",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-liberacao_para_pcp",
+   "reference_id": "ref-047",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-aprovacao_grade",
+   "reference_id": "ref-047",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-047-producao_de_peca_para_catalogo",
+   "reference_id": "ref-047",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-modelagem",
+   "reference_id": "ref-048",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-pilotagem",
+   "reference_id": "ref-048",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-prova",
+   "reference_id": "ref-048",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-aprov_mod",
+   "reference_id": "ref-048",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-27",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-fluxo_operacional",
+   "reference_id": "ref-048",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-comite",
+   "reference_id": "ref-048",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-pre_custo_aprovacao",
+   "reference_id": "ref-048",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-cadastro_de_cores_continuados",
+   "reference_id": "ref-048",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-liberacao_para_pcp",
+   "reference_id": "ref-048",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-aprovacao_grade",
+   "reference_id": "ref-048",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-048-producao_de_peca_para_catalogo",
+   "reference_id": "ref-048",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-modelagem",
+   "reference_id": "ref-049",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-pilotagem",
+   "reference_id": "ref-049",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-11",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-prova",
+   "reference_id": "ref-049",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-aprov_mod",
+   "reference_id": "ref-049",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-fluxo_operacional",
+   "reference_id": "ref-049",
+   "phase_id": "phase-fluxo_operacional",
    "completed_at": "2026-05-26",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-comite",
+   "reference_id": "ref-049",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-pre_custo_aprovacao",
+   "reference_id": "ref-049",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-cadastro_de_cores_continuados",
+   "reference_id": "ref-049",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-liberacao_para_pcp",
+   "reference_id": "ref-049",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-aprovacao_grade",
+   "reference_id": "ref-049",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-049-producao_de_peca_para_catalogo",
+   "reference_id": "ref-049",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-20",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3349,7 +9179,7 @@ window.LIEBE_SEED = {
    "id": "rp-050-modelagem",
    "reference_id": "ref-050",
    "phase_id": "phase-modelagem",
-   "completed_at": "2026-04-04",
+   "completed_at": "2026-04-06",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3359,7 +9189,7 @@ window.LIEBE_SEED = {
    "id": "rp-050-pilotagem",
    "reference_id": "ref-050",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-13",
+   "completed_at": "2026-04-13",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3379,7 +9209,7 @@ window.LIEBE_SEED = {
    "id": "rp-050-aprov_mod",
    "reference_id": "ref-050",
    "phase_id": "phase-aprov_mod",
-   "completed_at": "2026-05-27",
+   "completed_at": "2026-06-17",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3389,7 +9219,417 @@ window.LIEBE_SEED = {
    "id": "rp-050-fluxo_operacional",
    "reference_id": "ref-050",
    "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-050-comite",
+   "reference_id": "ref-050",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-050-cadastro",
+   "reference_id": "ref-050",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-07-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-050-pre_custo_aprovacao",
+   "reference_id": "ref-050",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-050-cadastro_de_cores_continuados",
+   "reference_id": "ref-050",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-050-liberacao_para_pcp",
+   "reference_id": "ref-050",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-050-aprovacao_grade",
+   "reference_id": "ref-050",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-050-producao_de_peca_para_catalogo",
+   "reference_id": "ref-050",
+   "phase_id": "phase-producao_de_peca_para_catalogo",
+   "completed_at": "2026-08-20",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-modelagem",
+   "reference_id": "ref-051",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-pilotagem",
+   "reference_id": "ref-051",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-04",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-prova",
+   "reference_id": "ref-051",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-aprov_mod",
+   "reference_id": "ref-051",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-fluxo_operacional",
+   "reference_id": "ref-051",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-01",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-comite",
+   "reference_id": "ref-051",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-pre_custo_aprovacao",
+   "reference_id": "ref-051",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-cadastro_de_cores_continuados",
+   "reference_id": "ref-051",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-liberacao_para_pcp",
+   "reference_id": "ref-051",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-pilotagem_grades",
+   "reference_id": "ref-051",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-051-aprovacao_grade",
+   "reference_id": "ref-051",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-modelagem",
+   "reference_id": "ref-052",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-pilotagem",
+   "reference_id": "ref-052",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-prova",
+   "reference_id": "ref-052",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-aprov_mod",
+   "reference_id": "ref-052",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-fluxo_operacional",
+   "reference_id": "ref-052",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-05-28",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-comite",
+   "reference_id": "ref-052",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-pre_custo_aprovacao",
+   "reference_id": "ref-052",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-cadastro_de_cores_continuados",
+   "reference_id": "ref-052",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-liberacao_para_pcp",
+   "reference_id": "ref-052",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-pilotagem_grades",
+   "reference_id": "ref-052",
+   "phase_id": "phase-pilotagem_grades",
+   "completed_at": "2026-07-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-052-aprovacao_grade",
+   "reference_id": "ref-052",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-modelagem",
+   "reference_id": "ref-053",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-pilotagem",
+   "reference_id": "ref-053",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-prova",
+   "reference_id": "ref-053",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-06-02",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-aprov_mod",
+   "reference_id": "ref-053",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-fluxo_operacional",
+   "reference_id": "ref-053",
+   "phase_id": "phase-fluxo_operacional",
    "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-comite",
+   "reference_id": "ref-053",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-cadastro",
+   "reference_id": "ref-053",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-pre_custo_aprovacao",
+   "reference_id": "ref-053",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-cadastro_de_cores_continuados",
+   "reference_id": "ref-053",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-liberacao_para_pcp",
+   "reference_id": "ref-053",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-prova_grades",
+   "reference_id": "ref-053",
+   "phase_id": "phase-prova_grades",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-053-aprovacao_grade",
+   "reference_id": "ref-053",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-06",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3399,7 +9639,7 @@ window.LIEBE_SEED = {
    "id": "rp-054-modelagem",
    "reference_id": "ref-054",
    "phase_id": "phase-modelagem",
-   "completed_at": "2026-04-16",
+   "completed_at": "2026-04-15",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3409,7 +9649,7 @@ window.LIEBE_SEED = {
    "id": "rp-054-pilotagem",
    "reference_id": "ref-054",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-19",
+   "completed_at": "2026-05-12",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3419,7 +9659,7 @@ window.LIEBE_SEED = {
    "id": "rp-054-prova",
    "reference_id": "ref-054",
    "phase_id": "phase-prova",
-   "completed_at": "2026-05-21",
+   "completed_at": "2026-05-18",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3439,7 +9679,157 @@ window.LIEBE_SEED = {
    "id": "rp-054-fluxo_operacional",
    "reference_id": "ref-054",
    "phase_id": "phase-fluxo_operacional",
-   "completed_at": "2026-05-28",
+   "completed_at": "2026-05-25",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-054-comite",
+   "reference_id": "ref-054",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-054-pre_custo_aprovacao",
+   "reference_id": "ref-054",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-054-cadastro_de_cores_continuados",
+   "reference_id": "ref-054",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-054-liberacao_para_pcp",
+   "reference_id": "ref-054",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-054-aprovacao_grade",
+   "reference_id": "ref-054",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-modelagem",
+   "reference_id": "ref-055",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-15",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-pilotagem",
+   "reference_id": "ref-055",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-18",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-prova",
+   "reference_id": "ref-055",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-aprov_mod",
+   "reference_id": "ref-055",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-fluxo_operacional",
+   "reference_id": "ref-055",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-08",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-comite",
+   "reference_id": "ref-055",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-pre_custo_aprovacao",
+   "reference_id": "ref-055",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-cadastro_de_cores_continuados",
+   "reference_id": "ref-055",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-liberacao_para_pcp",
+   "reference_id": "ref-055",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-055-aprovacao_grade",
+   "reference_id": "ref-055",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3459,7 +9849,7 @@ window.LIEBE_SEED = {
    "id": "rp-056-pilotagem",
    "reference_id": "ref-056",
    "phase_id": "phase-pilotagem",
-   "completed_at": "2026-05-12",
+   "completed_at": "2026-05-18",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3469,7 +9859,7 @@ window.LIEBE_SEED = {
    "id": "rp-056-prova",
    "reference_id": "ref-056",
    "phase_id": "phase-prova",
-   "completed_at": "2026-05-18",
+   "completed_at": "2026-05-21",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",
@@ -3489,7 +9879,1267 @@ window.LIEBE_SEED = {
    "id": "rp-056-fluxo_operacional",
    "reference_id": "ref-056",
    "phase_id": "phase-fluxo_operacional",
-   "completed_at": "2026-05-25",
+   "completed_at": "2026-06-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-056-comite",
+   "reference_id": "ref-056",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-056-pre_custo_aprovacao",
+   "reference_id": "ref-056",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-056-cadastro_de_cores_continuados",
+   "reference_id": "ref-056",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-056-liberacao_para_pcp",
+   "reference_id": "ref-056",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-056-aprovacao_grade",
+   "reference_id": "ref-056",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-10",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-modelagem",
+   "reference_id": "ref-057",
+   "phase_id": "phase-modelagem",
+   "completed_at": "2026-04-16",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-pilotagem",
+   "reference_id": "ref-057",
+   "phase_id": "phase-pilotagem",
+   "completed_at": "2026-05-19",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-prova",
+   "reference_id": "ref-057",
+   "phase_id": "phase-prova",
+   "completed_at": "2026-05-21",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-aprov_mod",
+   "reference_id": "ref-057",
+   "phase_id": "phase-aprov_mod",
+   "completed_at": "2026-07-13",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-fluxo_operacional",
+   "reference_id": "ref-057",
+   "phase_id": "phase-fluxo_operacional",
+   "completed_at": "2026-06-03",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-comite",
+   "reference_id": "ref-057",
+   "phase_id": "phase-comite",
+   "completed_at": "2026-06-17",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-cadastro",
+   "reference_id": "ref-057",
+   "phase_id": "phase-cadastro",
+   "completed_at": "2026-06-30",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-pre_custo_aprovacao",
+   "reference_id": "ref-057",
+   "phase_id": "phase-pre_custo_aprovacao",
+   "completed_at": "2026-08-06",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-cadastro_de_cores_continuados",
+   "reference_id": "ref-057",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-liberacao_para_pcp",
+   "reference_id": "ref-057",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-057-aprovacao_grade",
+   "reference_id": "ref-057",
+   "phase_id": "phase-aprovacao_grade",
+   "completed_at": "2026-08-12",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-058-cadastro_de_cores_continuados",
+   "reference_id": "ref-058",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-058-liberacao_para_pcp",
+   "reference_id": "ref-058",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-059-cadastro_de_cores_continuados",
+   "reference_id": "ref-059",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-059-liberacao_para_pcp",
+   "reference_id": "ref-059",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-060-cadastro_de_cores_continuados",
+   "reference_id": "ref-060",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-060-liberacao_para_pcp",
+   "reference_id": "ref-060",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-061-cadastro_de_cores_continuados",
+   "reference_id": "ref-061",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-061-liberacao_para_pcp",
+   "reference_id": "ref-061",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-062-cadastro_de_cores_continuados",
+   "reference_id": "ref-062",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-062-liberacao_para_pcp",
+   "reference_id": "ref-062",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-063-cadastro_de_cores_continuados",
+   "reference_id": "ref-063",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-063-liberacao_para_pcp",
+   "reference_id": "ref-063",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-064-cadastro_de_cores_continuados",
+   "reference_id": "ref-064",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-064-liberacao_para_pcp",
+   "reference_id": "ref-064",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-065-cadastro_de_cores_continuados",
+   "reference_id": "ref-065",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-065-liberacao_para_pcp",
+   "reference_id": "ref-065",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-066-cadastro_de_cores_continuados",
+   "reference_id": "ref-066",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-066-liberacao_para_pcp",
+   "reference_id": "ref-066",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-067-cadastro_de_cores_continuados",
+   "reference_id": "ref-067",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-067-liberacao_para_pcp",
+   "reference_id": "ref-067",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-068-cadastro_de_cores_continuados",
+   "reference_id": "ref-068",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-068-liberacao_para_pcp",
+   "reference_id": "ref-068",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-069-cadastro_de_cores_continuados",
+   "reference_id": "ref-069",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-069-liberacao_para_pcp",
+   "reference_id": "ref-069",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-070-cadastro_de_cores_continuados",
+   "reference_id": "ref-070",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-070-liberacao_para_pcp",
+   "reference_id": "ref-070",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-071-cadastro_de_cores_continuados",
+   "reference_id": "ref-071",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-071-liberacao_para_pcp",
+   "reference_id": "ref-071",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-072-cadastro_de_cores_continuados",
+   "reference_id": "ref-072",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-072-liberacao_para_pcp",
+   "reference_id": "ref-072",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-073-cadastro_de_cores_continuados",
+   "reference_id": "ref-073",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-073-liberacao_para_pcp",
+   "reference_id": "ref-073",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-074-cadastro_de_cores_continuados",
+   "reference_id": "ref-074",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-074-liberacao_para_pcp",
+   "reference_id": "ref-074",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-075-cadastro_de_cores_continuados",
+   "reference_id": "ref-075",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-075-liberacao_para_pcp",
+   "reference_id": "ref-075",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-076-cadastro_de_cores_continuados",
+   "reference_id": "ref-076",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-076-liberacao_para_pcp",
+   "reference_id": "ref-076",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-077-cadastro_de_cores_continuados",
+   "reference_id": "ref-077",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-077-liberacao_para_pcp",
+   "reference_id": "ref-077",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-078-cadastro_de_cores_continuados",
+   "reference_id": "ref-078",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-078-liberacao_para_pcp",
+   "reference_id": "ref-078",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-079-cadastro_de_cores_continuados",
+   "reference_id": "ref-079",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-079-liberacao_para_pcp",
+   "reference_id": "ref-079",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-080-cadastro_de_cores_continuados",
+   "reference_id": "ref-080",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-080-liberacao_para_pcp",
+   "reference_id": "ref-080",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-081-cadastro_de_cores_continuados",
+   "reference_id": "ref-081",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-081-liberacao_para_pcp",
+   "reference_id": "ref-081",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-082-cadastro_de_cores_continuados",
+   "reference_id": "ref-082",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-082-liberacao_para_pcp",
+   "reference_id": "ref-082",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-083-cadastro_de_cores_continuados",
+   "reference_id": "ref-083",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-083-liberacao_para_pcp",
+   "reference_id": "ref-083",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-084-cadastro_de_cores_continuados",
+   "reference_id": "ref-084",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-084-liberacao_para_pcp",
+   "reference_id": "ref-084",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-085-cadastro_de_cores_continuados",
+   "reference_id": "ref-085",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-085-liberacao_para_pcp",
+   "reference_id": "ref-085",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-086-cadastro_de_cores_continuados",
+   "reference_id": "ref-086",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-086-liberacao_para_pcp",
+   "reference_id": "ref-086",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-087-cadastro_de_cores_continuados",
+   "reference_id": "ref-087",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-087-liberacao_para_pcp",
+   "reference_id": "ref-087",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-088-cadastro_de_cores_continuados",
+   "reference_id": "ref-088",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-088-liberacao_para_pcp",
+   "reference_id": "ref-088",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-089-cadastro_de_cores_continuados",
+   "reference_id": "ref-089",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-089-liberacao_para_pcp",
+   "reference_id": "ref-089",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-090-cadastro_de_cores_continuados",
+   "reference_id": "ref-090",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-090-liberacao_para_pcp",
+   "reference_id": "ref-090",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-091-cadastro_de_cores_continuados",
+   "reference_id": "ref-091",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-091-liberacao_para_pcp",
+   "reference_id": "ref-091",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-092-cadastro_de_cores_continuados",
+   "reference_id": "ref-092",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-092-liberacao_para_pcp",
+   "reference_id": "ref-092",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-093-cadastro_de_cores_continuados",
+   "reference_id": "ref-093",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-093-liberacao_para_pcp",
+   "reference_id": "ref-093",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-094-cadastro_de_cores_continuados",
+   "reference_id": "ref-094",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-094-liberacao_para_pcp",
+   "reference_id": "ref-094",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-095-cadastro_de_cores_continuados",
+   "reference_id": "ref-095",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-095-liberacao_para_pcp",
+   "reference_id": "ref-095",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-096-cadastro_de_cores_continuados",
+   "reference_id": "ref-096",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-096-liberacao_para_pcp",
+   "reference_id": "ref-096",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-097-cadastro_de_cores_continuados",
+   "reference_id": "ref-097",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-097-liberacao_para_pcp",
+   "reference_id": "ref-097",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-098-cadastro_de_cores_continuados",
+   "reference_id": "ref-098",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-098-liberacao_para_pcp",
+   "reference_id": "ref-098",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-099-cadastro_de_cores_continuados",
+   "reference_id": "ref-099",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-099-liberacao_para_pcp",
+   "reference_id": "ref-099",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-100-cadastro_de_cores_continuados",
+   "reference_id": "ref-100",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-100-liberacao_para_pcp",
+   "reference_id": "ref-100",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-101-cadastro_de_cores_continuados",
+   "reference_id": "ref-101",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-101-liberacao_para_pcp",
+   "reference_id": "ref-101",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-102-cadastro_de_cores_continuados",
+   "reference_id": "ref-102",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-102-liberacao_para_pcp",
+   "reference_id": "ref-102",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-103-cadastro_de_cores_continuados",
+   "reference_id": "ref-103",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-103-liberacao_para_pcp",
+   "reference_id": "ref-103",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-104-cadastro_de_cores_continuados",
+   "reference_id": "ref-104",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-104-liberacao_para_pcp",
+   "reference_id": "ref-104",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-105-cadastro_de_cores_continuados",
+   "reference_id": "ref-105",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-105-liberacao_para_pcp",
+   "reference_id": "ref-105",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-106-cadastro_de_cores_continuados",
+   "reference_id": "ref-106",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-106-liberacao_para_pcp",
+   "reference_id": "ref-106",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-107-cadastro_de_cores_continuados",
+   "reference_id": "ref-107",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-107-liberacao_para_pcp",
+   "reference_id": "ref-107",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-108-cadastro_de_cores_continuados",
+   "reference_id": "ref-108",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-108-liberacao_para_pcp",
+   "reference_id": "ref-108",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-109-cadastro_de_cores_continuados",
+   "reference_id": "ref-109",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-109-liberacao_para_pcp",
+   "reference_id": "ref-109",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-110-cadastro_de_cores_continuados",
+   "reference_id": "ref-110",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-110-liberacao_para_pcp",
+   "reference_id": "ref-110",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-111-cadastro_de_cores_continuados",
+   "reference_id": "ref-111",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-111-liberacao_para_pcp",
+   "reference_id": "ref-111",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-112-cadastro_de_cores_continuados",
+   "reference_id": "ref-112",
+   "phase_id": "phase-cadastro_de_cores_continuados",
+   "completed_at": "2026-07-31",
+   "completed_by": "user-joice",
+   "notes": null,
+   "created_at": "2026-06-10",
+   "created_by": "user-vanderlei"
+  },
+  {
+   "id": "rp-112-liberacao_para_pcp",
+   "reference_id": "ref-112",
+   "phase_id": "phase-liberacao_para_pcp",
+   "completed_at": "2026-08-05",
    "completed_by": "user-joice",
    "notes": null,
    "created_at": "2026-06-10",

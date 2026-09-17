@@ -48,6 +48,82 @@ def norm(texto):
     return re.sub(r"\s+", " ", s.strip().lower())
 
 
+# ---------------------------------------------------------------- planilha
+# A planilha é editada pelo cliente: colunas e linhas já foram inseridas no meio
+# (a reunião de 02/09 acrescentou "Macro Tema" e "Predecessor"). Por isso nada
+# aqui é lido por posição fixa — cabeçalho e coluna são localizados pelo NOME.
+def achar_linha(ws, coluna, texto, limite=30):
+    """Número da linha cujo valor na `coluna` bate com `texto` (ou None)."""
+    alvo = norm(texto)
+    for r in range(1, limite + 1):
+        v = ws.cell(row=r, column=coluna).value
+        if v is not None and norm(v) == alvo:
+            return r
+    return None
+
+
+def mapa_colunas(ws, linha):
+    """{cabeçalho normalizado: índice 0-based} da linha de cabeçalho informada."""
+    m = {}
+    for c in range(1, ws.max_column + 1):
+        v = ws.cell(row=linha, column=c).value
+        if v is not None and str(v).strip():
+            m.setdefault(norm(v), c - 1)
+    return m
+
+
+def parse_predecessores(valor):
+    """'6, 7 e 15' -> [6, 7, 15]. Texto livre em pt-BR: tolera 'e', vírgula e espaços."""
+    if valor is None:
+        return []
+    saida = []
+    for n in re.findall(r"\d+", str(valor)):
+        i = int(n)
+        if i not in saida:
+            saida.append(i)
+    return saida
+
+
+def ler_marcos(cro):
+    """Datas mestras no cabeçalho da CRONOGRAMA.V2 (rótulo na col. B, data na col. C)."""
+    m = {}
+    for r in range(1, 6):
+        rot, val = cro.cell(row=r, column=2).value, iso(cro.cell(row=r, column=3).value)
+        if not rot or not val:
+            continue
+        k = norm(rot)
+        if "entrega" in k:                       # "ENTREGA MONSTRUÁRIO" (sic, na planilha)
+            m["entrega_mostruario"] = val
+        elif "inicio" in k:
+            m["inicio_nova_colecao"] = val   # próxima coleção, não a atual
+        elif "fim" in k and "anterior" in k:
+            m["fim_colecao_anterior"] = val
+    return m
+
+
+def usuario_por_nome(valor):
+    """Nome na planilha -> id do usuário cadastrado (ou None). Só aceita match claro."""
+    if not valor:
+        return None
+    alvo = norm(valor)
+    for uid, nome, _cargo, _papel in USERS:
+        n = norm(nome)
+        if alvo == n or alvo == n.split(" ")[0] or n.startswith(alvo):
+            return uid
+    return None
+
+
+def macro_tema(seq, valor):
+    """Macro tema da planilha, com 'Criação' dividida conforme pedido do Cairo (02/09):
+    o que depende da estilista = Estilo; o que depende de fornecedor/execução = Desenvolvimento."""
+    tema = str(valor).strip() if valor else None
+    if not tema:
+        return None
+    if norm(tema) == "criacao":
+        return "Desenvolvimento" if seq in CRIACAO_DESENVOLVIMENTO else "Estilo"
+    return tema
+
+
 # ---------------------------------------------------------------- usuários
 # Papéis: admin = gestão total · equipe = atualiza fases/tarefas · leitura = diretoria
 USERS = [
@@ -69,6 +145,10 @@ FASES_ANNA = {
     "desenho", "modelagem", "pilotagem", "prova", "aprov_mod",
     "pilotagem_grades", "prova_grades", "aprovacao_grade",
 }
+
+# Itens de "Criação" que são execução técnica / cadeia de fornecimento e não
+# decisão de estilo — viram macro tema "Desenvolvimento" (os demais, "Estilo").
+CRIACAO_DESENVOLVIMENTO = {4, 6, 7, 9, 24}
 
 # Aplicabilidade por fluxo (a planilha só cobra fases criativas das refs novas;
 # continuadas entram em cadastro de cores, liberação p/ PCP e produção de catálogo)
@@ -98,39 +178,86 @@ def main():
     # ---------------------------------------------------------- CRONOGRAMA.V2 → processos
     cro = wb["CRONOGRAMA.V2"]
     col_id = {"INVERNO_ALTO_27": "col-inverno-alto-27"}
+    marcos = ler_marcos(cro)
+    lin_cab = achar_linha(cro, 2, "Processo")
+    if lin_cab is None:
+        raise SystemExit("CRONOGRAMA.V2: cabeçalho 'Processo' não encontrado na coluna B.")
+    cols = mapa_colunas(cro, lin_cab)
+
+    def c(nome, obrigatoria=True):
+        if nome in cols:
+            return cols[nome]
+        if obrigatoria:
+            raise SystemExit(f"CRONOGRAMA.V2: coluna '{nome}' não encontrada na linha {lin_cab}.")
+        return None
+
+    C_NOME, C_RESP = c("processo"), c("responsavel", False)
+    C_TEMA, C_PRED = c("macro tema"), c("predecessor")
+    C_INI, C_FIM = c("inicio"), c("final")
+    C_CONCL, C_PCT = c("conclusao"), c("%status")
+    C_OBS = c("observacoes", False)
+
+    def val(row, idx):
+        return row[idx].value if idx is not None and idx < len(row) else None
+
     macro = []
-    for row in cro.iter_rows(min_row=6, max_row=41):
+    for row in cro.iter_rows(min_row=lin_cab + 1, max_row=cro.max_row):
         seq = row[0].value  # col A
-        nome = row[1].value  # col B
+        nome = val(row, C_NOME)
         if not isinstance(seq, (int, float)) or nome is None:
             continue
+        seq = int(seq)
         nome = str(nome).strip()
         chave = norm(nome)
-        resp = resp_por_nome.get(chave)
-        if resp is None:
-            prox = get_close_matches(chave, list(resp_por_nome), n=1, cutoff=0.6)
-            resp = resp_por_nome[prox[0]] if prox else None
-        pct = row[6].value  # col G (%STATUS)
+        # Responsável: a coluna da planilha manda; senão, casa pelo nome na aba Auditoria.
+        resp = str(val(row, C_RESP)).strip() if val(row, C_RESP) else None
+        if not resp:
+            resp = resp_por_nome.get(chave)
+            if resp is None:
+                # cutoff alto de propósito: num sistema de cobrança de prazo, responsável
+                # ERRADO é pior que responsável vazio. O certo é preencher a coluna
+                # "Responsável" na planilha — o AVISO no fim do script lista quem falta.
+                prox = get_close_matches(chave, list(resp_por_nome), n=1, cutoff=0.9)
+                resp = resp_por_nome[prox[0]] if prox else None
+        pct = val(row, C_PCT)
         pct = round(float(pct) * 100) if isinstance(pct, (int, float)) else 0
+        obs = str(val(row, C_OBS)).strip() if val(row, C_OBS) else None
+        concl = iso(val(row, C_CONCL))
         macro.append({
-            "id": f"proc-{int(seq):02d}",
+            "id": f"proc-{seq:02d}",
             "collection_id": col_id["INVERNO_ALTO_27"],
-            "seq": int(seq),
+            "seq": seq,
             "name": nome,
-            "owner_team": resp,            # Estilistas / Pilotagem / Assistente / PCP...
-            "start_date": iso(row[3].value),   # col D (pode ser '***' → None)
-            "end_date": iso(row[4].value),     # col E
-            "completed_at": iso(row[5].value), # col F (CONCLUSÃO)
+            "owner_team": resp,
+            # Dono por PESSOA: equipe não entrega, pessoa entrega. Só preenche quando
+            # a planilha nomeia alguém do cadastro; senão fica para atribuir na plataforma.
+            "responsavel_user_id": usuario_por_nome(val(row, C_RESP)),
+            "motivo_atraso": None,
+            "promessas": [],
+            "macro_tema": macro_tema(seq, val(row, C_TEMA)),
+            "predecessores": parse_predecessores(val(row, C_PRED)),
+            # start_date/end_date = LINHA DE BASE CONGELADA: nunca alteradas pela tela.
+            "start_date": iso(val(row, C_INI)),
+            "end_date": iso(val(row, C_FIM)),
+            # realizado: a planilha traz o que já aconteceu; daqui em diante é a plataforma.
+            "inicio_real": None,
+            "fim_real": concl,
+            "completed_at": concl,
             "percent_complete": pct,
+            "observacoes": obs,
             "created_at": HOJE, "created_by": SEED_BY,
         })
 
     # ---------------------------------------------------------- GESTÃO DA COLEÇÃO
     ges = wb["GESTÃO DA COLEÇÃO"]
-    # Fases = cabeçalhos da linha 8, colunas G..Y (19 fases)
+    # Fases = cabeçalhos da linha do "#", colunas G..Y (19 fases).
+    # A linha é localizada pelo nome porque a planilha já ganhou linhas no topo.
+    lin_refs = achar_linha(ges, 1, "#")
+    if lin_refs is None:
+        raise SystemExit("GESTÃO DA COLEÇÃO: cabeçalho '#' não encontrado na coluna A.")
     fases = []
     cols_fase = []  # (índice_coluna, phase_id)
-    for cell in ges[8]:
+    for cell in ges[lin_refs]:
         if cell.column < 7 or cell.column > 25:  # G=7 .. Y=25
             continue
         nome = str(cell.value).strip()
@@ -160,10 +287,10 @@ def main():
                 "deadline_date": dl,
             })
 
-    # Referências (linhas 10..123) + células preenchidas
+    # Referências (tudo abaixo do cabeçalho) + células preenchidas
     refs, ref_phases = [], []
     colecoes_vistas = {}
-    for row in ges.iter_rows(min_row=10, max_row=123):
+    for row in ges.iter_rows(min_row=lin_refs + 1, max_row=ges.max_row):
         num = row[0].value
         if num is None:
             continue
@@ -202,19 +329,26 @@ def main():
                     "created_at": HOJE, "created_by": SEED_BY,
                 })
 
+    # Datas mestras: o cabeçalho da planilha manda; os defaults são a coleção atual.
+    inicio_colecao = min((p["start_date"] for p in macro if p["start_date"]), default="2026-02-06")
+    entrega_mostruario = marcos.get("entrega_mostruario", "2026-12-20")
+    # Marco que a gestora apontou como "a pior data de todas" (lead time de compra).
+    seq_pcp = next((p["seq"] for p in macro
+                    if "pcp" in norm(p["name"]) and "libera" in norm(p["name"])), None)
+
     collections = [{
         "id": cid,
         "name": nome,
         "status": "em_andamento",
-        "start_date": "2026-02-06",       # INICIO NOVA COLEÇÃO (CRONOGRAMA.V2)
-        "end_date": "2026-12-20",         # ENTREGA MOSTRUÁRIO
+        "start_date": inicio_colecao,     # INICIO NOVA COLEÇÃO (CRONOGRAMA.V2)
+        "end_date": entrega_mostruario,   # ENTREGA MOSTRUÁRIO (CRONOGRAMA.V2)
     } for nome, cid in colecoes_vistas.items()]
     # garante a coleção principal mesmo sem refs
     if not any(c["id"] == col_id["INVERNO_ALTO_27"] for c in collections):
         collections.insert(0, {
             "id": col_id["INVERNO_ALTO_27"], "name": "INVERNO & ALTO 27",
             "status": "em_andamento",
-            "start_date": "2026-02-06", "end_date": "2026-12-20",
+            "start_date": inicio_colecao, "end_date": entrega_mostruario,
         })
 
     # seed_version = timestamp de modificação da planilha (muda a cada nova versão
@@ -224,6 +358,7 @@ def main():
         "schema_version": 1,
         "seed_version": seed_version,
         "generated_at": HOJE,
+        "marcos": {**marcos, "liberacao_pcp_seq": seq_pcp},
         "users": users,
         "collections": collections,
         "phases": fases,
@@ -243,7 +378,9 @@ def main():
           " — NÃO editar à mão; re-rode o script.\n" +
           "window.LIEBE_SEED = " +
           json.dumps(seed, ensure_ascii=False, indent=1) + ";\n")
-    SAIDA.write_text(js, encoding="utf-8")
+    # newline="" mantém LF também no Windows: sem isso o data.js inteiro
+    # aparece como modificado a cada regeneração e o diff real some.
+    SAIDA.write_text(js, encoding="utf-8", newline="")
 
     print(f"OK → {SAIDA}")
     print(f"  usuários:          {len(users)}")
