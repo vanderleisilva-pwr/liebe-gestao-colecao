@@ -135,8 +135,67 @@ tr:hover td{background:#fdfcf9}
 .g-bar .fill{height:100%;background:var(--rose)}
 .g-bar.late{background:var(--late-bg);outline:1.5px solid var(--late)}
 .g-bar.done{background:var(--ok-bg)}.g-bar.done .fill{background:var(--ok)}
+.g-marcos{position:absolute;left:320px;right:0;top:40px;bottom:14px;pointer-events:none;z-index:4}
 .g-today{position:absolute;top:0;bottom:0;width:2px;background:var(--rose-dark);z-index:1}
-.g-today::after{content:'hoje';position:absolute;top:-2px;left:4px;font-size:9px;color:var(--rose-dark);font-weight:700}
+.g-today::after{content:'hoje';position:absolute;top:-13px;left:4px;font-size:9px;color:var(--rose-dark);font-weight:700;background:var(--white);padding:0 3px}
+@media(max-width:820px){.g-marcos{left:170px}}
+/* --- linha de base congelada x realizado/projetado --- */
+.g-row{height:38px}
+.g-row.g-sel{background:var(--blush);box-shadow:inset 4px 0 0 var(--rose-dark)}
+.g-row.g-dep{background:var(--cream);box-shadow:inset 4px 0 0 var(--rose-pale)}
+.g-row.g-sel .g-label,.g-row.g-dep .g-label{background:transparent}
+.g-label{width:320px;min-width:320px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.g-label .g-nome{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.g-flag{font-size:10px;flex-shrink:0;letter-spacing:-1px}
+.g-tema{display:flex;align-items:center;height:30px;background:var(--blush);border-top:1px solid var(--line);
+  font-size:11px;font-weight:700;color:var(--rose-dark);text-transform:uppercase;letter-spacing:.4px;cursor:pointer;position:relative}
+.g-tema .g-label{background:var(--blush);width:320px;min-width:320px}
+.g-base{position:absolute;top:6px;height:7px;border-radius:4px;background:var(--rose-pale);min-width:4px}
+.g-bar{top:16px;height:15px}
+.g-bar.proj{background:var(--warn-bg);outline:1.5px solid var(--warn)}
+.g-bar.proj .fill{background:var(--warn)}
+.g-bar.semdata{background:transparent;outline:1.5px dashed var(--na);min-width:40px}
+.g-bar.critica{box-shadow:0 0 0 2px var(--late)}
+.g-desvio{position:absolute;top:18px;font-size:9.5px;font-weight:700;color:var(--late);white-space:nowrap;padding-left:5px}
+.g-zoom{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px}
+.g-zoom .seg button{padding:5px 12px;font-size:11.5px}
+.g-zoom .btn[disabled]{opacity:.4;cursor:default}
+.g-nav{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--rose-dark)}
+.g-mes.forte{border-left-color:var(--rose-pale);color:var(--rose-dark);font-weight:600}
+.g-fora{position:absolute;top:16px;font-size:13px;color:var(--na);font-weight:700;line-height:15px}
+.g-fora.esq{left:2px}.g-fora.dir{right:2px}
+.g-regua{display:flex;position:sticky;top:0;z-index:3;background:var(--white);border-bottom:1px solid var(--line);height:26px}
+.g-regua .g-label{background:var(--white);font-weight:700;color:var(--muted);font-size:10px;text-transform:uppercase}
+.g-regua .g-track{border-left:1px solid var(--line)}
+.g-mes{position:absolute;top:0;bottom:0;border-left:1px solid var(--line);font-size:9.5px;color:var(--muted);padding-left:3px;white-space:nowrap}
+.g-marco{position:absolute;top:0;bottom:0;width:2px;background:var(--late);z-index:1;opacity:.65}
+.g-marco::after{content:attr(data-rot);position:absolute;top:-13px;left:4px;font-size:9px;color:var(--late);font-weight:700;white-space:nowrap;background:var(--white);padding:0 3px}
+.g-marco.fim::after{left:auto;right:4px}
+.g-grade{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.6}
+/* --- faixa "o que impacta o mostruário" --- */
+.impacto{display:flex;flex-wrap:wrap;gap:12px;background:var(--white);border:1px solid var(--line);
+  border-left:5px solid var(--rose);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.impacto.alerta{border-left-color:var(--late)}
+.impacto .it{min-width:150px;flex:1}
+.impacto .it .t{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+.impacto .it .v{font-size:19px;font-weight:700;color:var(--ink);line-height:1.25}
+.impacto .it .v.mal{color:var(--late)}.impacto .it .v.bem{color:var(--ok)}
+.impacto .it .m{font-size:10.5px;color:var(--muted)}
+/* --- simulação no modal --- */
+.promessa{border-radius:10px;padding:7px 11px;font-size:12px;font-weight:600;margin:8px 0}
+.promessa.cumprida{background:var(--ok-bg);color:var(--ok)}
+.promessa.quebrada{background:var(--late-bg);color:var(--late)}
+.promessa.aberta{background:var(--warn-bg);color:var(--warn)}
+.sim{background:var(--cream);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px}
+.sim .res{font-size:12px;margin-top:8px;line-height:1.55}
+.sim .res b{color:var(--late)}
+.cadeia{max-height:150px;overflow:auto;margin-top:6px;font-size:11.5px}
+.cadeia div{padding:3px 0;border-bottom:1px solid var(--line)}
+.datas-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.datas-3 .d{background:var(--cream);border-radius:8px;padding:7px 9px}
+.datas-3 .d .t{font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:600}
+.datas-3 .d .v{font-size:13px;font-weight:600}
+@media(max-width:820px){.g-label,.g-tema .g-label,.g-regua .g-label{width:170px;min-width:170px}.datas-3{grid-template-columns:1fr}}
 .pct-cell{display:flex;align-items:center;gap:8px}
 .pct-bar{flex:1;height:7px;background:var(--blush);border-radius:6px;min-width:60px;overflow:hidden}
 .pct-bar .f{height:100%;background:var(--rose);border-radius:6px}
@@ -312,6 +371,7 @@ const uuid=()=>(crypto.randomUUID?crypto.randomUUID():'id-'+Math.random().toStri
 function hojeStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function agoraIso(){return new Date().toISOString()}
 function diffDias(a,b){const[x,y,z]=a.split('-').map(Number),[p,q,r]=b.split('-').map(Number);return Math.round((Date.UTC(p,q-1,r)-Date.UTC(x,y-1,z))/864e5)}
+function addDias(d,n){if(!d)return null;const[x,y,z]=d.split('-').map(Number),t=new Date(Date.UTC(x,y-1,z));t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)}
 function fmtBR(d){if(!d)return'—';const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0].slice(2)}
 function fmtBRfull(d){if(!d)return'—';const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
 function iniciais(n){return n.split(/\s+/).map(x=>x.replace(/[^\p{L}]/gu,'')).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
@@ -344,6 +404,20 @@ const MIGRATIONS=[
     ['canceled_at','canceled_by','cancel_category','cancel_reason'].forEach(k=>{if(!(k in r))r[k]=null})})},
   // v2 → v3: múltiplos eventos por fase (1ª/2ª/3ª modelagem, pilotagem, prova…)
   d=>normalizeEvents(d),
+  // v3 → v4: linha de base congelada + datas reais + predecessores + macro tema
+  d=>{(d.macro_processes||[]).forEach(p=>{
+    if(!('inicio_real' in p))p.inicio_real=null;
+    if(!('fim_real' in p))p.fim_real=p.completed_at||null; // conclusão já registrada vira fim real
+    if(!Array.isArray(p.predecessores))p.predecessores=[];
+    if(!('macro_tema' in p))p.macro_tema=null;
+    if(!('observacoes' in p))p.observacoes=null;
+  });if(!d.marcos)d.marcos=(window.LIEBE_SEED&&window.LIEBE_SEED.marcos)||{}},
+  // v4 → v5: dono por pessoa, promessa de recuperação e motivo do atraso
+  d=>{(d.macro_processes||[]).forEach(p=>{
+    if(!('responsavel_user_id' in p))p.responsavel_user_id=null;
+    if(!('motivo_atraso' in p))p.motivo_atraso=null;
+    if(!Array.isArray(p.promessas))p.promessas=[];
+  })},
 ]; // futuras migrações de schema (mesmo padrão no Supabase)
 function migrate(d){let v=d.schema_version||1;while(v<MIGRATIONS.length+1){MIGRATIONS[v-1](d);v++;d.schema_version=v}return d}
 function loadDb(){
@@ -361,7 +435,10 @@ function loadDb(){
 // trabalho do dia a dia (tarefas, atas, cobranças, indicadores lançados).
 function applyNewSeed(){
   const seed=window.LIEBE_SEED;
+  const realizado=guardarRealizado(); // o que a equipe digitou aqui não pode voltar atrás
   ['users','collections','phases','phase_deadlines','macro_processes','references','reference_phases'].forEach(k=>db[k]=clone(seed[k]));
+  db.marcos=clone(seed.marcos||{});
+  reaplicarRealizado(realizado);
   db.reference_log=db.reference_log||[]; // governança preservada (dado operacional)
   normalizeEvents(db);      // garante array de eventos nas células vindas da planilha
   reaplicarCancelamentos(); // re-aplica status cancelado ao novo catálogo (por código)
@@ -371,6 +448,30 @@ function applyNewSeed(){
 }
 // Mantém cancelamentos "grudados" mesmo quando uma nova planilha substitui as referências:
 // para cada código, se a última ação no histórico for 'cancelamento', re-aplica o status.
+// O início/fim real dos processos é digitado na plataforma, não vem da planilha.
+// Guardamos antes da troca de catálogo e recolamos depois, casando por seq.
+function guardarRealizado(){
+  const m={};(db.macro_processes||[]).forEach(p=>{
+    if(p.inicio_real||p.fim_real||p.responsavel_user_id||p.motivo_atraso||(p.promessas||[]).length)
+      m[p.seq]={inicio_real:p.inicio_real||null,fim_real:p.fim_real||null,completed_at:p.completed_at||null,
+        percent_complete:p.percent_complete||0,responsavel_user_id:p.responsavel_user_id||null,
+        motivo_atraso:p.motivo_atraso||null,promessas:p.promessas||[]}});
+  return m;
+}
+function reaplicarRealizado(m){
+  if(!m)return;
+  db.macro_processes.forEach(p=>{const r=m[p.seq];if(!r)return;
+    // a planilha pode ter avançado mais que a tela: fica a data mais recente conhecida
+    p.inicio_real=p.inicio_real||r.inicio_real;
+    if(r.fim_real&&(!p.fim_real||r.fim_real>p.fim_real))p.fim_real=r.fim_real;
+    if(r.completed_at&&(!p.completed_at||r.completed_at>p.completed_at))p.completed_at=r.completed_at;
+    if((r.percent_complete||0)>(p.percent_complete||0))p.percent_complete=r.percent_complete;
+    // dono, motivo e promessas só existem na plataforma — a planilha nunca os traz
+    if(r.responsavel_user_id)p.responsavel_user_id=r.responsavel_user_id;
+    if(r.motivo_atraso)p.motivo_atraso=r.motivo_atraso;
+    if((r.promessas||[]).length)p.promessas=r.promessas;
+  });
+}
 function reaplicarCancelamentos(){
   const ultima={};
   (db.reference_log||[]).forEach(e=>{ultima[e.ref_code]=e});
@@ -401,6 +502,257 @@ function reindex(){
   ix.rpByKey={};db.reference_phases.forEach(rp=>ix.rpByKey[rp.reference_id+'|'+rp.phase_id]=rp);
 }
 function phaseApplies(ref,ph){return ph.flow_type==='ambos'||ph.flow_type===ref.flow_type}
+/* -------- cronograma: linha de base, projeção, margem e cadeia de impacto --------
+   Regra definida com o cliente (reunião de 02/09, Anna + Cairo):
+   etapa SEM predecessor RODA EM PARALELO — fica ancorada na própria data e nunca
+   é empurrada por outra; só quem tem predecessor herda atraso. Contagem em dias
+   corridos, que é como a planilha conta ("Prazo em Dias").
+   start_date/end_date = linha de base CONGELADA, nunca reescrita pela tela. */
+function marcosDb(){return db.marcos||(window.LIEBE_SEED&&window.LIEBE_SEED.marcos)||{}}
+function seqPcp(){return marcosDb().liberacao_pcp_seq||null}
+function dataEntrega(){return marcosDb().entrega_mostruario||null}
+function procsOrdenados(){return [...db.macro_processes].sort((a,b)=>a.seq-b.seq)}
+function predsDe(p){return Array.isArray(p.predecessores)?p.predecessores:[]}
+function duracaoProc(p){return(p.start_date&&p.end_date)?Math.max(diffDias(p.start_date,p.end_date),0):null}
+function procPorSeq(){const m={};db.macro_processes.forEach(p=>m[p.seq]=p);return m}
+function sucessoresPorSeq(){const m={};db.macro_processes.forEach(p=>predsDe(p).forEach(s=>{(m[s]=m[s]||[]).push(p.seq)}));return m}
+function rodaEmParalelo(p){return predsDe(p).length===0}
+
+// Projeção de cada processo. `extra` = {seq: diasDeAtrasoSimulado} para a simulação.
+// Devolve {seq:{ini,fim,origem:'real'|'projetado'|'indefinido',incompleto}}
+function projetarCronograma(hoje,extra){
+  const bySeq=procPorSeq(),memo={},emCurso={};
+  function calc(seq){
+    if(memo[seq])return memo[seq];
+    const p=bySeq[seq];
+    if(!p||emCurso[seq])return{ini:null,fim:null,origem:'indefinido',incompleto:true}; // inexistente ou ciclo
+    emCurso[seq]=1;
+    const bump=(extra&&extra[seq])||0,fimReal=p.fim_real||p.completed_at;
+    let r;
+    if(fimReal){
+      r={ini:p.inicio_real||p.start_date,fim:addDias(fimReal,bump),origem:'real',incompleto:false};
+    }else{
+      const dur=duracaoProc(p);
+      if(dur===null){
+        r={ini:null,fim:null,origem:'indefinido',incompleto:true};
+      }else{
+        let ini,incompleto=false;
+        if(rodaEmParalelo(p)){
+          ini=p.inicio_real||p.start_date;              // trilha paralela: ancorada, nunca empurrada
+        }else{
+          const pr=predsDe(p).map(calc);
+          incompleto=pr.some(x=>!x.fim);                // predecessor sem data → projeção incerta
+          const fins=pr.map(x=>x.fim).filter(Boolean);
+          ini=fins.length?addDias(fins.reduce((a,b)=>a>b?a:b),1):p.start_date;
+          if(p.inicio_real)ini=p.inicio_real;
+          else if(p.start_date&&ini<p.start_date)ini=p.start_date; // piso: não antecipa a linha de base
+        }
+        let fim=addDias(ini,dur);
+        if(fim<hoje)fim=hoje;                           // não concluída não termina no passado
+        fim=addDias(fim,bump);                          // atraso simulado entra DEPOIS do piso de hoje,
+                                                        // senão o piso engoliria a simulação
+        r={ini,fim,origem:'projetado',incompleto};
+      }
+    }
+    emCurso[seq]=0;return memo[seq]=r;
+  }
+  const out={};db.macro_processes.forEach(p=>out[p.seq]=calc(p.seq));return out;
+}
+
+// Quem alcança um processo-marco andando pelos sucessores.
+function alcancam(marcoSeq){
+  const suc=sucessoresPorSeq(),ok={},memo={};
+  function vai(seq){
+    if(seq===marcoSeq)return true;
+    if(memo[seq]!==undefined)return memo[seq];
+    memo[seq]=false; // corta ciclo
+    return memo[seq]=(suc[seq]||[]).some(vai);
+  }
+  db.macro_processes.forEach(p=>{if(vai(p.seq))ok[p.seq]=true});
+  return ok;
+}
+
+// Margem de manobra (folga) em dias. alvo={seq} para um processo-marco,
+// ou {data} para a entrega (aí as pontas soltas da rede é que respondem pela data).
+// Positivo = pode atrasar tanto sem mexer no marco. Negativo = já estourou.
+function margemCronograma(hoje,alvo){
+  const proj=projetarCronograma(hoje),suc=sucessoresPorSeq(),bySeq=procPorSeq();
+  const naCadeia=alvo.seq?alcancam(alvo.seq):null;
+  const lf={},memo={};
+  function tardio(seq){ // late finish
+    if(memo[seq]!==undefined)return memo[seq];
+    memo[seq]=null;
+    const p=bySeq[seq];if(!p)return null;
+    if(alvo.seq&&seq===alvo.seq)return memo[seq]=(p.end_date||proj[seq].fim);
+    const ss=(suc[seq]||[]).filter(x=>!naCadeia||naCadeia[x]);
+    let r=null;
+    if(!ss.length){
+      r=alvo.data&&(!naCadeia||naCadeia[seq])?alvo.data:null; // ponta solta responde pela entrega
+    }else{
+      ss.forEach(x=>{const lfx=tardio(x),dx=duracaoProc(bySeq[x]);
+        if(lfx==null||dx==null)return;
+        const ls=addDias(lfx,-dx-1); // início tardio do sucessor, -1 do encadeamento
+        if(r==null||ls<r)r=ls});
+    }
+    return memo[seq]=r;
+  }
+  const out={};
+  db.macro_processes.forEach(p=>{
+    const dentro=naCadeia?!!naCadeia[p.seq]:true;
+    const l=dentro?tardio(p.seq):null,f=proj[p.seq].fim;
+    // dentro da cadeia mas sem margem calculável = alguma etapa do caminho está sem data
+    out[p.seq]=(l&&f)?{dias:diffDias(f,l),dentro:true,bloqueado:false,incompleto:proj[p.seq].incompleto}
+                     :{dias:null,dentro:dentro,bloqueado:dentro,incompleto:proj[p.seq].incompleto};
+    lf[p.seq]=l;
+  });
+  return out;
+}
+
+// "Se esta etapa atrasar N dias, o que isso empurra e até onde chega?"
+// A pergunta literal do Cairo na reunião.
+function simularAtraso(seq,dias,hoje){
+  const base=projetarCronograma(hoje),sim=projetarCronograma(hoje,{[seq]:dias}),bySeq=procPorSeq();
+  const alvo=bySeq[seq],jaConcluida=!!(alvo&&(alvo.fim_real||alvo.completed_at));
+  const afetados=[];
+  db.macro_processes.forEach(p=>{
+    if(p.seq===seq)return;
+    const a=base[p.seq].fim,b=sim[p.seq].fim;
+    if(a&&b){const d=diffDias(a,b);if(d>0)afetados.push({seq:p.seq,name:p.name,macro_tema:p.macro_tema,dias:d,de:a,para:b})}
+  });
+  afetados.sort((x,y)=>y.dias-x.dias||x.seq-y.seq);
+  const pcp=seqPcp();
+  return{
+    seq,dias,afetados,jaConcluida,
+    // etapa já concluída não comporta simulação: o que aconteceu, aconteceu
+    empurra:!jaConcluida&&afetados.length>0,
+    pcp:(pcp&&base[pcp]&&sim[pcp]&&base[pcp].fim&&sim[pcp].fim)?diffDias(base[pcp].fim,sim[pcp].fim):0,
+    temas:[...new Set(afetados.map(a=>a.macro_tema).filter(Boolean))]
+  };
+}
+
+// Ordem de leitura dos macro temas no painel (do começo ao fim da coleção).
+const ORDEM_TEMAS=['Estilo','Desenvolvimento','Mostruário','Plano de Produção/Mostruário','Catálogo'];
+function ordemTema(t){const i=ORDEM_TEMAS.indexOf(t||'');return i<0?ORDEM_TEMAS.length:i}
+
+// Panorama para a faixa de topo: a resposta de 5 segundos que a diretoria pede.
+function panoramaCronograma(hoje){
+  const proj=projetarCronograma(hoje),mg=margemCronograma(hoje,{seq:seqPcp()});
+  const ps=procsOrdenados();
+  let atrasadas=0,semMargem=0,indefinidas=0,fimGeral=null,empurram=0;
+  const limite=addDias(hoje,7),vencendo=[];
+  ps.forEach(p=>{
+    const st=situacaoProc(p,proj,mg);
+    if(st.origem==='indefinido'){indefinidas++;return}
+    if(st.desvio>0)atrasadas++;
+    // margem só conta para o que ainda pode atrasar: etapa concluída não perde margem
+    if(st.critico&&!(p.fim_real||p.completed_at))semMargem++;
+    if(st.fim&&(!fimGeral||st.fim>fimGeral))fimGeral=st.fim;
+    const emAberto=!(p.fim_real||p.completed_at);
+    if(emAberto&&simularAtraso(p.seq,1,hoje).empurra)empurram++;
+    // antecipação: o que ainda não terminou e vence nos próximos 7 dias
+    if(emAberto&&p.end_date&&p.end_date>=hoje&&p.end_date<=limite)vencendo.push({p,dias:diffDias(hoje,p.end_date)});
+  });
+  vencendo.sort((a,b)=>a.dias-b.dias);
+  const sp=seqPcp(),pp=sp?db.macro_processes.find(x=>x.seq===sp):null;
+  return{proj,mg,atrasadas,semMargem,indefinidas,empurram,vencendo,
+    fimGeral,entrega:dataEntrega(),
+    pcp:pp?{p:pp,congelado:pp.end_date,previsto:proj[sp].fim,
+            desvio:(pp.end_date&&proj[sp].fim)?diffDias(pp.end_date,proj[sp].fim):null}:null};
+}
+
+/* -------- governança do cronograma: dono, promessa de recuperação e motivo --------
+   Tudo aqui nasceu da reunião de 02/09: atraso descoberto tarde, sem dono e sem
+   data nova combinada. "Vamos correr" não é plano; "a Fulana entrega quinta" é. */
+const MOTIVOS_ATRASO={
+  fornecedor:'Material ou fornecedor atrasou',
+  decisao:'Faltou decisão ou aprovação',
+  gente:'Faltou gente ou tempo da equipe',
+  retrabalho:'Retrabalho ou mudança de pedido',
+  outra_area:'Outra área não entregou',
+  outro:'Outro motivo',
+};
+// Promessas são append-only (histórico); o desfecho é DERIVADO, nunca gravado.
+function promessas(p){return Array.isArray(p.promessas)?p.promessas:[]}
+function promessaAtual(p){const ps=promessas(p);return ps.length?ps[ps.length-1]:null}
+function situacaoPromessa(p,hoje){
+  const pr=promessaAtual(p);
+  if(!pr)return null;
+  const fim=p.fim_real||p.completed_at;
+  if(fim)return{data:pr.data,k:fim<=pr.data?'cumprida':'quebrada',dias:diffDias(pr.data,fim),por:pr.feita_por};
+  if(pr.data<hoje)return{data:pr.data,k:'quebrada',dias:diffDias(pr.data,hoje),por:pr.feita_por};
+  return{data:pr.data,k:'aberta',dias:diffDias(hoje,pr.data),por:pr.feita_por};
+}
+// "O que foi prometido está sendo cumprido?" — o indicador que muda comportamento.
+function placarPromessas(hoje){
+  let cumpridas=0,quebradas=0,abertas=0;
+  db.macro_processes.forEach(p=>{const s=situacaoPromessa(p,hoje);if(!s)return;
+    if(s.k==='cumprida')cumpridas++;else if(s.k==='quebrada')quebradas++;else abertas++});
+  const fechadas=cumpridas+quebradas;
+  return{cumpridas,quebradas,abertas,fechadas,pct:fechadas?Math.round(cumpridas/fechadas*100):null};
+}
+// Onde o tempo foi embora nesta coleção.
+function motivosAgregados(){
+  const m={};
+  db.macro_processes.forEach(p=>{if(p.motivo_atraso)m[p.motivo_atraso]=(m[p.motivo_atraso]||0)+1});
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]);
+}
+function donoProc(p){return p.responsavel_user_id?ix.userById[p.responsavel_user_id]:null}
+function nomeDono(p){const u=donoProc(p);return u?u.name:(p.owner_team||null)}
+
+/* Classificação para o filtro "precisa de atenção" — a fila de trabalho da reunião. */
+function atencaoProc(p,hoje,st){
+  const fim=p.fim_real||p.completed_at;
+  if(fim)return null;
+  if(p.end_date&&p.end_date<hoje)return{k:'atrasada',rot:'em atraso'};
+  if(st&&st.critico)return{k:'sem_margem',rot:'sem margem'};
+  if(p.end_date){const f=diffDias(hoje,p.end_date);if(f>=0&&f<=7)return{k:'vencendo',rot:'vence em '+f+'d'}}
+  if(st&&st.origem==='indefinido')return{k:'sem_data',rot:'sem data'};
+  return null;
+}
+
+/* Pauta do ritual semanal, gerada do cronograma: o que cobrar, na ordem certa. */
+function pautaDoCronograma(hoje){
+  const pan=panoramaCronograma(hoje),L=[];
+  const linha=p=>{const d=nomeDono(p);return `  - ${p.seq}. ${p.name}${d?' ('+d+')':''}`};
+  const atrasadas=[],vencendo=[],semMargem=[],semData=[];
+  procsOrdenados().forEach(p=>{
+    const st=situacaoProc(p,pan.proj,pan.mg),a=atencaoProc(p,hoje,st);
+    if(!a)return;
+    if(a.k==='atrasada')atrasadas.push(p);
+    else if(a.k==='vencendo')vencendo.push(p);
+    else if(a.k==='sem_margem')semMargem.push(p);
+    else if(a.k==='sem_data')semData.push(p);
+  });
+  L.push('PAUTA — RITUAL SEMANAL DE CRONOGRAMA · '+fmtBRfull(hoje));
+  L.push('');
+  if(pan.pcp)L.push(`Liberação para o PCP: congelado ${fmtBR(pan.pcp.congelado)} · previsto ${fmtBR(pan.pcp.previsto)}`+
+    (pan.pcp.desvio>0?` — ${pan.pcp.desvio} dias de atraso`:' — no prazo'));
+  const pl=placarPromessas(hoje);
+  if(pl.fechadas)L.push(`Promessas de recuperação: ${pl.cumpridas} cumpridas de ${pl.fechadas}${pl.abertas?` (${pl.abertas} em aberto)`:''}`);
+  L.push('');
+  const bloco=(tit,arr,inst)=>{if(!arr.length)return;
+    L.push(`${tit} (${arr.length}) — ${inst}`);arr.forEach(p=>L.push(linha(p)));L.push('')};
+  bloco('1) EM ATRASO',atrasadas,'para cada uma: o que falta, quem faz e em que data');
+  bloco('2) VENCE NOS PRÓXIMOS 7 DIAS',vencendo,'confirmar que vai entregar; é aqui que dá para evitar o atraso');
+  bloco('3) SEM MARGEM DE MANOBRA',semMargem,'se atrasar, empurra a liberação para o PCP no mesmo dia');
+  bloco('4) SEM DATA NA PLANILHA',semData,'definir data — sem ela não dá para prever o que vem depois');
+  if(!atrasadas.length&&!vencendo.length&&!semMargem.length&&!semData.length)L.push('Nenhum ponto de atenção no cronograma nesta semana.');
+  L.push('Decisões e encaminhamentos → registrar na ata e abrir tarefa com dono e prazo.');
+  return L.join('\n');
+}
+
+// Situação de um processo somando linha de base, realizado e projeção.
+function situacaoProc(p,proj,margem){
+  const pr=proj[p.seq]||{},mg=(margem&&margem[p.seq])||{};
+  const desvio=(pr.fim&&p.end_date)?diffDias(p.end_date,pr.fim):null;
+  return{
+    ini:pr.ini,fim:pr.fim,origem:pr.origem,incompleto:pr.incompleto,
+    desvio,                                   // >0 = terminou/termina depois do congelado
+    paralelo:rodaEmParalelo(p),
+    margem:mg.dias,dentroDaCadeia:mg.dentro,margemBloqueada:!!mg.bloqueado,
+    critico:mg.dias!=null&&mg.dias<=0&&mg.dentro
+  };
+}
 function statusProcesso(p,hoje){
   if(p.completed_at)return{k:'done',late:p.end_date&&p.completed_at>p.end_date}
   if(p.end_date&&p.end_date<hoje)return{k:'late',days:diffDias(p.end_date,hoje)}
@@ -456,7 +808,15 @@ function kpis(){
   // manuais (mês corrente; senão, último lançado)
   const manual=k=>{const es=db.kpi_entries.filter(e=>e.kpi_key===k).sort((a,b)=>b.period.localeCompare(a.period));
     if(!es.length)return null;const e=es.find(x=>x.period===mes)||es[0];return{v:e.value,period:e.period}};
-  return{macro,piloto,atas,rnc:manual('rnc'),otif:manual('otif_mp'),hoje};
+  // Cronograma: o que a gestora leva para a reunião e o que a diretoria cobra.
+  const pan=panoramaCronograma(hoje);
+  const pcp=pan.pcp&&pan.pcp.desvio!=null?{v:pan.pcp.desvio,congelado:pan.pcp.congelado,previsto:pan.pcp.previsto}:null;
+  const semMargem={v:pan.semMargem,indefinidas:pan.indefinidas};
+  const promessa=placarPromessas(hoje);
+  const semDono=db.macro_processes.filter(p=>!p.responsavel_user_id&&!(p.fim_real||p.completed_at)).length;
+  const entrega=pan.entrega?{alvo:pan.entrega,previsto:pan.fimGeral,
+    desvio:pan.fimGeral?diffDias(pan.entrega,pan.fimGeral):null,incompleta:pan.indefinidas>0}:null;
+  return{macro,piloto,atas,rnc:manual('rnc'),otif:manual('otif_mp'),pcp,semMargem,entrega,promessa,semDono,motivos:motivosAgregados(),hoje};
 }
 function kpiClass(val,meta,alerta,inverso){
   if(val==null)return'';
@@ -491,13 +851,13 @@ function gerarPauta(){
    ================================================================= */
 const ROUTES={
   '#/dashboard':{t:'Painel de Indicadores',sub:'Metas, gatilhos e alertas do setor',ic:'◈',fn:vDashboard},
-  '#/cronograma':{t:'Cronograma Macro',sub:'Os 35 processos da coleção',ic:'▤',fn:vCronograma},
+  '#/cronograma':{t:'Cronograma Macro',sub:'Prazo congelado x realizado, com o que cada atraso empurra',ic:'▤',fn:vCronograma},
   '#/colecao':{t:'Gestão da Coleção',sub:'Referências × fases de desenvolvimento',ic:'❀',fn:vColecao},
   '#/tarefas':{t:'Quadro de Tarefas',sub:'Encaminhamentos por pessoa — adeus, caderno',ic:'☰',fn:vTarefas},
   '#/rituais':{t:'Rituais & Atas',sub:'Reuniões, pauta automática e atas em 24h',ic:'✎',fn:vRituais},
   '#/manual':{t:'Manual de Uso',sub:'Passo a passo de toda a plataforma',ic:'📖',fn:vManual},
 };
-const ST={colecao:{linha:'',familia:'',estilista:'',fluxo:'',status:'',busca:''},cronograma:{view:'lista'},tarefas:{pessoa:'',so_minhas:false,prazo:'',ata:''}};
+const ST={colecao:{linha:'',familia:'',estilista:'',fluxo:'',status:'',busca:''},cronograma:{view:'lista',tema:'',sit:'',sel:null,zoom:'mes',foco:null},tarefas:{pessoa:'',so_minhas:false,prazo:'',ata:''}};
 
 function render(){
   reindex();
@@ -583,6 +943,21 @@ function vDashboard(){
   </div>
   <div class="kpi-grid" id="kpi-grid">
     ${card('kpi-macro','Cumprimento do Cronograma',k.macro?k.macro.v+'<small>%</small>':'<small>sem baseline</small>','Realizado vs Previsto · Meta ≥ 95% · alerta &lt; 90%'+(k.macro?` · Realizado ${k.macro.realizado}% vs Previsto ${k.macro.previsto}%`:' · começa a medir nesta coleção'),'Joice',k.macro?kpiClass(k.macro.v,95,90):'')}
+    ${card('kpi-pcp','Liberação para o PCP',k.pcp?(k.pcp.v>0?k.pcp.v+'<small> dias de atraso</small>':'<small>no prazo</small>'):'<small>sem data</small>','A data que não pode furar (lead time de compra)'+(k.pcp?` · congelado ${fmtBR(k.pcp.congelado)} · previsto ${fmtBR(k.pcp.previsto)}`:''),'Joice',k.pcp?(k.pcp.v>0?'s-late':'s-ok'):'')}
+    ${card('kpi-entrega','Previsão da Entrega do Mostruário',
+      k.entrega?(k.entrega.incompleta?'<small>não dá para prever</small>':(k.entrega.previsto?fmtBR(k.entrega.previsto):'<small>sem previsão</small>')):'<small>sem previsão</small>',
+      'Alvo '+(k.entrega?fmtBRfull(k.entrega.alvo):'—')+(
+        k.entrega&&k.entrega.incompleta
+          ? ` · a cadeia até a entrega tem ${k.semMargem.indefinidas} etapa(s) sem data na planilha — sem elas a previsão fica otimista e não vale leitura`
+          : (k.entrega&&k.entrega.desvio!=null?(k.entrega.desvio>0?` · ${k.entrega.desvio} dias além do alvo`:' · dentro do alvo'):'')),
+      'Anna',
+      k.entrega?(k.entrega.incompleta?'s-warn':(k.entrega.desvio>0?'s-late':'s-ok')):'')}
+    ${card('kpi-promessa','Promessas de Recuperação Cumpridas',
+      k.promessa.pct!=null?k.promessa.pct+'<small>%</small>':'<small>nenhuma ainda</small>',
+      k.promessa.fechadas?`${k.promessa.cumpridas} de ${k.promessa.fechadas} datas combinadas em reunião foram cumpridas${k.promessa.abertas?` · ${k.promessa.abertas} em aberto`:''}`
+        :'Quando uma etapa atrasar, combine a nova data no card dela — é o que vira este indicador','Joice',
+      k.promessa.pct!=null?kpiClass(k.promessa.pct,90,70):'')}
+    ${card('kpi-margem','Etapas sem Margem de Manobra',k.semMargem.v,'Um atraso nelas empurra a liberação para o PCP'+(k.semMargem.indefinidas?` · ${k.semMargem.indefinidas} etapa(s) sem data na planilha`:''),'Anna',k.semMargem.v>0?'s-warn':'s-ok')}
     ${card('kpi-piloto','Tempo de Pilotagem',k.piloto?k.piloto.v+'<small> dias (média)</small>':'<small>sem baseline</small>','Do fim do Desenho ao fim da Pilotagem '+(k.piloto?`· ${k.piloto.n} referência(s)`:'· registre as datas de Desenho e Pilotagem'),'Joice','',k.piloto?`<button class="btn btn-g btn-sm" data-action="piloto-detalhe" style="margin-top:4px">ver por referência →</button>`:'')}
     ${card('kpi-atas','Atas em 24h',k.atas?k.atas.v+'<small>%</small>':'<small>sem reuniões</small>','Meta 100% '+(k.atas?`· ${k.atas.n}/${k.atas.d} reuniões`:'· registre as reuniões em Rituais & Atas'),'Joice',k.atas?kpiClass(k.atas.v,100,99):'')}
     ${card('kpi-rnc','RNCs do Setor (nº absoluto)',k.rnc&&k.rnc.v!=null?k.rnc.v:'<small>não medido</small>','Meta: −30% em 6 meses '+(k.rnc?'· ref. '+k.rnc.period:'· lance o valor mensal'),'Joice',k.rnc&&k.rnc.v!=null?(k.rnc.v===0?'s-ok':''):'')}
@@ -592,6 +967,12 @@ function vDashboard(){
   <div class="alert-grid" id="alertas">
     <div class="card"><h3>⚠ Processos macro em atraso (${atras.length})</h3>
       ${atras.length?`<ul class="alert-list">${atras.slice(0,8).map(x=>`<li><span>${esc(x.p.name)}</span><span class="d badge b-late">${x.s.days}d</span></li>`).join('')}</ul>`:'<div class="empty">Nenhum processo em atraso — cronograma em dia ✔</div>'}
+    </div>
+    <div class="card"><h3>◎ Por que atrasou nesta coleção</h3>
+      ${k.motivos.length?`<ul class="alert-list">${k.motivos.map(([mk,n])=>`<li><span>${esc(MOTIVOS_ATRASO[mk]||mk)}</span><span class="d badge b-rose">${n}</span></li>`).join('')}</ul>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px">Registre o motivo no card da etapa atrasada. No fim da coleção, esta lista mostra onde o tempo foi embora.</div>`
+        :'<div class="empty">Sem motivos registrados ainda — ao atualizar uma etapa em atraso, escolha por que atrasou.</div>'}
+      ${k.semDono?`<div style="font-size:11.5px;color:var(--late);margin-top:8px"><b>${k.semDono} etapa(s) em aberto sem dono definido.</b> Equipe não entrega — pessoa entrega.</div>`:''}
     </div>
     <div class="card"><h3>❀ Fases com referências em atraso</h3>
       ${fasesCrit.length?`<ul class="alert-list">${fasesCrit.slice(0,8).map(x=>`<li><span>${esc(x.ph.name)}</span><span class="d badge b-late">${x.c.late} ref.</span></li>`).join('')}</ul>`:'<div class="empty">Nenhuma fase com atraso ✔</div>'}
@@ -620,45 +1001,211 @@ function bannerSeed(){
 
 /* ---------------------------- CRONOGRAMA ---------------------------- */
 function vCronograma(){
-  const hoje=hojeStr(),v=ST.cronograma.view;
-  const ps=[...db.macro_processes].sort((a,b)=>a.seq-b.seq);
-  const head=`<div class="toolbar">
+  const hoje=hojeStr(),f=ST.cronograma,v=f.view;
+  const pan=panoramaCronograma(hoje);
+  let ps=procsOrdenados();
+  if(f.tema)ps=ps.filter(p=>(p.macro_tema||'—')===f.tema);
+  if(f.sit)ps=ps.filter(p=>{
+    const st=situacaoProc(p,pan.proj,pan.mg),a=atencaoProc(p,hoje,st);
+    if(f.sit==='concluida')return !!(p.fim_real||p.completed_at);
+    if(f.sit==='sem_dono')return !p.responsavel_user_id&&!(p.fim_real||p.completed_at);
+    if(f.sit==='atencao')return !!a;
+    return a&&a.k===f.sit;
+  });
+  const temas=[...new Set(procsOrdenados().map(p=>p.macro_tema||'—'))].sort((a,b)=>ordemTema(a)-ordemTema(b));
+  const head=faixaImpacto(pan,hoje)+`<div class="toolbar">
     <div class="seg" id="cr-toggle"><button class="${v==='lista'?'on':''}" data-action="cr-view" data-v="lista">Lista</button><button class="${v==='gantt'?'on':''}" data-action="cr-view" data-v="gantt">Linha do tempo</button></div>
+    <div class="f"><label>Macro tema</label><select data-cfilter="tema"><option value="">Todos</option>${temas.map(t=>`<option ${f.tema===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+    <div class="f"><label>Situação</label><select data-cfilter="sit">
+      <option value="">Todas</option>
+      <option value="atencao" ${f.sit==='atencao'?'selected':''}>⚠ Precisa de atenção</option>
+      <option value="atrasada" ${f.sit==='atrasada'?'selected':''}>Em atraso</option>
+      <option value="vencendo" ${f.sit==='vencendo'?'selected':''}>Vence em 7 dias</option>
+      <option value="sem_margem" ${f.sit==='sem_margem'?'selected':''}>Sem margem</option>
+      <option value="sem_dono" ${f.sit==='sem_dono'?'selected':''}>Sem dono</option>
+      <option value="concluida" ${f.sit==='concluida'?'selected':''}>Concluídas</option>
+    </select></div>
     <div style="flex:1"></div>
     <span class="badge b-ok">Em dia: ${ps.filter(p=>statusProcesso(p,hoje).k==='ok').length}</span>
     <span class="badge b-late">Em atraso: ${ps.filter(p=>statusProcesso(p,hoje).k==='late').length}</span>
     <span class="badge b-rose">Concluídos: ${ps.filter(p=>statusProcesso(p,hoje).k==='done').length}</span>
   </div>`;
-  if(v==='gantt')return head+vGantt(ps,hoje);
+  if(v==='gantt')return head+vGantt(ps,hoje,pan);
   return head+`<div class="card" style="padding:0;overflow:auto" id="cr-tabela"><table>
-    <thead><tr><th>#</th><th>Processo</th><th>Equipe</th><th>Início</th><th>Prazo</th><th style="min-width:130px">Avanço</th><th>Status</th><th class="w"></th></tr></thead>
-    <tbody>${ps.map(p=>{const s=statusProcesso(p,hoje);
-      const badge=s.k==='done'?`<span class="badge b-ok">Concluído${s.late?' c/ atraso':''} ${fmtBR(p.completed_at)}</span>`
-        :s.k==='late'?`<span class="badge b-late">${s.days} dias em atraso</span>`:`<span class="badge b-ok">Em dia</span>`;
+    <thead><tr><th>#</th><th>Processo</th><th>Dono</th><th>Macro tema</th><th>Prazo congelado</th><th>Real / previsto</th><th>Desvio</th><th>Margem até o PCP</th><th>Situação</th><th class="w"></th></tr></thead>
+    <tbody>${ps.map(p=>{const st=situacaoProc(p,pan.proj,pan.mg);
       return `<tr>
-        <td>${p.seq}</td><td><b>${esc(p.name)}</b></td>
-        <td>${p.owner_team?`<span class="badge b-rose">${esc(p.owner_team)}</span>`:'—'}</td>
-        <td>${fmtBR(p.start_date)}</td><td>${fmtBR(p.end_date)}</td>
-        <td><div class="pct-cell"><div class="pct-bar"><div class="f" style="width:${p.percent_complete||0}%"></div></div><b style="font-size:11px">${p.percent_complete||0}%</b></div></td>
-        <td>${badge}</td>
+        <td>${p.seq}</td><td><b>${esc(p.name)}</b>${st.paralelo?' <span title="não depende de nenhuma outra etapa" style="color:var(--muted)">∥</span>':''}</td>
+        <td>${p.responsavel_user_id?esc(nomeDono(p)):(p.fim_real||p.completed_at?'<span style="color:var(--muted)">—</span>':'<span class="badge b-warn" title="etapa sem dono: equipe não entrega, pessoa entrega">sem dono</span>')}</td>
+        <td>${p.macro_tema?`<span class="badge b-rose">${esc(p.macro_tema)}</span>`:'—'}</td>
+        <td>${fmtBR(p.start_date)} → ${fmtBR(p.end_date)}</td>
+        <td>${st.origem==='indefinido'?'<span style="color:var(--muted)">sem data definida</span>':(fmtBR(st.ini)+' → '+fmtBR(st.fim)+(st.origem==='projetado'?' <span style="color:var(--warn);font-size:10px">previsto</span>':''))}</td>
+        <td>${textoDesvio(st)}</td>
+        <td>${textoMargem(st)}</td>
+        <td>${badgeProc(p,hoje)}${(()=>{const sp=situacaoPromessa(p,hoje);
+          return sp&&sp.k!=='cumprida'?`<br><span class="badge ${sp.k==='quebrada'?'b-late':'b-warn'}" style="margin-top:3px" title="data combinada na reunião">prometido ${fmtBR(sp.data)}</span>`:''})()}</td>
         <td class="w"><button class="btn btn-g btn-sm" data-action="proc-edit" data-id="${p.id}">editar</button></td>
       </tr>`}).join('')}</tbody></table></div>`;
 }
-function vGantt(ps,hoje){
-  const datas=ps.flatMap(p=>[p.start_date,p.end_date]).filter(Boolean).sort();
-  if(!datas.length)return'<div class="empty">Sem datas no cronograma.</div>';
-  const min=datas[0],max=datas[datas.length-1],span=Math.max(diffDias(min,max),1);
-  const pos=d=>Math.min(100,Math.max(0,diffDias(min,d)/span*100));
-  const tl=pos(hoje);
-  return `<div class="gantt" id="cr-gantt">${ps.map(p=>{
-    if(!p.start_date||!p.end_date)return`<div class="g-row"><div class="g-label">${p.seq}. ${esc(p.name)}</div><div class="g-track"></div></div>`;
-    const s=statusProcesso(p,hoje),l=pos(p.start_date),w=Math.max(pos(p.end_date)-l,.6);
-    return `<div class="g-row"><div class="g-label" title="${esc(p.name)}">${p.seq}. ${esc(p.name)}</div>
-      <div class="g-track"><div class="g-today" style="left:${tl}%"></div>
-      <div class="g-bar ${s.k==='late'?'late':s.k==='done'?'done':''}" style="left:${l}%;width:${w}%" title="${fmtBR(p.start_date)} → ${fmtBR(p.end_date)} · ${p.percent_complete||0}%"><div class="fill" style="width:${p.percent_complete||0}%"></div></div>
-      </div></div>`}).join('')}</div>
-  <div class="legend"><span><span class="sw" style="background:var(--rose)"></span>avanço</span><span><span class="sw" style="background:var(--rose-pale)"></span>planejado</span><span><span class="sw" style="background:var(--late-bg);outline:1.5px solid var(--late)"></span>em atraso</span><span><span class="sw" style="background:var(--ok-bg)"></span>concluído</span></div>`;
+function badgeProc(p,hoje){const s=statusProcesso(p,hoje);
+  if(s.k==='done')return`<span class="badge b-ok">Concluído${s.late?' c/ atraso':''} ${fmtBR(p.completed_at)}</span>`;
+  if(s.k==='late')return`<span class="badge b-late">${s.days} dias em atraso</span>`;
+  // antecipação: avisa antes de virar atraso
+  if(p.end_date){const faltam=diffDias(hoje,p.end_date);
+    if(faltam===0)return'<span class="badge b-warn">vence hoje</span>';
+    if(faltam<=7)return`<span class="badge b-warn">vence em ${faltam} dia(s)</span>`}
+  return'<span class="badge b-ok">Em dia</span>'}
+function textoDesvio(st){
+  if(st.desvio==null)return'—';
+  if(st.desvio>0)return`<b style="color:var(--late)">+${st.desvio} d</b>`;
+  if(st.desvio<0)return`<span style="color:var(--ok)">${st.desvio} d</span>`;
+  return'<span style="color:var(--ok)">no prazo</span>';
 }
+function textoMargem(st){
+  if(st.paralelo&&!st.dentroDaCadeia)return'<span style="color:var(--muted)" title="roda em paralelo: não empurra a cadeia">roda em paralelo</span>';
+  if(!st.dentroDaCadeia)return'<span style="color:var(--muted)">fora da cadeia</span>';
+  if(st.margemBloqueada)return'<span style="color:var(--warn)" title="uma etapa do caminho está sem data na planilha">cadeia sem data</span>';
+  if(st.margem==null)return'—';
+  if(st.margem<0)return`<b style="color:var(--late)">${st.margem} d</b>`;
+  if(st.margem===0)return'<b style="color:var(--late)">sem margem</b>';
+  return`<span style="color:var(--ok)">${st.margem} d</span>`;
+}
+/* Faixa de topo: "tem alguma coisa que impacta o mostruário?" — a pergunta do Cairo. */
+function faixaImpacto(pan,hoje){
+  const p=pan.pcp,alerta=(p&&p.desvio>0)||pan.semMargem>0;
+  const item=(t,v,cls,m)=>`<div class="it"><div class="t">${t}</div><div class="v ${cls||''}">${v}</div><div class="m">${m||''}</div></div>`;
+  return `<div class="impacto ${alerta?'alerta':''}">
+    ${item('Etapas fora do prazo congelado',pan.atrasadas,pan.atrasadas?'mal':'bem',
+       pan.empurram?`${pan.empurram} ainda em aberto empurram a cadeia`:'nenhuma em aberto empurra a cadeia')}
+    ${p?item('Liberação para o PCP',
+       p.desvio==null?'—':(p.desvio>0?`${p.desvio} dias de atraso`:'no prazo'),
+       p.desvio>0?'mal':'bem',
+       `congelado ${fmtBR(p.congelado)} · previsto ${fmtBR(p.previsto)}`):''}
+    ${item('Entrega do mostruário',fmtBR(pan.entrega),'',
+       pan.indefinidas?`previsão indisponível: ${pan.indefinidas} etapa(s) sem data na planilha`
+                      :(pan.fimGeral?`cadeia hoje termina em ${fmtBR(pan.fimGeral)}`:''))}
+    ${item('Etapas sem margem de manobra',pan.semMargem,pan.semMargem?'mal':'bem',
+       pan.indefinidas?`${pan.indefinidas} sem data na planilha`:'todas as etapas datadas')}
+    ${item('Vencem nos próximos 7 dias',pan.vencendo.length,pan.vencendo.length?'':'bem',
+       pan.vencendo.length?esc(pan.vencendo.slice(0,2).map(v=>`${v.p.seq}. ${v.p.name}`).join(' · ')):'nada vencendo nesta semana')}
+  </div>`;
+}
+/* --- zoom da linha do tempo: mês (coleção inteira) → semana → dia ---
+   "Aproximar" desce um nível e "afastar" sobe. Clicar numa etapa já aproxima nela. */
+function focoPadrao(){
+  const hoje=hojeStr(),ds=db.macro_processes.flatMap(p=>[p.start_date,p.end_date]).filter(Boolean).sort();
+  if(!ds.length)return hoje;
+  return hoje<ds[0]?ds[0]:(hoje>ds[ds.length-1]?ds[ds.length-1]:hoje);
+}
+const NIVEIS=['mes','semana','dia'];
+const NIVEL_ROT={mes:'Mês',semana:'Semana',dia:'Dia'};
+const NIVEL_DIAS={semana:84,dia:28};     // largura da janela em cada nível
+const NIVEL_PASSO={mes:60,semana:28,dia:7}; // quanto as setas andam
+function janelaGantt(nivel,foco,min,max){
+  if(nivel==='mes')return{ini:min,fim:max};
+  const n=NIVEL_DIAS[nivel],ini=addDias(foco,-Math.round(n/3));
+  return{ini,fim:addDias(ini,n)};
+}
+function reguaGantt(nivel,ini,fim,pos){
+  let out='',cur;
+  if(nivel==='mes'){
+    cur=ini.slice(0,8)+'01';
+    while(cur<=fim){out+=`<div class="g-mes" style="left:${pos(cur)}%">${fmtMesCurto(cur)}</div>`;
+      cur=addDias(cur.slice(0,8)+'01',32).slice(0,8)+'01'}
+  }else if(nivel==='semana'){
+    cur=ini;
+    while(cur<=fim){out+=`<div class="g-mes forte" style="left:${pos(cur)}%">${cur.slice(8,10)}/${cur.slice(5,7)}</div>`;
+      cur=addDias(cur,7)}
+  }else{
+    cur=ini;
+    while(cur<=fim){const dow=new Date(cur+'T00:00:00Z').getUTCDay();
+      out+=`<div class="g-mes ${dow===1?'forte':''}" style="left:${pos(cur)}%">${(dow===0||dow===6)?'·':cur.slice(8,10)}</div>`;
+      cur=addDias(cur,1)}
+  }
+  return out;
+}
+function vGantt(ps,hoje,pan){
+  const proj=pan.proj,mg=pan.mg,f=ST.cronograma;
+  const datas=[];
+  ps.forEach(p=>{[p.start_date,p.end_date,proj[p.seq].ini,proj[p.seq].fim].forEach(d=>{if(d)datas.push(d)})});
+  if(pan.entrega)datas.push(pan.entrega);
+  datas.push(hoje);
+  if(!datas.length)return'<div class="empty">Sem datas no cronograma.</div>';
+  datas.sort();
+  const min=datas[0],max=datas[datas.length-1];
+  const nivel=f.zoom||'mes',foco=f.foco||hoje;
+  const jan=janelaGantt(nivel,foco,min,max);
+  const span=Math.max(diffDias(jan.ini,jan.fim),1);
+  const pos=d=>Math.min(100,Math.max(0,diffDias(jan.ini,d)/span*100));
+  const dentro=d=>d&&d>=jan.ini&&d<=jan.fim;
+  const visivel=(a,b)=>!(!a&&!b)&&!( (b||a)<jan.ini || (a||b)>jan.fim ); // cruza a janela?
+  const sel=f.sel,suc=sucessoresPorSeq();
+  const naCadeiaSel=sel?cadeiaAFrente(sel,suc):{};
+  const regua=reguaGantt(nivel,jan.ini,jan.fim,pos);
+  const marcos=(dentro(hoje)?`<div class="g-today" style="left:${pos(hoje)}%"></div>`:'')+
+    (pan.pcp&&dentro(pan.pcp.congelado)?`<div class="g-marco ${pos(pan.pcp.congelado)>85?'fim':''}" data-rot="PCP" style="left:${pos(pan.pcp.congelado)}%"></div>`:'')+
+    (dentro(pan.entrega)?`<div class="g-marco ${pos(pan.entrega)>85?'fim':''}" data-rot="mostruário" style="left:${pos(pan.entrega)}%"></div>`:'');
+  const idxNivel=NIVEIS.indexOf(nivel);
+  const barraZoom=`<div class="g-zoom">
+    <div class="seg">${NIVEIS.map(z=>`<button class="${z===nivel?'on':''}" data-action="cr-zoom" data-z="${z}">${NIVEL_ROT[z]}</button>`).join('')}</div>
+    <button class="btn btn-g btn-sm" data-action="cr-drill" data-dir="out" ${idxNivel===0?'disabled':''} title="afastar: ver um período maior">⊖ afastar</button>
+    <button class="btn btn-g btn-sm" data-action="cr-drill" data-dir="in" ${idxNivel===NIVEIS.length-1?'disabled':''} title="aproximar: ver em mais detalhe">⊕ aproximar</button>
+    ${nivel!=='mes'?`<span class="g-nav">
+      <button class="btn btn-g btn-sm" data-action="cr-nav" data-d="-1" title="período anterior">‹</button>
+      <b>${fmtBR(jan.ini)} a ${fmtBR(jan.fim)}</b>
+      <button class="btn btn-g btn-sm" data-action="cr-nav" data-d="1" title="próximo período">›</button>
+      <button class="btn btn-o btn-sm" data-action="cr-hoje">hoje</button></span>`
+     :'<span class="g-nav" style="color:var(--muted)">coleção inteira</span>'}
+  </div>`;
+  let html='',temaAtual=null;
+  [...ps].sort((a,b)=>ordemTema(a.macro_tema)-ordemTema(b.macro_tema)||a.seq-b.seq).forEach(p=>{
+    const tema=p.macro_tema||'—';
+    if(tema!==temaAtual){temaAtual=tema;
+      const doTema=ps.filter(x=>(x.macro_tema||'—')===tema);
+      html+=`<div class="g-tema"><div class="g-label">${esc(tema)} · ${doTema.length} etapa(s)</div><div class="g-track"></div></div>`}
+    const st=situacaoProc(p,proj,mg);
+    const cls=[sel===p.seq?'g-sel':'',sel&&naCadeiaSel[p.seq]?'g-dep':''].filter(Boolean).join(' ');
+    const flags=(st.critico?'<span class="g-flag" title="sem margem de manobra">⚑</span>':'')+
+      (st.paralelo?'<span class="g-flag" style="color:var(--muted)" title="roda em paralelo — não é empurrada por ninguém">∥</span>':'')+
+      (pan.pcp&&pan.pcp.p.seq===p.seq?'<span class="g-flag" style="color:var(--late)" title="marco que não pode furar">★</span>':'');
+    let barras='';
+    if(visivel(p.start_date,p.end_date)){const l=pos(p.start_date||jan.ini);
+      barras+=`<div class="g-base" style="left:${l}%;width:${Math.max(pos(p.end_date||jan.fim)-l,.5)}%" title="prazo congelado: ${fmtBR(p.start_date)} → ${fmtBR(p.end_date)}"></div>`}
+    if(st.origem==='indefinido'){
+      if(visivel(p.end_date||hoje,p.end_date||hoje))
+        barras+=`<div class="g-bar semdata" style="left:${pos(p.end_date||hoje)}%;width:3%" title="sem data definida na planilha"></div>`;
+    }else if(visivel(st.ini,st.fim)){
+      const l=pos(st.ini||jan.ini),w=Math.max(pos(st.fim||jan.fim)-l,.6);
+      const k=st.origem==='real'?(st.desvio>0?'late':'done'):'proj';
+      barras+=`<div class="g-bar ${k} ${st.critico?'critica':''}" style="left:${l}%;width:${w}%" title="${st.origem==='real'?'realizado':'previsto'}: ${fmtBR(st.ini)} → ${fmtBR(st.fim)}${st.incompleto?' (projeção incompleta)':''}"><div class="fill" style="width:${p.percent_complete||0}%"></div></div>`;
+      if(st.desvio>0&&dentro(st.fim))barras+=`<div class="g-desvio" style="left:${Math.min(pos(st.fim),96)}%">+${st.desvio}d</div>`;
+    }else if(st.fim){
+      // fora da janela: seta indicando para que lado a etapa está
+      barras+=st.fim<jan.ini?`<div class="g-fora esq" title="esta etapa terminou em ${fmtBR(st.fim)}, antes deste período">‹</div>`
+                            :`<div class="g-fora dir" title="esta etapa só acontece em ${fmtBR(st.ini)}, depois deste período">›</div>`;
+    }
+    html+=`<div class="g-row ${cls}" data-action="cr-sel" data-seq="${p.seq}" title="clique para ver o que esta etapa empurra">
+      <div class="g-label"><span class="g-nome">${p.seq}. ${esc(p.name)}</span>${flags}</div>
+      <div class="g-track">${barras}</div></div>`;
+  });
+  const selP=sel?ps.find(x=>x.seq===sel):null;
+  const aviso=selP?`<div style="font-size:11.5px;color:var(--rose-dark);margin:8px 2px">Destacando o que <b>${esc(selP.name)}</b> empurra: ${Object.keys(naCadeiaSel).length} etapa(s) à frente. <button class="btn btn-g btn-sm" data-action="cr-sel" data-seq="">limpar</button></div>`:'';
+  return barraZoom+`<div class="gantt" id="cr-gantt"><div class="g-regua"><div class="g-label">${NIVEL_ROT[nivel].toUpperCase()}</div><div class="g-track">${regua}</div></div><div class="g-marcos">${marcos}</div>${html}</div>${aviso}
+  <div class="legend">
+    <span><span class="sw" style="background:var(--rose-pale);height:7px;border-radius:4px"></span>prazo congelado</span>
+    <span><span class="sw" style="background:var(--ok-bg)"></span>realizado no prazo</span>
+    <span><span class="sw" style="background:var(--late-bg);outline:1.5px solid var(--late)"></span>realizado com atraso</span>
+    <span><span class="sw" style="background:var(--warn-bg);outline:1.5px solid var(--warn)"></span>ainda previsto</span>
+    <span><span class="sw" style="outline:1.5px dashed var(--na)"></span>sem data na planilha</span>
+    <span>⚑ sem margem</span><span>∥ roda em paralelo</span><span>★ não pode furar</span><span>‹ › fora deste período</span>
+  </div>`;
+}
+function fmtMesCurto(d){const M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  const p=d.split('-');return M[Number(p[1])-1]+(p[1]==='01'?'/'+p[0].slice(2):'')}
+// Tudo que vem depois de uma etapa, andando pelos sucessores.
+function cadeiaAFrente(seq,suc){const out={},fila=[...(suc[seq]||[])];
+  while(fila.length){const x=fila.shift();if(out[x])continue;out[x]=true;(suc[x]||[]).forEach(y=>fila.push(y))}
+  return out}
 
 /* ---------------------------- GESTÃO DA COLEÇÃO ---------------------------- */
 function vColecao(){
@@ -816,11 +1363,12 @@ function vManual(){
     ['s-rotina','2. A rotina da Joice'],
     ['s-painel','3. Painel de Indicadores'],
     ['s-cronograma','4. Cronograma Macro'],
-    ['s-colecao','5. Gestão da Coleção'],
-    ['s-tarefas','6. Quadro de Tarefas'],
-    ['s-rituais','7. Rituais & Atas'],
-    ['s-dados','8. Dados & Backup'],
-    ['s-faq','9. Perguntas frequentes'],
+    ['s-praticas','5. Fazer o cronograma andar no prazo'],
+    ['s-colecao','6. Gestão da Coleção'],
+    ['s-tarefas','7. Quadro de Tarefas'],
+    ['s-rituais','8. Rituais & Atas'],
+    ['s-dados','9. Dados & Backup'],
+    ['s-faq','10. Perguntas frequentes'],
   ];
   return `
   <div class="man-hero">
@@ -890,18 +1438,120 @@ function vManual(){
       <section class="man-sec" id="s-cronograma">
         <h3><span class="nicon">▤</span> 4. Cronograma Macro</h3>
         <div class="lead">Os ${nProc} processos da coleção, do briefing inspiracional à produção das peças de catálogo.</div>
-        <p>Há duas formas de ver, no botão no topo: <b>Lista</b> (para o dia a dia) e <b>Linha do tempo</b> (um Gantt que mostra a coleção inteira, com uma linha marcando "hoje"). O <b>status é calculado sozinho</b>: se um processo passou do prazo sem conclusão, aparece "X dias em atraso" — o sistema mostra o atraso, ninguém precisa apontar o dedo.</p>
+        <p>Há duas formas de ver, no botão no topo: <b>Lista</b> (para o dia a dia) e <b>Linha do tempo</b> (a coleção inteira de uma vez, com uma linha marcando "hoje"). O <b>status é calculado sozinho</b>: se um processo passou do prazo sem conclusão, aparece "X dias em atraso" — o sistema mostra o atraso, ninguém precisa apontar o dedo.</p>
+
+        <h4>As três datas de cada etapa</h4>
+        <p>Esta é a mudança mais importante. Cada etapa passou a ter:</p>
+        <div class="man-leg">
+          <div><b>Prazo congelado</b> — o que foi combinado no começo da coleção. <b>Nunca muda</b>, para que sempre dê para comparar o combinado com o que aconteceu de fato.</div>
+          <div><b>Realizado</b> — quando a etapa começou e terminou de verdade. É isso que vocês preenchem aqui na plataforma.</div>
+          <div><b>Previsto</b> — para o que ainda não terminou, a data que o sistema calcula sozinho, já considerando os atrasos que vieram das etapas anteriores.</div>
+        </div>
+        <p>Na Linha do tempo, a <b>barra fina clara</b> é o prazo congelado e a <b>barra cheia</b> é o realizado (ou o previsto). A distância entre as duas é o atraso, e o número ao lado diz de quantos dias.</p>
+
+        <h4>O que empurra o quê</h4>
+        <p>Cada etapa diz de quais outras ela depende. Quando uma atrasa, o sistema empurra sozinho todas as que vêm depois dela e mostra as novas datas.</p>
+        <div class="man-leg">
+          <div><b>∥ roda em paralelo</b> — não depende de ninguém. Atraso de outra etapa <b>não</b> mexe nela.</div>
+          <div><b>⚑ sem margem de manobra</b> — se atrasar um dia, empurra a liberação para o PCP no mesmo dia.</div>
+          <div><b>★ não pode furar</b> — a liberação da coleção para o PCP, que está amarrada ao prazo de compra da matéria-prima.</div>
+          <div><b>tracejado</b> — etapa sem data na planilha. O sistema não inventa data: avisa que falta.</div>
+        </div>
+        <p>Clique em qualquer etapa da Linha do tempo para <b>acender tudo que ela empurra</b> à frente.</p>
+
+        <h4>"Se isso atrasar, atrasa o mostruário?"</h4>
+        <p>Abra a etapa em "editar", digite quantos dias de atraso quer testar e clique em <b>ver o impacto</b>. O sistema responde quais etapas seriam empurradas, em quantos dias cada uma, e se a liberação para o PCP é afetada. Serve para decidir na hora se dá para absorver o atraso ou se precisa de plano de ação.</p>
+        <p>A faixa no topo da tela já traz o resumo: quantas etapas saíram do prazo, como está a liberação para o PCP e para quando a cadeia está empurrando a entrega do mostruário.</p>
+
         <h4>Atualizar um processo (faça na reunião de segunda)</h4>
         <div class="steps">
           <div class="step"><div class="st-t">Clique em "editar" na linha do processo</div><div class="st-d">Abre uma janelinha com os campos.</div></div>
+          <div class="step"><div class="st-t">Preencha o início e o fim reais</div><div class="st-d">As datas em que a etapa realmente começou e terminou. É daqui que sai todo o recálculo.</div></div>
           <div class="step"><div class="st-t">Ajuste o % de avanço</div><div class="st-d">Quanto daquele processo já foi feito.</div></div>
-          <div class="step"><div class="st-t">Concluiu? Use "✓ Concluir hoje"</div><div class="st-d">Marca 100% e registra a data de conclusão de uma vez.</div></div>
-          <div class="step"><div class="st-t">Precisou replanejar? Mude o prazo final</div><div class="st-d">A nova data fica registrada e o status se recalcula.</div></div>
+          <div class="step"><div class="st-t">Confirme o dono</div><div class="st-d">Quem entrega esta etapa. Um nome, não um setor.</div></div>
+          <div class="step"><div class="st-t">Se estiver atrasada: nova data prometida + por que atrasou</div><div class="st-d">Os dois campos só aparecem quando a etapa está em atraso. São o plano de ação em duas linhas.</div></div>
+          <div class="step"><div class="st-t">Concluiu? Use "✓ Concluir hoje"</div><div class="st-d">Marca 100% e registra a data de hoje como fim real, de uma vez.</div></div>
         </div>
+        <p>Com pressa? Use o filtro <b>Situação → ⚠ Precisa de atenção</b> e atualize só o que realmente pede conversa.</p>
+        <p style="font-size:12px;color:var(--muted)">O prazo congelado não é editável pela tela de propósito: ele é a memória do combinado. Se o cronograma da coleção for renegociado, isso é feito na planilha e entra pela faixa de "atualizar coleção".</p>
+      </section>
+
+      <section class="man-sec" id="s-praticas">
+        <h3><span class="nicon">◎</span> 5. Como fazer o cronograma andar no prazo</h3>
+        <div class="lead">Sem teoria de gestão de projetos. São seis hábitos simples — se o time seguir só estes, o cronograma para de derrapar.</div>
+
+        <h4>Hábito 1 — A reunião de segunda, em 30 minutos</h4>
+        <p>Abra o <b>Cronograma Macro</b> e passe pela faixa do topo, da esquerda para a direita. Ela foi feita para essa conversa: quantas etapas saíram do prazo, como está a liberação para o PCP, para quando a entrega está sendo empurrada e <b>o que vence nos próximos 7 dias</b>.</p>
+        <p>Depois desça na lista e olhe só três coisas:</p>
+        <div class="steps">
+          <div class="step"><div class="st-t">O que está vermelho (em atraso)</div><div class="st-d">Para cada uma: o que falta para terminar, quem vai fazer e <b>em que data</b>. Sem data nova, não é plano — é torcida.</div></div>
+          <div class="step"><div class="st-t">O que está amarelo (vence em até 7 dias)</div><div class="st-d">Esta é a lista mais importante da reunião. É aqui que dá para evitar o atraso, em vez de explicá-lo depois.</div></div>
+          <div class="step"><div class="st-t">O que começa agora</div><div class="st-d">Confirme que quem vai tocar já sabe e já tem o que precisa (material, ficha, aprovação).</div></div>
+        </div>
+        <p><b>Atalho:</b> no filtro <b>Situação</b>, escolha <b>"⚠ Precisa de atenção"</b> — a lista já vem com o que está atrasado, o que vence em 7 dias, o que não tem margem e o que está sem data. É a pauta da reunião pronta.</p>
+        <p>E em <b>Rituais &amp; Atas</b>, ao abrir o ritual semanal, use <b>"⟳ gerar do cronograma"</b>: a pauta se escreve sozinha, já na ordem de prioridade e com o dono de cada etapa. Revise, converse em cima dela e publique a ata.</p>
+        <p>Registre as decisões no mesmo dia e transforme cada combinado em card no <b>Quadro de Tarefas</b>. O que não vira tarefa com dono e data, não acontece.</p>
+
+        <h4>Hábito 2 — As três perguntas que resolvem quase tudo</h4>
+        <p>Para qualquer etapa, na reunião ou no corredor:</p>
+        <div class="man-leg">
+          <div><b>1. Já começou?</b> Se não começou e já devia ter começado, o atraso já existe — só ainda não apareceu.</div>
+          <div><b>2. Vai terminar na data?</b> Pergunte agora, não na véspera.</div>
+          <div><b>3. Se não vai, o que precisa para terminar?</b> Quase sempre a resposta é material, decisão de alguém ou gente. As três têm solução — desde que apareçam cedo.</div>
+        </div>
+
+        <h4>Hábito 3 — Atrasou: o que fazer em 5 minutos</h4>
+        <div class="steps">
+          <div class="step"><div class="st-t">Pergunte ao sistema se isso empurra alguém</div><div class="st-d">Abra a etapa em "editar" e use <b>"se esta etapa atrasar → ver o impacto"</b>. Ele responde quem é empurrado e em quantos dias.</div></div>
+          <div class="step"><div class="st-t">Não empurra ninguém? Registre e siga</div><div class="st-d">Atraso que não derruba a cadeia não merece reunião. Anote e toque o barco.</div></div>
+          <div class="step"><div class="st-t">Empurra a liberação para o PCP? Plano de ação hoje</div><div class="st-d">Essa é a data que não pode furar, porque a matéria-prima tem prazo de compra. Aqui não se espera a próxima segunda.</div></div>
+          <div class="step"><div class="st-t">Combine data e dono, e registre no card da etapa</div><div class="st-d">"A Fulana entrega até quinta" é um plano. "Vamos correr" não é. No card há o campo <b>Nova data prometida</b> — preencha ali, junto com <b>por que atrasou</b>.</div></div>
+        </div>
+        <p>Toda data prometida fica guardada no histórico da etapa. Quando ela é concluída, o sistema compara: <b>entregou no que prometeu ou não?</b> Esse é o indicador <b>"Promessas de Recuperação Cumpridas"</b> no Painel — e é o número que muda comportamento, porque mostra quem combina data e cumpre.</p>
+        <p style="font-size:12px;color:var(--muted)">Prometer de novo não apaga a promessa anterior: as duas ficam no histórico. É proposital — replanejar três vezes a mesma etapa é um sinal que precisa aparecer.</p>
+
+        <h4>Hábito 4 — Não mexa no prazo combinado</h4>
+        <p>O <b>prazo congelado</b> é a memória do que foi acordado no início da coleção. Ele não muda — nem quando atrasa, nem para "ficar verde". O que você preenche é o <b>início e o fim reais</b>.</p>
+        <p>Parece detalhe, mas é o que permite, no fim da coleção, olhar para trás e dizer: "esta etapa sempre estoura em duas semanas, então no próximo cronograma ela nasce com duas semanas a mais". É assim que o cronograma do ano que vem fica realista — e a coleção deixa de atrasar por planejamento errado.</p>
+        <p style="font-size:12px;color:var(--muted)">Se o cronograma precisar mesmo ser renegociado, isso é decisão de reunião: muda na planilha, entra pela faixa de "atualizar coleção" e fica registrado.</p>
+
+        <h4>Hábito 5 — Saber o que dá para absorver e o que não dá</h4>
+        <p>Nem todo atraso é igual, e essa é a diferença entre apagar incêndio e gerir:</p>
+        <div class="man-leg">
+          <div><b>∥ Roda em paralelo</b> — não depende de ninguém e ninguém depende dela. Atrasou? Dá para reorganizar sem drama.</div>
+          <div><b>Sem sucessor</b> — quando você abre a etapa, o sistema avisa "não empurra nenhuma etapa". Mesma coisa: o atraso fica contido ali.</div>
+          <div><b>⚑ Sem margem de manobra</b> — se atrasar um dia, empurra a liberação para o PCP no mesmo dia. Aqui não existe "depois a gente corre".</div>
+          <div><b>★ Não pode furar</b> — a liberação para o PCP. Se essa data cai, o mostruário cai junto, e junto vai a venda.</div>
+        </div>
+        <p>Na dúvida, clique na etapa na <b>Linha do tempo</b>: o sistema acende tudo que vem depois dela.</p>
+
+        <h4>Hábito 6 — Cada etapa precisa ter data e dono</h4>
+        <p>Etapa sem data aparece tracejada, e o sistema avisa que não consegue prever o que vem depois dela. Não é frescura do sistema: se uma etapa do meio não tem data, ninguém consegue dizer se a entrega está de pé. <b>Etapa sem data é ponto cego.</b></p>
+        <p>O mesmo vale para dono: "o setor" não entrega nada — pessoas entregam. No card de cada etapa há o campo <b>Dono desta etapa (quem entrega)</b>. Etapa sem dono aparece com a marca <b>"sem dono"</b> na lista, e o Painel conta quantas estão assim.</p>
+        <p>Não é burocracia: quando chega a segunda-feira e a etapa não andou, a pergunta "quem estava com isso?" já tem resposta, e a conversa começa da solução em vez de começar da procura do responsável.</p>
+
+        <h4>Os cinco erros que mais atrasam coleção</h4>
+        <div class="man-leg">
+          <div><b>Mudar a data para ficar verde.</b> O painel melhora, a coleção continua atrasada e ninguém aprende nada com isso.</div>
+          <div><b>Marcar 100% sem preencher a data real.</b> Sem a data, o sistema não recalcula o que vem depois e a previsão fica mentirosa.</div>
+          <div><b>Descobrir o atraso na data de entrega.</b> Por isso a lista de "vence em 7 dias" existe: o momento de agir é antes.</div>
+          <div><b>Cobrar prazo de quem não decide prazo.</b> Prazo se cobra com a Joice; estilo e técnica, com a Anna. Cobrar a pessoa errada gera ruído e nenhum resultado.</div>
+          <div><b>Deixar o fornecedor fora do cronograma.</b> Foi o atraso das rendas importadas que derrubou o mostruário. O que vem de fora precisa ter data e acompanhamento igual ao que é feito dentro de casa.</div>
+        </div>
+
+        <h4>No fim da coleção, 20 minutos que valem o ano inteiro</h4>
+        <p>Junte o time e compare o <b>prazo congelado</b> com o <b>realizado</b> de cada etapa. Três perguntas:</p>
+        <div class="man-leg">
+          <div>Quais etapas sempre estouram? Elas nascem com prazo irreal — corrija no próximo cronograma.</div>
+          <div>Onde o tempo foi embora? O Painel tem o quadro <b>"Por que atrasou nesta coleção"</b>, somando os motivos que vocês registraram. Se "material ou fornecedor atrasou" lidera, o problema não é da equipe — é de prazo de compra, e se resolve com folga planejada.</div>
+          <div>Quais atrasos vieram de fora (fornecedor, outra área)? Esses precisam de folga planejada, não de cobrança.</div>
+          <div>O que a gente descobriu tarde demais? Esse é o sinal que faltou no acompanhamento semanal.</div>
+        </div>
+        <p>Anote as conclusões na ata do último ritual da coleção. É esse documento que faz a próxima coleção começar melhor que esta.</p>
       </section>
 
       <section class="man-sec" id="s-colecao">
-        <h3><span class="nicon">❀</span> 5. Gestão da Coleção</h3>
+        <h3><span class="nicon">❀</span> 6. Gestão da Coleção</h3>
         <div class="lead">O coração do sistema: a grade de ${nRef} referências (linhas) × ${nFase} fases (colunas).</div>
         <p>Cada linha é uma peça/referência; cada coluna é uma fase do desenvolvimento (Desenho, Modelagem, Pilotagem… até Produção de Catálogo). O cabeçalho de cada fase mostra a <b>data-limite</b> e os contadores: <b>✓ no prazo</b>, <b>! em atraso</b> e <b>… pendentes</b>.</p>
         <h4>O que cada cor da célula significa</h4>
@@ -928,7 +1578,7 @@ function vManual(){
       </section>
 
       <section class="man-sec" id="s-tarefas">
-        <h3><span class="nicon">☰</span> 6. Quadro de Tarefas</h3>
+        <h3><span class="nicon">☰</span> 7. Quadro de Tarefas</h3>
         <div class="lead">O quadro que substitui o caderno: toda demanda vira um cartão com dono e prazo.</div>
         <p>São três colunas: <b>Pendente → Em andamento → Concluída</b>. Cartões com borda rosé estão com o prazo vencido.</p>
         <div class="steps">
@@ -940,12 +1590,12 @@ function vManual(){
       </section>
 
       <section class="man-sec" id="s-rituais">
-        <h3><span class="nicon">✎</span> 7. Rituais & Atas</h3>
+        <h3><span class="nicon">✎</span> 8. Rituais &amp; Atas</h3>
         <div class="lead">As reuniões do setor, com pauta automática e atas em 24h.</div>
         <p>No topo ficam os 4 rituais oficiais. Para registrar uma reunião:</p>
         <div class="steps">
           <div class="step"><div class="st-t">Clique em "＋ registrar reunião" no ritual desejado</div><div class="st-d">Ex.: o Ritual semanal de cronograma, toda segunda.</div></div>
-          <div class="step"><div class="st-t">A pauta já vem pronta</div><div class="st-d">O sistema preenche com os atrasos do cronograma, fases críticas e tarefas vencidas. Ajuste se quiser e registre.</div></div>
+          <div class="step"><div class="st-t">Gere a pauta do cronograma</div><div class="st-d">No ritual semanal e no reporte à Diretoria, o botão <b>"⟳ gerar do cronograma"</b> escreve a pauta sozinho, em ordem de prioridade: o que está em atraso (com o dono de cada etapa), o que vence em 7 dias, o que está sem margem e o que está sem data. Revise e ajuste antes de publicar — a pauta é um ponto de partida, não a ata.</div></div>
           <div class="step"><div class="st-t">Marque a presença e escreva a ata</div><div class="st-d">Anote decisões e encaminhamentos.</div></div>
           <div class="step"><div class="st-t">Transforme os encaminhamentos em tarefas</div><div class="st-d">Use o botão <b>"＋ tarefa desta reunião"</b>: a tarefa já nasce vinculada à <b>ata de origem</b>. A gestão e a cobrança acontecem no <b>Quadro de Tarefas</b>.</div></div>
           <div class="step"><div class="st-t">Clique em "Publicar ata"</div><div class="st-d">O sistema cronometra: <b>ata publicada em até 24h</b> conta para a meta de 100%.</div></div>
@@ -954,7 +1604,7 @@ function vManual(){
       </section>
 
       <section class="man-sec" id="s-dados">
-        <h3><span class="nicon">⛃</span> 8. Dados & Backup</h3>
+        <h3><span class="nicon">⛃</span> 9. Dados & Backup</h3>
         <div class="lead">Importante até a plataforma migrar para a nuvem (próxima fase do projeto).</div>
         <p>Por enquanto, os dados ficam salvos <b>neste navegador, neste computador</b>. Por isso a <b>máquina da Joice é a fonte oficial da verdade</b>. No botão <b>⛃ Dados</b> no topo você pode:</p>
         <ul>
@@ -967,7 +1617,7 @@ function vManual(){
       </section>
 
       <section class="man-sec" id="s-faq">
-        <h3><span class="nicon">❓</span> 9. Perguntas frequentes</h3>
+        <h3><span class="nicon">❓</span> 10. Perguntas frequentes</h3>
         <div class="faq"><div class="q">Uma fase teve 2 ou 3 tentativas (ex.: 1ª, 2ª, 3ª modelagem). Como registro?</div><div class="a">Clique na célula da fase: cada ocorrência é uma linha com data e observação. Use <b>＋ adicionar evento</b> para incluir a 2ª, 3ª… A célula mostra a data mais recente e um contador (ex.: <b>3×</b>); passando o mouse, você vê todas as datas.</div></div>
         <div class="faq"><div class="q">Errei uma data numa célula. Como corrijo?</div><div class="a">Clique na célula de novo e ajuste a data do evento, remova um evento pelo ✕, ou use "Limpar tudo" para zerar a célula.</div></div>
         <div class="faq"><div class="q">Por que algumas fases mostram "pendente" e não "em atraso"?</div><div class="a">Porque ainda não têm data-limite definida. O perfil de administração define o limite clicando no selo "sem limite" no cabeçalho da coluna.</div></div>
@@ -1081,22 +1731,78 @@ function mPilotoDetalhe(){
    <div class="modal-acts"><button class="btn btn-g" data-action="modal-close">Fechar</button></div>`);
 }
 function mProc(id){
-  const p=db.macro_processes.find(x=>x.id===id);
+  const p=db.macro_processes.find(x=>x.id===id),hoje=hojeStr();
+  const pan=panoramaCronograma(hoje),st=situacaoProc(p,pan.proj,pan.mg);
+  const preds=predsDe(p).map(n=>{const q=db.macro_processes.find(x=>x.seq===n);return q?`${n}. ${q.name}`:`${n}`});
+  const sucs=(sucessoresPorSeq()[p.seq]||[]).map(n=>{const q=db.macro_processes.find(x=>x.seq===n);return q?`${n}. ${q.name}`:`${n}`});
+  const dep=st.paralelo
+    ? '<b>Roda em paralelo</b> — não depende de nenhuma outra etapa, então nenhum atraso de fora empurra esta.'
+    : 'Só começa depois de: '+preds.map(esc).join(' · ');
+  const emAtraso=!(p.fim_real||p.completed_at)&&p.end_date&&p.end_date<hoje;
+  const sp=situacaoPromessa(p,hoje);
+  const histPromessas=promessas(p);
+  const selDono=`<select id="m-dono"><option value="">— sem dono definido —</option>${
+    db.users.filter(u=>u.active&&u.role!=='leitura').map(u=>`<option value="${u.id}" ${p.responsavel_user_id===u.id?'selected':''}>${esc(u.name)} — ${esc(u.job_title)}</option>`).join('')}</select>`;
+  const selMotivo=`<select id="m-motivo"><option value="">— não informado —</option>${
+    Object.entries(MOTIVOS_ATRASO).map(([k,v])=>`<option value="${k}" ${p.motivo_atraso===k?'selected':''}>${esc(v)}</option>`).join('')}</select>`;
   openModal(`
    <h3>${p.seq}. ${esc(p.name)}</h3>
-   <div class="sub">Equipe: ${esc(p.owner_team||'—')} · planejado ${fmtBR(p.start_date)} → ${fmtBR(p.end_date)}</div>
-   <div class="frm">
+   <div class="sub">${esc(p.macro_tema||'sem macro tema')} · ${p.responsavel_user_id?'dono: <b>'+esc(nomeDono(p))+'</b>':'<span style="color:var(--late)">sem dono definido</span>'}${p.owner_team?' · equipe '+esc(p.owner_team):''}</div>
+   <div class="datas-3">
+     <div class="d"><div class="t">Prazo congelado</div><div class="v">${fmtBR(p.start_date)} → ${fmtBR(p.end_date)}</div></div>
+     <div class="d"><div class="t">Realizado</div><div class="v">${p.inicio_real||p.fim_real?fmtBR(p.inicio_real)+' → '+fmtBR(p.fim_real):'—'}</div></div>
+     <div class="d"><div class="t">${st.origem==='real'?'Desvio':'Previsão'}</div>
+       <div class="v" style="color:${st.desvio>0?'var(--late)':'var(--ok)'}">${st.origem==='indefinido'?'sem data':(st.origem==='real'?(st.desvio>0?'+'+st.desvio+' dias':'no prazo'):fmtBR(st.fim))}</div></div>
+   </div>
+   ${sp?`<div class="promessa ${sp.k}">${
+      sp.k==='cumprida'?`✓ Entregou dentro do que foi prometido (prometido ${fmtBR(sp.data)})`
+      :sp.k==='quebrada'?`✕ Promessa não cumprida — prometido ${fmtBR(sp.data)}, ${p.fim_real?'entregue '+fmtBR(p.fim_real):'ainda em aberto'} (${Math.abs(sp.dias)} dia(s))`
+      :`⏱ Prometido para ${fmtBR(sp.data)} — faltam ${sp.dias} dia(s)`}</div>`:''}
+   <div style="font-size:11.5px;color:var(--muted);line-height:1.6;margin-bottom:4px">
+     ${dep}<br>
+     ${sucs.length?'Empurra em seguida: '+sucs.map(esc).join(' · '):'<b>Não empurra nenhuma etapa</b> — um atraso aqui não derruba a cadeia.'}
+     ${st.dentroDaCadeia&&st.margem!=null?`<br>Margem até a liberação para o PCP: <b style="color:${st.margem<=0?'var(--late)':'var(--ok)'}">${st.margem} dia(s)</b>`:''}
+     ${st.margemBloqueada?'<br><span style="color:var(--warn)">Margem não calculável: uma etapa do caminho até o PCP está sem data na planilha.</span>':''}
+   </div>
+   <div class="frm w">
+     <div><label>Dono desta etapa (quem entrega)</label>${selDono}</div>
      <div class="frm-row">
-       <div><label>% de avanço</label><input type="number" id="m-pct" min="0" max="100" value="${p.percent_complete||0}"></div>
-       <div><label>Concluído em</label><input type="date" id="m-conc" value="${p.completed_at||''}"></div>
+       <div><label>Início real</label><input type="date" id="m-ini-real" value="${p.inicio_real||''}"></div>
+       <div><label>Fim real</label><input type="date" id="m-fim-real" value="${p.fim_real||''}"></div>
      </div>
-     <div><label>Prazo final (replanejar)</label><input type="date" id="m-fim" value="${p.end_date||''}"></div>
+     <div><label>% de avanço</label><input type="number" id="m-pct" min="0" max="100" value="${p.percent_complete||0}"></div>
+     ${emAtraso||sp?`<div class="frm-row">
+       <div><label>Nova data prometida</label><input type="date" id="m-prometida" value="" placeholder="dd/mm/aaaa"></div>
+       <div><label>Por que atrasou</label>${selMotivo}</div>
+     </div>
+     <div style="font-size:11px;color:var(--muted);margin-top:-4px">Combine a data na reunião e registre aqui. Cada promessa fica no histórico — é assim que "prometido x cumprido" vira indicador.</div>`:''}
+   </div>
+   ${histPromessas.length>1?`<div class="cadeia" style="margin-top:8px"><b style="font-size:11px;color:var(--muted)">HISTÓRICO DE PROMESSAS</b>${
+      histPromessas.map(pr=>`<div>${fmtBR(pr.data)} <span style="color:var(--muted)">— combinado em ${fmtBR((pr.feita_em||'').slice(0,10))}${pr.feita_por&&ix.userById[pr.feita_por]?' por '+esc(ix.userById[pr.feita_por].name):''}</span></div>`).join('')}</div>`:''}
+   <div class="sim">
+     <label style="font-size:11px;color:var(--muted);font-weight:600">SE ESTA ETAPA ATRASAR</label>
+     <div style="display:flex;gap:8px;align-items:center;margin-top:5px">
+       <input type="number" id="m-sim" min="0" max="180" value="10" style="width:80px"> <span style="font-size:12px">dias</span>
+       <button class="btn btn-o btn-sm" data-action="proc-sim" data-seq="${p.seq}">ver o impacto</button>
+     </div>
+     <div class="res" id="m-sim-res"></div>
    </div>
    <div class="modal-acts">
-     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
-     <button class="btn btn-o" data-action="proc-done" data-id="${id}">✓ Concluir hoje</button>
-     <button class="btn btn-p" data-action="proc-save" data-id="${id}">Salvar</button>
+     <button class="btn btn-g" data-action="modal-close">Fechar</button>
+     <button class="btn btn-o w" data-action="proc-done" data-id="${id}">✓ Concluir hoje</button>
+     <button class="btn btn-p w" data-action="proc-save" data-id="${id}">Salvar</button>
    </div>`);
+}
+/* Resposta à pergunta do Cairo, em português de chão de fábrica. */
+function htmlSimulacao(seq,dias,hoje){
+  const r=simularAtraso(seq,dias,hoje);
+  if(r.jaConcluida)return'<span style="color:var(--muted)">Esta etapa já foi concluída — não há o que simular.</span>';
+  if(!r.empurra)return'<b style="color:var(--ok)">Não empurra nenhuma outra etapa.</b> O atraso fica contido aqui.';
+  const linhas=r.afetados.map(a=>`<div>#${a.seq} ${esc(a.name)} <b>+${a.dias}d</b> <span style="color:var(--muted)">${fmtBR(a.de)} → ${fmtBR(a.para)}</span></div>`).join('');
+  const pcp=r.pcp>0?`<br>Atrasa a <b>liberação para o PCP em ${r.pcp} dia(s)</b>.`
+                   :'<br>Não mexe na liberação para o PCP.';
+  return `Empurra <b>${r.afetados.length} etapa(s)</b>${r.temas.length?' em: '+esc(r.temas.join(', ')):''}.${pcp}
+    <div class="cadeia">${linhas}</div>`;
 }
 function mTask(id){
   const t=id?db.tasks.find(x=>x.id===id):null;
@@ -1146,7 +1852,7 @@ function mRitOpen(id){
      <div><label>Presença</label><div style="display:flex;flex-wrap:wrap;gap:8px">${db.users.filter(u=>u.role!=='leitura').map(u=>{
        const a=(r.attendance||[]).find(x=>x.user_id===u.id);
        return `<label style="display:flex;gap:5px;align-items:center;font-size:12px;text-transform:none;letter-spacing:0;border:1px solid var(--line);border-radius:8px;padding:4px 9px"><input type="checkbox" class="pres" data-uid="${u.id}" ${a&&a.present?'checked':''} style="width:auto">${esc(u.name)}</label>`}).join('')}</div></div>
-     <div><label>Pauta</label><textarea id="m-pauta" rows="7" style="font-size:12px">${esc(r.agenda_text||'')}</textarea></div>
+     <div><label>Pauta ${['semanal','mensal_diretoria'].includes(r.type)?`<button class="btn btn-o btn-sm w" data-action="rit-pauta" data-id="${id}" style="margin-left:6px;text-transform:none;letter-spacing:0" title="puxa do cronograma o que está em atraso, o que vence em 7 dias e o que não tem margem">⟳ gerar do cronograma</button>`:''}</label><textarea id="m-pauta" rows="9" style="font-size:12px">${esc(r.agenda_text||'')}</textarea></div>
      <div><label>Ata (decisões e encaminhamentos)</label><textarea id="m-ata" rows="6" style="font-size:12px" placeholder="O que foi decidido, quem ficou com o quê…">${esc(r.minutes_text||'')}</textarea></div>
    </div>
    <div class="modal-acts" style="flex-wrap:wrap">
@@ -1239,11 +1945,42 @@ const ACTIONS={
   },
   /* cronograma */
   'cr-view':d=>{ST.cronograma.view=d.v;render()},
+  'cr-sel':d=>{const c=ST.cronograma,s=Number(d.seq)||null;
+    c.sel=(c.sel===s)?null:s;
+    // selecionar uma etapa já aproxima nela: é o drill down natural
+    if(c.sel&&c.zoom!=='mes'){const p=db.macro_processes.find(x=>x.seq===c.sel),pr=projetarCronograma(hojeStr())[c.sel];
+      c.foco=(pr&&pr.ini)||p.start_date||c.foco}
+    render()},
+  'cr-zoom':d=>{const c=ST.cronograma;c.zoom=d.z;if(!c.foco)c.foco=focoPadrao();render()},
+  'cr-drill':d=>{const c=ST.cronograma,i=NIVEIS.indexOf(c.zoom||'mes');
+    const j=d.dir==='in'?Math.min(i+1,NIVEIS.length-1):Math.max(i-1,0);
+    c.zoom=NIVEIS[j];if(!c.foco)c.foco=focoPadrao();render()},
+  'cr-nav':d=>{const c=ST.cronograma,passo=NIVEL_PASSO[c.zoom||'mes']*Number(d.d);
+    c.foco=addDias(c.foco||focoPadrao(),passo);render()},
+  'cr-hoje':()=>{ST.cronograma.foco=hojeStr();render()},
   'proc-edit':d=>mProc(d.id),
-  'proc-save':d=>{const pct=Math.max(0,Math.min(100,Number($('#m-pct').value||0))),conc=$('#m-conc').value,fim=$('#m-fim').value;
-    commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);p.percent_complete=pct;p.completed_at=conc||null;if(fim)p.end_date=fim});
-    closeModal();toast('Processo atualizado.')},
-  'proc-done':d=>{commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);p.completed_at=hojeStr();p.percent_complete=100});closeModal();toast('Processo concluído ✓')},
+  'proc-save':d=>{const pct=Math.max(0,Math.min(100,Number($('#m-pct').value||0))),ini=$('#m-ini-real').value,fim=$('#m-fim-real').value;
+    if(ini&&fim&&fim<ini){toast('O fim real não pode ser antes do início real.');return}
+    const dono=$('#m-dono')?$('#m-dono').value:null;
+    const prom=$('#m-prometida')?$('#m-prometida').value:'';
+    const motivo=$('#m-motivo')?$('#m-motivo').value:null;
+    if(prom&&prom<hojeStr()){toast('A data prometida precisa ser de hoje em diante.');return}
+    const eu=currentUser();
+    // start_date/end_date são a linha de base congelada e não se mexem daqui.
+    commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);
+      p.percent_complete=pct;p.inicio_real=ini||null;p.fim_real=fim||null;p.completed_at=fim||null;
+      if($('#m-dono'))p.responsavel_user_id=dono||null;
+      if($('#m-motivo'))p.motivo_atraso=motivo||null;
+      // promessa é append-only: o histórico é o que permite medir prometido x cumprido
+      if(prom){p.promessas=p.promessas||[];
+        const ult=p.promessas[p.promessas.length-1];
+        if(!ult||ult.data!==prom)p.promessas.push({data:prom,feita_em:agoraIso(),feita_por:eu?eu.id:null})}});
+    closeModal();toast(prom?'Atualizado · nova data prometida registrada.':'Processo atualizado.')},
+  'proc-done':d=>{commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);
+    p.fim_real=hojeStr();p.completed_at=hojeStr();p.percent_complete=100;if(!p.inicio_real)p.inicio_real=p.start_date||null});
+    closeModal();toast('Processo concluído ✓')},
+  'proc-sim':d=>{const n=Math.max(0,Number($('#m-sim').value||0));
+    $('#m-sim-res').innerHTML=htmlSimulacao(Number(d.seq),n,hojeStr())},
   /* coleção */
   'cell-open':d=>mCell(d.ref,d.phase),
   'cell-add-event':()=>{syncCellEdit();cellEdit.rows.push({date:hojeStr(),notes:''});openModal(cellModalHtml())},
@@ -1310,6 +2047,11 @@ const ACTIONS={
       attendance:[],agenda_text:$('#m-pauta').value,minutes_text:null,minutes_published_at:null,created_at:agoraIso(),created_by:currentUser().id}));
     closeModal();toast('Reunião registrada — publique a ata em até 24h.');setTimeout(()=>mRitOpen(rid),150)},
   'rit-open':d=>mRitOpen(d.id),
+  'rit-pauta':d=>{const ta=$('#m-pauta');if(!ta)return;
+    const gerada=pautaDoCronograma(hojeStr());
+    const atual=ta.value.trim();
+    if(atual&&!atual.startsWith('PAUTA — RITUAL SEMANAL')&&!confirm('A pauta já tem texto. Substituir pelo que veio do cronograma?'))return;
+    ta.value=gerada;toast('Pauta gerada do cronograma. Revise antes de publicar.')},
   'rit-save-ata':d=>{salvarRitual(d.id);closeModal();toast('Rascunho salvo.')},
   'rit-publish':d=>{salvarRitual(d.id,true);closeModal();toast('Ata publicada ✓')},
   'rit-task':d=>{mTask._rit=d.rit;mTask(null)},
@@ -1403,7 +2145,9 @@ const TOURS={
   {el:'.regra-ouro',t:'A Regra de Ouro',p:'Sempre visível: prazo cobra-se com a Joice, estilo cobra-se com a Anna. Cada decisão pertence a uma única cadeira.'}],
  '#/cronograma':[
   {el:'#cr-toggle',t:'Duas formas de ver',p:'Lista para o dia a dia (editar % e concluir) e Linha do tempo para enxergar a coleção inteira de uma vez, com a linha "hoje" mostrando onde estamos.'},
-  {el:'#cr-tabela, #cr-gantt',t:'Os 35 processos da coleção',p:'Cada processo tem início, prazo e % de avanço. O status é calculado sozinho: se passou do prazo sem conclusão, aparece "X dias em atraso" — ninguém precisa apontar o dedo, o sistema mostra.'},
+  {el:'#cr-tabela, #cr-gantt',t:'Prazo congelado x o que aconteceu',p:'O prazo combinado no começo da coleção fica congelado e não muda. Você registra o início e o fim reais, e o sistema recalcula sozinho as datas das etapas seguintes. A coluna "Desvio" mostra quantos dias a etapa saiu do combinado.'},
+  {el:'.impacto',t:'A resposta de cinco segundos',p:'Quantas etapas saíram do prazo, como está a liberação para o PCP (a data que não pode furar) e para quando a cadeia está empurrando a entrega do mostruário.'},
+  {el:'#cr-toggle',t:'Onde o atraso aparece',p:'Na Linha do tempo, a barra fina é o prazo congelado e a barra cheia é o que aconteceu (ou o que está previsto). A distância entre as duas é o atraso. Clique numa etapa para acender tudo que ela empurra.'},
   {el:'.topbar',t:'Atualize na reunião de segunda',p:'Durante o ritual semanal, abra cada processo em andamento e ajuste o %. Concluiu? Botão "Concluir hoje". Replanejou o prazo? Edite a data — fica registrado.'}],
  '#/colecao':[
   {el:'#col-filtros',t:'Filtre como na planilha — só que instantâneo',p:'Por linha (FASHION, LUXE…), família (KISS ME, LUMINA…), estilista, fluxo (nova × continuada) ou só o que está em atraso. A busca encontra qualquer referência pelo código.'},
@@ -1476,8 +2220,9 @@ document.addEventListener('click',e=>{
   if(fn)fn(t.dataset,t,e);
 });
 document.addEventListener('change',e=>{
-  const f=e.target.dataset.filter,tf=e.target.dataset.tfilter;
+  const f=e.target.dataset.filter,tf=e.target.dataset.tfilter,cf=e.target.dataset.cfilter;
   if(f){ST.colecao[f]=e.target.value;render()}
+  if(cf){ST.cronograma[cf]=e.target.value;render()}
   if(tf){ST.tarefas[tf]=e.target.type==='checkbox'?e.target.checked:e.target.value;render()}
 });
 document.addEventListener('input',e=>{

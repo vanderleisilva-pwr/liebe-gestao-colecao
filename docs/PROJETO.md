@@ -48,8 +48,8 @@ Seed gerado em **2026-06-10** a partir da planilha. Coleção única: **INVERNO 
 ## 5. Módulos (5 páginas + Manual)
 
 1. **Painel de Indicadores** — KPIs com meta, gatilho de alerta e responsável (automáticos + manuais).
-2. **Cronograma Macro** — 35 processos com status derivado + linha do tempo (Gantt) com a linha "hoje".
-3. **Gestão da Coleção** — grid 114 referências × 19 fases, data-limite por fase, filtros, conclusão com autoria, cancelamento governado.
+2. **Cronograma Macro** — 40 processos com macro tema e predecessores; prazo congelado x realizado/previsto, margem de manobra, simulação de atraso e linha do tempo com zoom mês/semana/dia. Governança: dono por pessoa, data prometida de recuperação (com placar prometido x cumprido), motivo do atraso e filtro "precisa de atenção".
+3. **Gestão da Coleção** — grid 112 referências × 19 fases, data-limite por fase, filtros, conclusão com autoria, cancelamento governado.
 4. **Quadro de Tarefas** — kanban por pessoa (substitui o caderno; card exige ata de origem).
 5. **Rituais & Atas** — os 4 rituais oficiais, pauta gerada dos dados, cronômetro de ata em 24h, presença.
 6. **Manual de Uso** — documentação embutida no app.

@@ -84,8 +84,8 @@ Cada coleção do `LIEBE_SEED` vira uma tabela 1:1 (snake_case, UUIDs, FKs, data
 | `collections` | `collections` | |
 | `phases` | `phases` | catálogo das 19 fases |
 | `phase_deadlines` | `phase_deadlines` | data-limite por fase × coleção |
-| `macro_processes` | `macro_processes` | 35 processos; status derivado |
-| `references` | `references` | ~114 referências; campo `status` ('ativa'/'cancelada') + snapshot do cancelamento. Cancelar/reativar é exclusivo da Joice (`canCancelRefs()`) |
+| `macro_processes` | `macro_processes` | 40 processos; `start_date`/`end_date` = linha de base congelada · `inicio_real`/`fim_real` = realizado (digitado na plataforma) · `predecessores` (array de `seq`) · `macro_tema` · `responsavel_user_id` (dono, FK users) · `motivo_atraso` (enum `MOTIVOS_ATRASO`) · `promessas[]` (append-only: `{data, feita_em, feita_por}` → vira tabela própria no Postgres). Status, projeção, margem, caminho crítico e desfecho das promessas são **derivados**, nunca persistidos |
+| `references` | `references` | ~112 referências; campo `status` ('ativa'/'cancelada') + snapshot do cancelamento. Cancelar/reativar é exclusivo da Joice (`canCancelRefs()`) |
 | `reference_phases` | `reference_phases` | célula do grid (esparsa) |
 | `reference_log` | `reference_log` | trilha append-only de cancelamentos/reativações de referência (governança) |
 | `tasks` | `tasks` | |

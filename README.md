@@ -12,14 +12,14 @@ Sistema online de gestão do cronograma de coleção do setor de **Estilo & Prod
 | Arquivo | O que é |
 |---|---|
 | `index.html` | A aplicação inteira: CSS (identidade Liebe), router, store, 5 módulos, tour guiado, export/import |
-| `data.js` | `window.LIEBE_SEED` — dados reais extraídos da planilha (114 referências, 35 processos, 19 fases) |
+| `data.js` | `window.LIEBE_SEED` — dados reais extraídos da planilha (112 referências, 40 processos, 19 fases) |
 | `scripts/gerar_seed.py` | Lê o `.xlsx` e regenera `data.js`. Re-rode quando vier nova coleção: `python scripts/gerar_seed.py "caminho\do\arquivo.xlsx"` |
 
 ## Módulos
 
 1. **Painel de Indicadores** — KPIs com meta, gatilho de alerta e responsável. Automáticos: % cumprimento do cronograma, % peças no prazo, Tempo de Piloto, Atas em 24h. Manuais (lançamento mensal): RNCs (nº absoluto) e Atraso de MP. Nomenclatura do chão de fábrica (decisão do Cairo, 12/05/2026).
-2. **Cronograma Macro** — os 35 processos com status derivado ("Em dia" / "X dias em atraso" / "Concluído") + linha do tempo (Gantt) com a linha "hoje".
-3. **Gestão da Coleção** — grid 114 referências × 19 fases com data-limite por fase, contadores no prazo/atraso/pendente, filtros e registro de conclusão com autoria. Fases marcadas por dono do marco: ◆ Anna (estilo) · ● Joice (prazo).
+2. **Cronograma Macro** — os 40 processos com status derivado ("Em dia" / "vence em X dias" / "X dias em atraso" / "Concluído"), **prazo congelado x realizado/previsto**, margem de manobra e cadeia de impacto (o que cada atraso empurra) + linha do tempo com zoom **mês/semana/dia**, marcos e a linha "hoje". Governança embutida: dono por pessoa, data prometida de recuperação, motivo do atraso e pauta de reunião gerada do cronograma.
+3. **Gestão da Coleção** — grid 112 referências × 19 fases com data-limite por fase, contadores no prazo/atraso/pendente, filtros e registro de conclusão com autoria.
 4. **Quadro de Tarefas** — kanban por pessoa (substitui o caderno).
 5. **Rituais & Atas** — os 4 rituais oficiais, **pauta gerada automaticamente dos dados**, cronômetro de ata em 24h, presença e **cobranças documentadas** com evidência e escalonamento.
 
