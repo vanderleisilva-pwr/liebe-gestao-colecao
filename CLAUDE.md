@@ -38,11 +38,13 @@ Sem Node, sem npm, **sem etapa de build**. Deploy: `git push` na branch `main` �
 ## Multi-coleção (cada cronograma é uma ilha)
 - **Porta de entrada é `#/colecoes`** (`vColecoes`): cartão por coleção com o retrato real. `resumoColecao()` usa `comColecao(id, fn)` para rodar o motor sobre outra coleção **sem trocar a ativa** — olhar só a data congelada do marco diria "no prazo" mesmo com a cadeia empurrando.
 - **`seed_version` = maior mtime entre TODAS as planilhas** (principal + `--colecao`). Se olhasse só a principal, acrescentar uma coleção não avisaria quem já aplicou a versão anterior — foi exatamente o que aconteceu no primeiro deploy multi-coleção.
-- **Toda leitura de cronograma passa por `procsCol()`**, nunca por `db.macro_processes` direto. Escrever `db.macro_processes` numa view ou no motor faz uma coleção contaminar a outra — foi exatamente o bug que a separação corrigiu.
+- **Toda leitura escopada passa pelos seletores da coleção**: `procsCol()` (cronograma), `refsCol()` (referências), `deadlinesCol()` (prazos de fase), `tasksCol()` / `ritualsCol()` (tarefas e reuniões, que também aceitam registros sem `collection_id` — legado). Nunca ler `db.macro_processes` / `db.references` direto numa view. Escrever `db.macro_processes` numa view ou no motor faz uma coleção contaminar a outra — foi exatamente o bug que a separação corrigiu.
 - Coleção ativa em `localStorage[LS_COL]`, resolvida por `colecaoAtivaId()`; `colecoesComCronograma()` lista só as que têm etapas (as demais existem por causa das referências).
 - **Marcos vivem na coleção** (`collection.marcos = {entrega_mostruario, liberacao_pcp_seq}`); `db.marcos` global é legado/fallback.
 - `guardarRealizado`/`reaplicarRealizado` usam a chave `collection_id|seq` — só `seq` misturaria coleções.
 - **Predecessores são por `seq` dentro da coleção.** Ao importar ou copiar, traduza os `seq` (ver `mapa_seq` no gerador e `criarColecao()` no app); nunca copie predecessor cru entre coleções com numeração diferente.
+- **A grade e o cronograma da mesma planilha são a MESMA coleção.** A coluna "COLEÇÃO" da grade é rótulo do time e vive em `reference.collection_name`; o `collection_id` é o da coleção da planilha. Separá-los deixava a Gestão da Coleção vazia ao filtrar.
+- **Referências criadas na plataforma** têm id `ref-m-…` e são preservadas no `applyNewSeed` junto com suas `reference_phases` (`guardarRefsManuais`/`reaplicarRefsManuais`). Se a planilha passar a trazer o mesmo código na mesma coleção, a planilha manda.
 - Criar coleção (`criarColecao`) copia catálogo, macro tema e predecessores, e **deixa as datas em aberto de propósito**: prazo é decisão da reunião de planejamento. Se já existe coleção com o nome mas sem cronograma (veio das referências), o cronograma é anexado a ela em vez de duplicar.
 
 ## Cronograma: linha de base x realizado (o coração da v2)

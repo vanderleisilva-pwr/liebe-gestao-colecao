@@ -406,15 +406,17 @@ def main():
         num = row[0].value
         if num is None:
             continue
+        # A coluna "COLEÇÃO" da grade é um rótulo do time (ex.: "INVERNO 27"), não
+        # uma coleção separada: a grade e o cronograma vêm da MESMA planilha e são a
+        # mesma coleção. O rótulo fica em collection_name, para filtro e conferência.
         colecao = str(row[1].value).strip()
-        if colecao not in colecoes_vistas:
-            colecoes_vistas[colecao] = f"col-{slug(colecao)}"
+        colecoes_vistas[colecao] = colecoes_vistas.get(colecao, 0) + 1
         estilista = str(row[4].value).strip() if row[4].value else ""
         fluxo = "continuado" if "CONTINUADA" in estilista.upper() else "nova"
         rid = f"ref-{int(num):03d}"
         refs.append({
             "id": rid,
-            "collection_id": colecoes_vistas[colecao],
+            "collection_id": col_id["INVERNO_ALTO_27"],
             "collection_name": colecao,
             "code": str(row[5].value).strip(),
             "line": str(row[2].value).strip().upper(),
@@ -449,24 +451,13 @@ def main():
                     if "pcp" in norm(p["name"]) and "libera" in norm(p["name"])), None)
 
     collections = [{
-        "id": cid,
-        "name": nome,
+        "id": col_id["INVERNO_ALTO_27"], "name": "INVERNO & ALTO 27",
         "status": "em_andamento",
         "start_date": inicio_colecao,     # INICIO NOVA COLEÇÃO (CRONOGRAMA.V2)
         "end_date": entrega_mostruario,   # ENTREGA MOSTRUÁRIO (CRONOGRAMA.V2)
-        # marcos por coleção: cada cronograma tem os seus
         "marcos": {**marcos, "entrega_mostruario": entrega_mostruario,
-                   "liberacao_pcp_seq": seq_pcp} if cid == col_id["INVERNO_ALTO_27"] else {},
-    } for nome, cid in colecoes_vistas.items()]
-    # garante a coleção principal mesmo sem refs
-    if not any(c["id"] == col_id["INVERNO_ALTO_27"] for c in collections):
-        collections.insert(0, {
-            "id": col_id["INVERNO_ALTO_27"], "name": "INVERNO & ALTO 27",
-            "status": "em_andamento",
-            "start_date": inicio_colecao, "end_date": entrega_mostruario,
-            "marcos": {**marcos, "entrega_mostruario": entrega_mostruario,
-                       "liberacao_pcp_seq": seq_pcp},
-        })
+                   "liberacao_pcp_seq": seq_pcp},
+    }]
 
     # ---------------------------------------------------------- coleções adicionais
     # Cada uma entra 100% separada: etapas, datas, marcos e governança próprios.

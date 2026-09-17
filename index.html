@@ -465,9 +465,11 @@ function loadDb(){
 function applyNewSeed(){
   const seed=window.LIEBE_SEED;
   const realizado=guardarRealizado(); // o que a equipe digitou aqui não pode voltar atrás
+  const refsManuais=guardarRefsManuais();
   ['users','collections','phases','phase_deadlines','macro_processes','references','reference_phases'].forEach(k=>db[k]=clone(seed[k]));
   db.marcos=clone(seed.marcos||{});
   reaplicarRealizado(realizado);
+  reaplicarRefsManuais(refsManuais);
   db.reference_log=db.reference_log||[]; // governança preservada (dado operacional)
   normalizeEvents(db);      // garante array de eventos nas células vindas da planilha
   reaplicarCancelamentos(); // re-aplica status cancelado ao novo catálogo (por código)
@@ -479,6 +481,23 @@ function applyNewSeed(){
 // para cada código, se a última ação no histórico for 'cancelamento', re-aplica o status.
 // O início/fim real dos processos é digitado na plataforma, não vem da planilha.
 // Guardamos antes da troca de catálogo e recolamos depois, casando por seq.
+// Referências criadas aqui (id 'ref-m-…') não existem na planilha: se o catálogo
+// fosse simplesmente sobrescrito, o cadastro manual do time sumiria sem aviso.
+function guardarRefsManuais(){
+  const refs=(db.references||[]).filter(r=>String(r.id).startsWith('ref-m-'));
+  const ids=new Set(refs.map(r=>r.id));
+  // as fases dessas referências também só existem aqui: sem elas o histórico some
+  return{refs:refs.map(clone),fases:(db.reference_phases||[]).filter(rp=>ids.has(rp.reference_id)).map(clone)};
+}
+function reaplicarRefsManuais(g){
+  if(!g||!g.refs||!g.refs.length)return;
+  const voltaram=new Set();
+  g.refs.forEach(r=>{
+    const jaVeio=db.references.some(x=>x.code===r.code&&x.collection_id===r.collection_id);
+    if(!jaVeio){db.references.push(r);voltaram.add(r.id)} // se a planilha passou a trazer o código, ela manda
+  });
+  (g.fases||[]).forEach(rp=>{if(voltaram.has(rp.reference_id))db.reference_phases.push(rp)});
+}
 function guardarRealizado(){
   const m={};(db.macro_processes||[]).forEach(p=>{
     if(p.inicio_real||p.fim_real||p.responsavel_user_id||p.motivo_atraso||(p.promessas||[]).length)
@@ -527,7 +546,7 @@ function reindex(){
   ix.userById=Object.fromEntries(db.users.map(u=>[u.id,u]));
   ix.phaseById=Object.fromEntries(db.phases.map(p=>[p.id,p]));
   ix.refById=Object.fromEntries(db.references.map(r=>[r.id,r]));
-  ix.dlByPhase={};db.phase_deadlines.forEach(d=>ix.dlByPhase[d.phase_id]=d.deadline_date);
+  ix.dlByPhase={};deadlinesCol().forEach(d=>ix.dlByPhase[d.phase_id]=d.deadline_date);
   ix.rpByKey={};db.reference_phases.forEach(rp=>ix.rpByKey[rp.reference_id+'|'+rp.phase_id]=rp);
 }
 function phaseApplies(ref,ph){return ph.flow_type==='ambos'||ph.flow_type===ref.flow_type}
@@ -559,6 +578,14 @@ function setColecaoAtiva(id){try{localStorage.setItem(LS_COL,id)}catch(e){}
   ST.cronograma.sel=null;ST.cronograma.foco=null}
 // Processos da coleção ativa — base de TODO o cálculo do cronograma.
 function procsCol(){const id=colecaoCtxId();return (db.macro_processes||[]).filter(p=>p.collection_id===id)}
+// Referências e prazos de fase também pertencem a uma coleção.
+function refsCol(){const id=colecaoCtxId();return (db.references||[]).filter(r=>r.collection_id===id)}
+function deadlinesCol(){const id=colecaoCtxId();return (db.phase_deadlines||[]).filter(d=>d.collection_id===id)}
+// Tarefas e rituais nascem vinculados à coleção em que foram criados. Os que vieram
+// de antes (sem coleção) continuam aparecendo em todas — não somem do radar de ninguém.
+function daColecao(x){const id=colecaoCtxId();return !x.collection_id||x.collection_id===id}
+function tasksCol(){return (db.tasks||[]).filter(daColecao)}
+function ritualsCol(){return (db.rituals||[]).filter(daColecao)}
 function marcosDb(){const c=colecaoAtiva();return (c&&c.marcos)||db.marcos||(window.LIEBE_SEED&&window.LIEBE_SEED.marcos)||{}}
 function seqPcp(){return marcosDb().liberacao_pcp_seq||null}
 function dataEntrega(){return marcosDb().entrega_mostruario||null}
@@ -842,7 +869,7 @@ function kpis(){
   const previsto=sumDur?sumPrev/sumDur*100:0, realizado=sumDur?sumReal/sumDur*100:0;
   const macro=sumDur?{v:previsto>0?Math.round(realizado/previsto*100):(realizado>0?100:0),previsto:Math.round(previsto),realizado:Math.round(realizado)}:null;
   // referências válidas para indicadores: exclui canceladas
-  const refsAtivas=db.references.filter(r=>r.status!=='cancelada');
+  const refsAtivas=refsCol().filter(r=>r.status!=='cancelada');
   // Tempo de Pilotagem: fim do DESENHO → fim da PILOTAGEM (em dias), global + por referência
   const phDes=db.phases.find(p=>p.key==='desenho'),phPil=db.phases.find(p=>p.key==='pilotagem');
   const pilotItems=[];
@@ -853,7 +880,7 @@ function kpis(){
   pilotItems.sort((a,b)=>b.dias-a.dias);
   const piloto=pilotItems.length?{v:Math.round(pilotItems.reduce((s,x)=>s+x.dias,0)/pilotItems.length),n:pilotItems.length,items:pilotItems}:null;
   // Atas em 24h
-  const reunioes=db.rituals.filter(r=>r.scheduled_at&&r.scheduled_at.slice(0,10)<=hoje);
+  const reunioes=ritualsCol().filter(r=>r.scheduled_at&&r.scheduled_at.slice(0,10)<=hoje);
   const em24=reunioes.filter(r=>r.minutes_published_at&&(new Date(r.minutes_published_at)-new Date(r.scheduled_at))<=864e5).length;
   const atas=reunioes.length?{v:Math.round(em24/reunioes.length*100),n:em24,d:reunioes.length}:null;
   // manuais (mês corrente; senão, último lançado)
@@ -880,9 +907,9 @@ function gerarPauta(){
   const hoje=hojeStr();
   const atras=procsCol().map(p=>({p,s:statusProcesso(p,hoje)})).filter(x=>x.s.k==='late')
     .sort((a,b)=>b.s.days-a.s.days);
-  const cont=contadoresFase(db.references,hoje);
+  const cont=contadoresFase(refsCol(),hoje);
   const fasesCrit=db.phases.map(ph=>({ph,c:cont[ph.id]})).filter(x=>x.c.late>0).sort((a,b)=>b.c.late-a.c.late);
-  const tVenc=db.tasks.filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
+  const tVenc=tasksCol().filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
   let s='PAUTA — gerada automaticamente em '+fmtBRfull(hoje)+'\n\n';
   s+='1. CRONOGRAMA MACRO — processos em atraso ('+atras.length+')\n';
   atras.slice(0,10).forEach(x=>s+='   • '+x.p.name+' — '+x.s.days+' dias de atraso (prazo '+fmtBR(x.p.end_date)+')\n');
@@ -988,9 +1015,9 @@ function vDashboard(){
   const diasEntrega=col&&col.end_date?diffDias(hoje,col.end_date):null;
   const pctGeral=Math.round(procsCol().reduce((s,p)=>s+(p.percent_complete||0),0)/(procsCol().length||1));
   const atras=procsCol().map(p=>({p,s:statusProcesso(p,hoje)})).filter(x=>x.s.k==='late').sort((a,b)=>b.s.days-a.s.days);
-  const cont=contadoresFase(db.references,hoje);
+  const cont=contadoresFase(refsCol(),hoje);
   const fasesCrit=db.phases.map(ph=>({ph,c:cont[ph.id]})).filter(x=>x.c.late>0).sort((a,b)=>b.c.late-a.c.late);
-  const tVenc=db.tasks.filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
+  const tVenc=tasksCol().filter(t=>t.status!=='concluida'&&t.status!=='cancelada'&&t.due_date&&t.due_date<hoje);
   const card=(id,t,val,meta,resp,cls,extra)=>`
     <div class="kpi ${cls}" id="${id}">
       <div class="t">${t}</div>
@@ -1002,7 +1029,7 @@ function vDashboard(){
   ${bannerBackup()}
   <div class="hero" id="hero-col">
     <div><h2>Coleção ${esc(col?col.name:'—')}</h2>
-      <div class="meta">Início ${fmtBRfull(col?.start_date)} · Entrega do mostruário ${fmtBRfull(col?.end_date)} · ${db.references.length} referências (${db.references.filter(r=>r.flow_type==='nova').length} novas + ${db.references.filter(r=>r.flow_type==='continuado').length} continuadas)</div></div>
+      <div class="meta">Início ${fmtBRfull(col?.start_date)} · Entrega do mostruário ${fmtBRfull((col?.marcos||{}).entrega_mostruario||col?.end_date)} · ${refsCol().length} referências (${refsCol().filter(r=>r.flow_type==='nova').length} novas + ${refsCol().filter(r=>r.flow_type==='continuado').length} continuadas)</div></div>
     <div class="big"><div class="n">${diasEntrega!=null?diasEntrega:'—'}</div><div class="l">dias p/ entrega</div></div>
     <div class="big"><div class="n">${pctGeral}%</div><div class="l">avanço médio macro</div></div>
   </div>
@@ -1045,7 +1072,7 @@ function vDashboard(){
     <div class="card"><h3>☰ Pendências da equipe</h3>
       <ul class="alert-list">
         <li><span>Tarefas vencidas</span><span class="d badge ${tVenc.length?'b-late':'b-ok'}">${tVenc.length}</span></li>
-        <li><span>Reuniões sem ata publicada</span><span class="d badge ${db.rituals.filter(r=>!r.minutes_published_at).length?'b-warn':'b-ok'}">${db.rituals.filter(r=>!r.minutes_published_at).length}</span></li>
+        <li><span>Reuniões sem ata publicada</span><span class="d badge ${ritualsCol().filter(r=>!r.minutes_published_at).length?'b-warn':'b-ok'}">${ritualsCol().filter(r=>!r.minutes_published_at).length}</span></li>
       </ul>
       <div style="margin-top:10px"><a href="#/tarefas" class="btn btn-g btn-sm">Abrir quadro de tarefas →</a></div>
     </div>
@@ -1333,8 +1360,8 @@ function cadeiaAFrente(seq,suc){const out={},fila=[...(suc[seq]||[])];
 /* ---------------------------- GESTÃO DA COLEÇÃO ---------------------------- */
 function vColecao(){
   const hoje=hojeStr(),f=ST.colecao;
-  const uniq=k=>[...new Set(db.references.map(r=>r[k]).filter(Boolean))].sort();
-  let refs=db.references.filter(r=>r.active!==false);
+  const uniq=k=>[...new Set(refsCol().map(r=>r[k]).filter(Boolean))].sort();
+  let refs=refsCol().filter(r=>r.active!==false);
   if(f.linha)refs=refs.filter(r=>r.line===f.linha);
   if(f.familia)refs=refs.filter(r=>r.family===f.familia);
   if(f.estilista)refs=refs.filter(r=>r.stylist===f.estilista);
@@ -1344,7 +1371,7 @@ function vColecao(){
   else if(f.status==='ativa')refs=refs.filter(r=>r.status!=='cancelada');
   else if(f.status==='atraso')refs=refs.filter(r=>r.status!=='cancelada'&&db.phases.some(ph=>statusCelula(r,ph,hoje).k==='late'));
   const cont=contadoresFase(refs,hoje);
-  const nCancel=db.references.filter(r=>r.status==='cancelada').length;
+  const nCancel=refsCol().filter(r=>r.status==='cancelada').length;
   const selOpt=(k,arr,lab)=>`<div class="f"><label>${lab}</label><select data-filter="${k}"><option value="">Todas</option>${arr.map(x=>`<option ${f[k]===x?'selected':''}>${esc(x)}</option>`).join('')}</select></div>`;
   return `
   <div class="toolbar" id="col-filtros">
@@ -1355,6 +1382,7 @@ function vColecao(){
     <div class="f"><label>Status</label><select data-filter="status"><option value="">Todos</option><option value="ativa" ${f.status==='ativa'?'selected':''}>Ativas</option><option value="atraso" ${f.status==='atraso'?'selected':''}>Com atraso</option><option value="cancelada" ${f.status==='cancelada'?'selected':''}>Canceladas</option></select></div>
     <div class="f"><label>Referência</label><input data-filter="busca" value="${esc(f.busca)}" placeholder="buscar código…" style="min-width:110px"></div>
     <div style="flex:1"></div>
+    <button class="btn btn-o btn-sm w" data-action="ref-nova" style="align-self:center">＋ Nova referência</button>
     <button class="btn btn-g btn-sm" data-action="hist-cancel" style="align-self:center">🛈 Histórico de cancelamentos${nCancel?` (${nCancel})`:''}</button>
     <span class="badge b-rose" style="align-self:center">${refs.length} referência(s)</span>
   </div>
@@ -1385,7 +1413,7 @@ function vColecao(){
       const cancelTip=cancelada?`Cancelada em ${fmtBRfull(r.canceled_at)} por ${esc(ix.userById[r.canceled_by]?.name||'?')} — ${esc(r.cancel_category||'')}: ${esc(r.cancel_reason||'')}`:'';
       return `<tr class="${cancelada?'cancelled':''}">
       <td class="fix c1">${i+1}</td>
-      <td class="fix c2"><span class="ref-code ${cancelada?'ref-cancelled':''}">${esc(r.code)}</span>${acaoBtn}</td>
+      <td class="fix c2"><span class="ref-code ${cancelada?'ref-cancelled':''}">${esc(r.code)}</span>${cancelada?'':`<button class="ref-act w" data-action="ref-edit" data-id="${r.id}" title="Editar dados da referência">✎</button>`}${acaoBtn}</td>
       <td class="fix c3"${cancelada?` title="${cancelTip}"`:''}><div>${esc(r.family)} ${cancelada?'<span class="badge b-cancel" style="font-size:8.5px;padding:1px 5px">CANCELADA</span>':''}</div><div class="ref-fam">${esc(r.line)} · ${esc(r.stylist)}</div></td>
       ${cancelada
         ? db.phases.map(()=>`<td><span class="cell cancel" title="${cancelTip}">—</span></td>`).join('')
@@ -1408,12 +1436,12 @@ function vColecao(){
 function ritLabel(r){const t=RIT_TIPOS[r.type];const d=r.scheduled_at?fmtBR(r.scheduled_at.slice(0,10)):'—';return (t?t.nm:r.type)+' · '+d}
 function vTarefas(){
   const hoje=hojeStr(),f=ST.tarefas,me=currentUser();
-  let ts=db.tasks.filter(t=>t.status!=='cancelada');
+  let ts=tasksCol().filter(t=>t.status!=='cancelada');
   if(f.pessoa)ts=ts.filter(t=>t.assignee_user_id===f.pessoa);
   if(f.so_minhas)ts=ts.filter(t=>t.assignee_user_id===me.id);
   if(f.prazo)ts=ts.filter(t=>t.due_date&&t.due_date<=f.prazo);
   if(f.ata)ts=ts.filter(t=>f.ata==='__avulsa__'?!t.ritual_id:t.ritual_id===f.ata);
-  const rituaisDesc=[...db.rituals].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
+  const rituaisDesc=[...ritualsCol()].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
   const cols=[['pendente','Pendente'],['em_andamento','Em andamento'],['concluida','Concluída']];
   const kcard=t=>{const u=ix.userById[t.assignee_user_id];const venc=t.status!=='concluida'&&t.due_date&&t.due_date<hoje;
     const rit=t.ritual_id?db.rituals.find(r=>r.id===t.ritual_id):null;
@@ -1455,7 +1483,7 @@ const RIT_TIPOS={
 };
 function vRituais(){
   const hoje=hojeStr();
-  const rs=[...db.rituals].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
+  const rs=[...ritualsCol()].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
   return `
   <div class="rit-cad" id="rit-cadencia">${Object.entries(RIT_TIPOS).map(([k,v])=>`
     <div class="card"><div class="freq">${v.freq}</div><div class="nm">${v.nm}</div><div class="ds">${v.ds}</div>
@@ -1480,7 +1508,7 @@ function vRituais(){
 /* ---------------------------- MANUAL DE USO ---------------------------- */
 function vManual(){
   const col=colecaoAtiva();
-  const nRef=db.references.length,nProc=procsCol().length,nFase=db.phases.length;
+  const nRef=refsCol().length,nProc=procsCol().length,nFase=db.phases.length;
   const toc=[
     ['s-inicio','1. Primeiros passos'],
     ['s-rotina','2. A rotina da Joice'],
@@ -1685,8 +1713,9 @@ function vManual(){
 
         <h4>O que é separado e o que é compartilhado</h4>
         <div class="man-leg">
-          <div><b>Separado por coleção:</b> as etapas, as datas, os donos, as promessas, os motivos de atraso e todos os indicadores. A INVERNO pode estar atrasada sem contaminar a VERÃO.</div>
-          <div><b>Compartilhado:</b> as pessoas, os rituais, o quadro de tarefas e a grade de referências. São do setor, não de uma coleção.</div>
+          <div><b>Separado por coleção:</b> praticamente tudo — as etapas do cronograma, as datas, os donos, as promessas, os motivos de atraso, <b>as referências da grade</b>, as tarefas, as reuniões e todos os indicadores. A INVERNO pode estar atrasada sem contaminar a VERÃO.</div>
+          <div><b>Compartilhado:</b> só as pessoas e o catálogo de fases. São do setor, não de uma coleção.</div>
+          <div><b>Registros antigos</b>, feitos antes de existir mais de uma coleção, continuam aparecendo em todas — para não sumirem do radar de ninguém.</div>
         </div>
 
         <h4>Passo a passo para criar</h4>
@@ -1724,6 +1753,18 @@ function vManual(){
         <h3><span class="nicon">❀</span> 7. Gestão da Coleção</h3>
         <div class="lead">O coração do sistema: a grade de ${nRef} referências (linhas) × ${nFase} fases (colunas).</div>
         <p>Cada linha é uma peça/referência; cada coluna é uma fase do desenvolvimento (Desenho, Modelagem, Pilotagem… até Produção de Catálogo). O cabeçalho de cada fase mostra a <b>data-limite</b> e os contadores: <b>✓ no prazo</b>, <b>! em atraso</b> e <b>… pendentes</b>.</p>
+        <h4>Cadastrar uma referência na plataforma</h4>
+        <p>Nem toda peça nasce na planilha. Quando entrar uma referência nova no meio da coleção, use o botão <b>＋ Nova referência</b>, no alto da grade. Os campos são os mesmos da planilha:</p>
+        <div class="man-leg">
+          <div><b>Código da referência</b> — o número da peça. Não pode repetir dentro da mesma coleção.</div>
+          <div><b>Fluxo</b> — <i>coleção nova</i> passa por todas as fases; <i>continuada</i> entra só em cadastro de cores, liberação para o PCP e catálogo. É isso que faz a grade marcar "não se aplica" nas colunas certas.</div>
+          <div><b>Linha</b> e <b>Família</b> — pode digitar ou escolher entre as que já existem.</div>
+          <div><b>Estilista</b> — quem responde pela peça.</div>
+          <div><b>Rótulo da coleção</b> — o nome que o time usa na planilha (ex.: "INVERNO 27"). Serve para conferência e não muda a coleção em que a peça está.</div>
+        </div>
+        <p>A referência entra na <b>coleção que estiver selecionada</b>, com todas as fases em branco. As datas de cada fase você registra depois, clicando nas células da grade, como sempre. Para corrigir os dados de uma peça, use o <b>✎</b> ao lado do código.</p>
+        <p style="font-size:12px;color:var(--muted)">Referência cadastrada aqui não se perde quando chega planilha nova — nem ela, nem as datas de fase já registradas nela. Se um dia a planilha passar a trazer o mesmo código, a planilha manda e o cadastro manual sai de cena, para não duplicar a peça.</p>
+
         <h4>O que cada cor da célula significa</h4>
         <div class="man-leg">
           <span><i class="sw" style="background:var(--ok-bg)"></i> Concluída no prazo</span>
@@ -1810,6 +1851,54 @@ function openModal(html){$('#modal').innerHTML=`<div class="modal-card">${html}<
 function closeModal(){$('#modal').classList.remove('open');$('#modal').innerHTML=''}
 function selUsers(id,val,filtro){return `<select id="${id}">${db.users.filter(u=>u.active&&(!filtro||u.role!=='leitura')).map(u=>`<option value="${u.id}" ${val===u.id?'selected':''}>${esc(u.name)} — ${esc(u.job_title)}</option>`).join('')}</select>`}
 
+/* ---------- cadastro de referência direto na plataforma ----------
+   Mesmos campos da grade da planilha: COLEÇÃO · LINHA · FAMÍLIA · ESTILISTA ·
+   REFERÊNCIA. A referência nasce na coleção em uso e com todas as fases em
+   branco — as datas de cada fase são registradas na própria grade, como sempre. */
+function mRef(id){
+  const r=id?db.references.find(x=>x.id===id):null;
+  const col=colecaoAtiva();
+  const refs=refsCol();
+  const opcoes=(campo,valor)=>{
+    const vals=[...new Set(db.references.map(x=>x[campo]).filter(Boolean))].sort();
+    return vals.map(v=>`<option value="${esc(v)}" ${valor===v?'selected':''}>${esc(v)}</option>`).join('');
+  };
+  const estilistas=[...new Set(db.references.map(x=>x.stylist).filter(Boolean))].sort();
+  openModal(`
+   <h3>${r?'Editar referência '+esc(r.code):'Nova referência'}</h3>
+   <div class="sub">${r?'':'Entra na coleção <b>'+esc(col?col.name:'—')+'</b>, com todas as fases em branco.'}</div>
+   <div class="frm">
+     <div class="frm-row">
+       <div><label>Código da referência *</label><input id="m-rf-code" value="${esc(r?r.code:'')}" placeholder="ex.: 503151" autocomplete="off"></div>
+       <div><label>Fluxo *</label><select id="m-rf-fluxo">
+         <option value="nova" ${!r||r.flow_type==='nova'?'selected':''}>Coleção nova (passa por todas as fases)</option>
+         <option value="continuado" ${r&&r.flow_type==='continuado'?'selected':''}>Continuada (só cadastro de cores, PCP e catálogo)</option>
+       </select></div>
+     </div>
+     <div class="frm-row">
+       <div><label>Linha</label><input id="m-rf-linha" list="dl-linha" value="${esc(r?r.line:'')}" placeholder="ex.: FASHION" autocomplete="off">
+         <datalist id="dl-linha">${opcoes('line')}</datalist></div>
+       <div><label>Família</label><input id="m-rf-familia" list="dl-familia" value="${esc(r?r.family:'')}" placeholder="ex.: LE PETIT FLEUR" autocomplete="off">
+         <datalist id="dl-familia">${opcoes('family')}</datalist></div>
+     </div>
+     <div class="frm-row">
+       <div><label>Estilista</label><select id="m-rf-estilista">
+         <option value="">— não definida —</option>
+         ${estilistas.map(e=>`<option ${r&&r.stylist===e?'selected':''}>${esc(e)}</option>`).join('')}
+       </select></div>
+       <div><label>Rótulo da coleção (coluna da planilha)</label><input id="m-rf-rotulo" value="${esc(r?(r.collection_name||''):(col?col.name:''))}" placeholder="ex.: INVERNO 27" autocomplete="off"></div>
+     </div>
+     <div><label>Observações</label><input id="m-rf-obs" value="${esc(r?(r.notes||''):'')}" placeholder="opcional"></div>
+   </div>
+   <div style="font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:8px">
+     O <b>fluxo</b> decide quais fases se aplicam a esta peça — é o que faz a grade mostrar "não se aplica" nas colunas certas. As datas de cada fase você registra depois, clicando nas células da grade.
+   </div>
+   <div class="modal-acts">
+     <button class="btn btn-g" data-action="modal-close">Cancelar</button>
+     <button class="btn btn-p" data-action="ref-save" data-id="${id||''}">${r?'Salvar':'Cadastrar referência'}</button>
+   </div>`);
+  setTimeout(()=>$('#m-rf-code')?.focus(),60);
+}
 let cellEdit=null; // estado transitório do modal de eventos da célula
 function mCell(refId,phaseId){
   const rp=ix.rpByKey[refId+'|'+phaseId], evs=cellEvents(rp);
@@ -1977,7 +2066,7 @@ function htmlSimulacao(seq,dias,hoje){
 function mTask(id){
   const t=id?db.tasks.find(x=>x.id===id):null;
   const ataSel=t?(t.ritual_id||''):(mTask._rit||'');
-  const rituaisDesc=[...db.rituals].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
+  const rituaisDesc=[...ritualsCol()].sort((a,b)=>(b.scheduled_at||'').localeCompare(a.scheduled_at||''));
   openModal(`
    <h3>${t?'Editar tarefa':'Nova tarefa'}</h3>
    <div class="sub">Todo encaminhamento vira cartão com dono, prazo e a <b>ata de origem</b> — nada fica no caderno.</div>
@@ -2236,6 +2325,28 @@ const ACTIONS={
   'proc-sim':d=>{const n=Math.max(0,Number($('#m-sim').value||0));
     $('#m-sim-res').innerHTML=htmlSimulacao(Number(d.seq),n,hojeStr())},
   /* coleção */
+  'ref-nova':()=>mRef(null),
+  'ref-edit':d=>mRef(d.id),
+  'ref-save':d=>{
+    const code=$('#m-rf-code').value.trim();
+    if(!code){toast('Informe o código da referência.');return}
+    const dup=db.references.find(r=>r.code===code&&r.id!==d.id&&r.collection_id===colecaoAtivaId());
+    if(dup){toast('A referência '+code+' já existe nesta coleção.');return}
+    const vals={code,
+      line:($('#m-rf-linha').value||'').trim().toUpperCase(),
+      family:($('#m-rf-familia').value||'').trim().toUpperCase(),
+      stylist:$('#m-rf-estilista').value||'',
+      flow_type:$('#m-rf-fluxo').value,
+      collection_name:($('#m-rf-rotulo').value||'').trim()||null,
+      notes:($('#m-rf-obs').value||'').trim()||null};
+    const eu=currentUser();
+    commit(x=>{
+      if(d.id){Object.assign(x.references.find(r=>r.id===d.id),vals)}
+      else x.references.push({id:'ref-m-'+uuid().slice(0,8),collection_id:colecaoAtivaId(),...vals,
+        active:true,status:'ativa',canceled_at:null,canceled_by:null,cancel_category:null,cancel_reason:null,
+        created_at:agoraIso(),created_by:eu?eu.id:null});
+    });
+    closeModal();toast(d.id?'Referência atualizada.':'Referência '+code+' cadastrada ✓')},
   'cell-open':d=>mCell(d.ref,d.phase),
   'cell-add-event':()=>{syncCellEdit();cellEdit.rows.push({date:hojeStr(),notes:''});openModal(cellModalHtml())},
   'cell-del-event':d=>{syncCellEdit();cellEdit.rows.splice(+d.i,1);openModal(cellModalHtml())},
@@ -2286,7 +2397,7 @@ const ACTIONS={
   'task-save':d=>{const ti=$('#m-ti').value.trim();if(!ti){toast('Descreva a tarefa.');return}
     const vals={title:ti,assignee_user_id:$('#m-resp').value,due_date:$('#m-prazo').value||null,ritual_id:$('#m-ata').value||null,description:$('#m-desc').value.trim()||null};
     commit(x=>{if(d.id){Object.assign(x.tasks.find(t=>t.id===d.id),vals)}
-      else x.tasks.push({id:uuid(),...vals,status:'pendente',completed_at:null,created_at:agoraIso(),created_by:currentUser().id})});
+      else x.tasks.push({id:uuid(),collection_id:colecaoAtivaId(),...vals,status:'pendente',completed_at:null,created_at:agoraIso(),created_by:currentUser().id})});
     mTask._rit=null;closeModal();toast('Tarefa salva.')},
   'task-move':d=>{const ord=['pendente','em_andamento','concluida'];
     commit(x=>{const t=x.tasks.find(y=>y.id===d.id);const i=ord.indexOf(t.status)+Number(d.dir);
@@ -2297,7 +2408,7 @@ const ACTIONS={
   'rit-save':d=>{const dt=$('#m-dt').value,hr=$('#m-hr').value||'08:00';
     if(!dt){toast('Informe a data.');return}
     const rid=uuid();
-    commit(x=>x.rituals.push({id:rid,type:d.tipo,title:RIT_TIPOS[d.tipo].nm,scheduled_at:dt+'T'+hr+':00',duration_min:d.tipo==='briefing_diario'?15:60,
+    commit(x=>x.rituals.push({id:rid,collection_id:colecaoAtivaId(),type:d.tipo,title:RIT_TIPOS[d.tipo].nm,scheduled_at:dt+'T'+hr+':00',duration_min:d.tipo==='briefing_diario'?15:60,
       attendance:[],agenda_text:$('#m-pauta').value,minutes_text:null,minutes_published_at:null,created_at:agoraIso(),created_by:currentUser().id}));
     closeModal();toast('Reunião registrada — publique a ata em até 24h.');setTimeout(()=>mRitOpen(rid),150)},
   'rit-open':d=>mRitOpen(d.id),
@@ -2338,7 +2449,7 @@ function baixar(blob,nome){const a=document.createElement('a');a.href=URL.create
 function gridLinhas(){
   const hoje=hojeStr();
   const head=['#','COLEÇÃO','LINHA','FAMÍLIA','ESTILISTA','REFERÊNCIA','FLUXO','SITUAÇÃO',...db.phases.map(p=>p.name)];
-  const rows=db.references.map((r,i)=>{const cancelada=r.status==='cancelada';
+  const rows=refsCol().map((r,i)=>{const cancelada=r.status==='cancelada';
     return [i+1,r.collection_name,r.line,r.family,r.stylist,r.code,r.flow_type,cancelada?'CANCELADA':'Ativa',
     ...db.phases.map(ph=>{if(cancelada)return'';const s=statusCelula(r,ph,hoje);
       return s.k==='na'?'N/A':(s.k==='done'||s.k==='donelate')?s.date+(s.n>1?` (${s.n}x)`:''):s.k==='late'?s.days+' dias em atraso':''})]});
@@ -2352,13 +2463,13 @@ function exportExcel(){
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['#','Processo','Equipe','Início','Prazo','% Avanço','Concluído em'],
       ...procsCol().map(p=>[p.seq,p.name,p.owner_team||'',p.start_date||'',p.end_date||'',(p.percent_complete||0)+'%',p.completed_at||''])]),'Cronograma');
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Tarefa','Responsável','Prazo','Status','Detalhes'],
-      ...db.tasks.map(t=>[t.title,ix.userById[t.assignee_user_id]?.name||'',t.due_date||'',t.status,t.description||''])]),'Tarefas');
+      ...tasksCol().map(t=>[t.title,ix.userById[t.assignee_user_id]?.name||'',t.due_date||'',t.status,t.description||''])]),'Tarefas');
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Cobrado','Por','Assunto','Prazo','Evidência','Status'],
       ...db.charges.map(c=>[ix.userById[c.charged_user_id]?.name||'',ix.userById[c.charged_by]?.name||'',c.subject,c.due_date||'',c.evidence||'',c.status])]),'Cobranças');
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Referência','Ação','Categoria','Justificativa','Por','Data/Hora'],
       ...[...(db.reference_log||[])].sort((a,b)=>(b.at||'').localeCompare(a.at||'')).map(e=>[e.ref_code,e.action,e.category||'',e.reason||'',ix.userById[e.by]?.name||'',e.at?new Date(e.at).toLocaleString('pt-BR'):''])]),'Cancelamentos');
     const evLinhas=[['Referência','Fase','Evento','Data','Observação','Por']];
-    db.references.forEach(r=>db.phases.forEach(ph=>{cellEvents(ix.rpByKey[r.id+'|'+ph.id]).forEach((e,j)=>
+    refsCol().forEach(r=>db.phases.forEach(ph=>{cellEvents(ix.rpByKey[r.id+'|'+ph.id]).forEach((e,j)=>
       evLinhas.push([r.code,ph.name,(j+1)+'ª',e.date,e.notes||'',ix.userById[e.by]?.name||'']))}));
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(evLinhas),'Eventos por fase');
     XLSX.writeFile(wb,'liebe-gestao-colecao-'+hojeStr()+'.xlsx');toast('Excel exportado.');fim();

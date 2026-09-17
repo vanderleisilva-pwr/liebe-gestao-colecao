@@ -114,30 +114,6 @@ window.LIEBE_SEED = {
    }
   },
   {
-   "id": "col-inverno_27",
-   "name": "INVERNO 27",
-   "status": "em_andamento",
-   "start_date": "2026-02-06",
-   "end_date": "2026-12-22",
-   "marcos": {}
-  },
-  {
-   "id": "col-inverno_28",
-   "name": "INVERNO 28",
-   "status": "em_andamento",
-   "start_date": "2026-02-06",
-   "end_date": "2026-12-22",
-   "marcos": {}
-  },
-  {
-   "id": "col-verao_27",
-   "name": "VERÃO 27",
-   "status": "em_andamento",
-   "start_date": "2026-02-06",
-   "end_date": "2026-12-22",
-   "marcos": {}
-  },
-  {
    "id": "col-verao_28",
    "name": "VERÃO 28",
    "status": "em_andamento",
@@ -2255,7 +2231,7 @@ window.LIEBE_SEED = {
  "references": [
   {
    "id": "ref-001",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "506644",
    "line": "FASHION",
@@ -2274,7 +2250,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-002",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501752",
    "line": "FASHION",
@@ -2293,7 +2269,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-003",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "505244",
    "line": "FASHION",
@@ -2312,7 +2288,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-004",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "506124",
    "line": "FASHION",
@@ -2331,7 +2307,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-005",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503352",
    "line": "FASHION",
@@ -2350,7 +2326,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-006",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503152",
    "line": "FASHION",
@@ -2369,7 +2345,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-007",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "703352",
    "line": "FASHION",
@@ -2388,7 +2364,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-008",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501252",
    "line": "FASHION",
@@ -2407,7 +2383,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-009",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501052",
    "line": "FASHION",
@@ -2426,7 +2402,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-010",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "701752",
    "line": "FASHION",
@@ -2445,7 +2421,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-011",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "506152",
    "line": "FASHION",
@@ -2464,7 +2440,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-012",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "504053",
    "line": "FASHION",
@@ -2483,7 +2459,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-013",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503153",
    "line": "FASHION",
@@ -2502,7 +2478,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-014",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503806",
    "line": "FASHION",
@@ -2521,7 +2497,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-015",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501753",
    "line": "FASHION",
@@ -2540,7 +2516,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-016",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501053",
    "line": "FASHION",
@@ -2559,7 +2535,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-017",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503306",
    "line": "FASHION",
@@ -2578,7 +2554,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-018",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "604088",
    "line": "LUXE",
@@ -2597,7 +2573,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-019",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603188",
    "line": "LUXE",
@@ -2616,7 +2592,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-020",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603488",
    "line": "LUXE",
@@ -2635,7 +2611,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-021",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601188",
    "line": "LUXE",
@@ -2654,7 +2630,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-022",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601788",
    "line": "LUXE",
@@ -2673,7 +2649,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-023",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601288",
    "line": "LUXE",
@@ -2692,7 +2668,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-024",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603387",
    "line": "LUXE",
@@ -2711,7 +2687,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-025",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603187",
    "line": "LUXE",
@@ -2730,7 +2706,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-026",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "604087",
    "line": "LUXE",
@@ -2749,7 +2725,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-027",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "703387",
    "line": "LUXE",
@@ -2768,7 +2744,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-028",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601187",
    "line": "LUXE",
@@ -2787,7 +2763,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-029",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601287",
    "line": "LUXE",
@@ -2806,7 +2782,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-030",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601787",
    "line": "LUXE",
@@ -2825,7 +2801,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-031",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "701787",
    "line": "LUXE",
@@ -2844,7 +2820,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-032",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603390",
    "line": "LUXE",
@@ -2863,7 +2839,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-033",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603190",
    "line": "LUXE",
@@ -2882,7 +2858,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-034",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601790",
    "line": "LUXE",
@@ -2901,7 +2877,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-035",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601290",
    "line": "LUXE",
@@ -2920,7 +2896,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-036",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603410",
    "line": "LUXE",
@@ -2939,7 +2915,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-037",
-   "collection_id": "col-inverno_28",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 28",
    "code": "606790",
    "line": "LUXE",
@@ -2958,7 +2934,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-038",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "302105",
    "line": "CONTROL",
@@ -2977,7 +2953,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-039",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136222",
    "line": "LOUNGEWEAR",
@@ -2996,7 +2972,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-040",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136122",
    "line": "LOUNGEWEAR",
@@ -3015,7 +2991,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-041",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "123605",
    "line": "IDEAL",
@@ -3034,7 +3010,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-042",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "123018",
    "line": "IDEAL",
@@ -3053,7 +3029,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-043",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "121105",
    "line": "IDEAL",
@@ -3072,7 +3048,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-044",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "121305",
    "line": "IDEAL",
@@ -3091,7 +3067,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-045",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603589",
    "line": "LUXE",
@@ -3110,7 +3086,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-046",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603189",
    "line": "LUXE",
@@ -3129,7 +3105,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-047",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601289",
    "line": "LUXE",
@@ -3148,7 +3124,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-048",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601778",
    "line": "LUXE",
@@ -3167,7 +3143,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-049",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "606189",
    "line": "LUXE",
@@ -3186,7 +3162,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-050",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "606789",
    "line": "LUXE",
@@ -3205,7 +3181,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-051",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603191",
    "line": "LUXE",
@@ -3224,7 +3200,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-052",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603091",
    "line": "LUXE",
@@ -3243,7 +3219,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-053",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "603391",
    "line": "LUXE",
@@ -3262,7 +3238,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-054",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601791",
    "line": "LUXE",
@@ -3281,7 +3257,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-055",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601291",
    "line": "LUXE",
@@ -3300,7 +3276,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-056",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "601271",
    "line": "LUXE",
@@ -3319,7 +3295,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-057",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "606691",
    "line": "LUXE",
@@ -3338,7 +3314,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-058",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501723",
    "line": "FASHION",
@@ -3357,7 +3333,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-059",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501742",
    "line": "FASHION",
@@ -3376,7 +3352,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-060",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501745",
    "line": "FASHION",
@@ -3395,7 +3371,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-061",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503303",
    "line": "FASHION",
@@ -3414,7 +3390,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-062",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503503",
    "line": "FASHION",
@@ -3433,7 +3409,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-063",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501602",
    "line": "FASHION",
@@ -3452,7 +3428,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-064",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501701",
    "line": "FASHION",
@@ -3471,7 +3447,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-065",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501715",
    "line": "FASHION",
@@ -3490,7 +3466,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-066",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503001",
    "line": "FASHION",
@@ -3509,7 +3485,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-067",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501003",
    "line": "FASHION",
@@ -3528,7 +3504,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-068",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501302",
    "line": "FASHION",
@@ -3547,7 +3523,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-069",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501000",
    "line": "FASHION",
@@ -3566,7 +3542,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-070",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "503400",
    "line": "FASHION",
@@ -3585,7 +3561,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-071",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "501700",
    "line": "FASHION",
@@ -3604,7 +3580,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-072",
-   "collection_id": "col-verao_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "VERÃO 27",
    "code": "503303",
    "line": "FASHION",
@@ -3623,7 +3599,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-073",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "703402",
    "line": "FASHION",
@@ -3642,7 +3618,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-074",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "703021",
    "line": "FASHION",
@@ -3661,7 +3637,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-075",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "703302",
    "line": "FASHION",
@@ -3680,7 +3656,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-076",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "701306",
    "line": "FASHION",
@@ -3699,7 +3675,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-077",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "701708",
    "line": "FASHION",
@@ -3718,7 +3694,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-078",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "701709",
    "line": "FASHION",
@@ -3737,7 +3713,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-079",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "701502",
    "line": "FASHION",
@@ -3756,7 +3732,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-080",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "106601",
    "line": "CONFORT",
@@ -3775,7 +3751,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-081",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "103101",
    "line": "CONFORT",
@@ -3794,7 +3770,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-082",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "103009",
    "line": "CONFORT",
@@ -3813,7 +3789,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-083",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "341001",
    "line": "CONFORT",
@@ -3832,7 +3808,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-084",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "103605",
    "line": "CONFORT",
@@ -3851,7 +3827,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-085",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "101700",
    "line": "CONFORT",
@@ -3870,7 +3846,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-086",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "201301",
    "line": "CONFORT",
@@ -3889,7 +3865,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-087",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "201702",
    "line": "CONFORT",
@@ -3908,7 +3884,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-088",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "101000",
    "line": "CONFORT",
@@ -3927,7 +3903,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-089",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "101500",
    "line": "CONFORT",
@@ -3946,7 +3922,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-090",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "101701",
    "line": "CONFORT",
@@ -3965,7 +3941,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-091",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "301701",
    "line": "FREE",
@@ -3984,7 +3960,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-092",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "301103",
    "line": "FREE",
@@ -4003,7 +3979,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-093",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "301705",
    "line": "FREE",
@@ -4022,7 +3998,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-094",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "306602",
    "line": "FREE",
@@ -4041,7 +4017,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-095",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136117",
    "line": "LOUNGEWEAR",
@@ -4060,7 +4036,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-096",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136219",
    "line": "LOUNGEWEAR",
@@ -4079,7 +4055,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-097",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136213",
    "line": "LOUNGEWEAR",
@@ -4098,7 +4074,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-098",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136113",
    "line": "LOUNGEWEAR",
@@ -4117,7 +4093,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-099",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136112",
    "line": "LOUNGEWEAR",
@@ -4136,7 +4112,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-100",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136118",
    "line": "LOUNGEWEAR",
@@ -4155,7 +4131,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-101",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136218",
    "line": "LOUNGEWEAR",
@@ -4174,7 +4150,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-102",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136910",
    "line": "LOUNGEWEAR",
@@ -4193,7 +4169,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-103",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136221",
    "line": "LOUNGEWEAR",
@@ -4212,7 +4188,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-104",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136121",
    "line": "LOUNGEWEAR",
@@ -4231,7 +4207,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-105",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136109",
    "line": "LOUNGEWEAR",
@@ -4250,7 +4226,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-106",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136209",
    "line": "LOUNGEWEAR",
@@ -4269,7 +4245,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-107",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136119",
    "line": "LOUNGEWEAR",
@@ -4288,7 +4264,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-108",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136120",
    "line": "LOUNGEWEAR",
@@ -4307,7 +4283,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-109",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136220",
    "line": "LOUNGEWEAR",
@@ -4326,7 +4302,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-110",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136200",
    "line": "LOUNGEWEAR",
@@ -4345,7 +4321,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-111",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "136110",
    "line": "LOUNGEWEAR",
@@ -4364,7 +4340,7 @@ window.LIEBE_SEED = {
   },
   {
    "id": "ref-112",
-   "collection_id": "col-inverno_27",
+   "collection_id": "col-inverno-alto-27",
    "collection_name": "INVERNO 27",
    "code": "605366",
    "line": "LUXE",
