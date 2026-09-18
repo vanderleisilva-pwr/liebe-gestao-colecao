@@ -216,6 +216,12 @@ tr:hover td{background:#fdfcf9}
 .chip:hover{border-color:var(--rose-soft)}
 .chip.on{background:var(--rose);border-color:var(--rose);color:#fff;font-weight:600}
 .chip-add{display:flex;gap:7px;margin-top:6px}
+.chip-add select{flex:1}
+.chip .on,.chip button{background:none}
+.chip button{margin-left:6px;color:inherit;opacity:.75;font-size:11px}
+.chip button:hover{opacity:1}
+.pred-vazio{font-size:12px;color:var(--muted);background:var(--cream);border-radius:9px;padding:8px 11px;line-height:1.5}
+.pred-txt{font-size:11px;color:var(--muted);margin-top:6px}
 .chip-add input{flex:1}
 .foto-box{margin-top:5px}
 .foto-box img{max-width:150px;max-height:150px;border-radius:10px;border:1px solid var(--line);display:block}
@@ -485,6 +491,29 @@ const MIGRATIONS=[
       if(!Array.isArray(r.tamanhos))r.tamanhos=[];
       if(!('foto' in r))r.foto=null;
     });
+    (d.macro_processes||[]).forEach(p=>{if(!('predecessores_editados' in p))p.predecessores_editados=false});
+  },
+  // v6 → v7: religa referências órfãs.
+  // Antes da unificação, a grade e o cronograma da mesma planilha ficavam em
+  // coleções diferentes (refs em "col-inverno_27", cronograma em
+  // "col-inverno-alto-27"). Ao passar a filtrar por coleção, essas referências
+  // continuaram no banco mas pararam de aparecer em qualquer tela. Aqui elas
+  // voltam para a coleção da grade — nenhuma é criada nem descartada.
+  d=>{
+    const comCronograma=new Set((d.macro_processes||[]).map(p=>p.collection_id));
+    if(!comCronograma.size)return;
+    // a coleção da grade é a dona dos prazos de fase; senão, a única com cronograma
+    const porPrazo=(d.phase_deadlines||[]).map(x=>x.collection_id).find(id=>comCronograma.has(id));
+    const alvo=porPrazo||(comCronograma.size===1?[...comCronograma][0]:null);
+    if(!alvo)return; // ambíguo: não adivinha, deixa como está
+    const nomePorId={};(d.collections||[]).forEach(c=>nomePorId[c.id]=c.name);
+    (d.references||[]).forEach(r=>{
+      if(comCronograma.has(r.collection_id))return;
+      // preserva o rótulo original da peça antes de realocar
+      if(!r.collection_name)r.collection_name=nomePorId[r.collection_id]||null;
+      r.collection_id=alvo;
+    });
+    (d.reference_phases||[]).forEach(rp=>{if(rp.collection_id&&!comCronograma.has(rp.collection_id))rp.collection_id=alvo});
   },
 ]; // futuras migrações de schema (mesmo padrão no Supabase)
 function migrate(d){let v=d.schema_version||1;while(v<MIGRATIONS.length+1){MIGRATIONS[v-1](d);v++;d.schema_version=v}return d}
@@ -564,10 +593,11 @@ function reaplicarRefsManuais(g){
 }
 function guardarRealizado(){
   const m={};(db.macro_processes||[]).forEach(p=>{
-    if(p.inicio_real||p.fim_real||p.responsavel_user_id||p.motivo_atraso||(p.promessas||[]).length)
+    if(p.inicio_real||p.fim_real||p.responsavel_user_id||p.motivo_atraso||(p.promessas||[]).length||p.predecessores_editados)
       m[p.collection_id+'|'+p.seq]={inicio_real:p.inicio_real||null,fim_real:p.fim_real||null,completed_at:p.completed_at||null,
         percent_complete:p.percent_complete||0,responsavel_user_id:p.responsavel_user_id||null,
-        motivo_atraso:p.motivo_atraso||null,promessas:p.promessas||[]}});
+        motivo_atraso:p.motivo_atraso||null,promessas:p.promessas||[],
+        predecessores:p.predecessores_editados?[...(p.predecessores||[])]:null}});
   return m;
 }
 function reaplicarRealizado(m){
@@ -582,6 +612,8 @@ function reaplicarRealizado(m){
     if(r.responsavel_user_id)p.responsavel_user_id=r.responsavel_user_id;
     if(r.motivo_atraso)p.motivo_atraso=r.motivo_atraso;
     if((r.promessas||[]).length)p.promessas=r.promessas;
+    // dependências ajustadas na plataforma vencem as da planilha: foi decisão do time
+    if(r.predecessores){p.predecessores=[...r.predecessores];p.predecessores_editados=true}
   });
 }
 function reaplicarCancelamentos(){
@@ -1505,6 +1537,19 @@ function vGantt(ps,hoje,pan){
 }
 function fmtMesCurto(d){const M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
   const p=d.split('-');return M[Number(p[1])-1]+(p[1]==='01'?'/'+p[0].slice(2):'')}
+// Dependência circular trava a projeção (A espera B que espera A). Antes de aceitar
+// um predecessor novo, conferimos se ele já está na cadeia DEPOIS desta etapa.
+function criariaCiclo(seq,novoPred){
+  if(seq===novoPred)return true;
+  return !!cadeiaAFrente(seq,sucessoresPorSeq())[novoPred];
+}
+// Formato da coluna "Predecessor" da planilha: 1 → "1"; [6,7,15] → "6, 7 e 15".
+function textoPredecessores(lista){
+  const l=[...lista].sort((a,b)=>a-b);
+  if(!l.length)return'';
+  if(l.length===1)return String(l[0]);
+  return l.slice(0,-1).join(', ')+' e '+l[l.length-1];
+}
 // Tudo que vem depois de uma etapa, andando pelos sucessores.
 function cadeiaAFrente(seq,suc){const out={},fila=[...(suc[seq]||[])];
   while(fila.length){const x=fila.shift();if(out[x])continue;out[x]=true;(suc[x]||[]).forEach(y=>fila.push(y))}
@@ -2216,8 +2261,10 @@ function mPilotoDetalhe(){
    </tbody></table></div>`:'<div class="empty">Nenhuma referência tem ainda as duas datas (fim do Desenho e fim da Pilotagem) preenchidas. Registre essas fases no grid da <b>Gestão da Coleção</b>.</div>'}
    <div class="modal-acts"><button class="btn btn-g" data-action="modal-close">Fechar</button></div>`);
 }
+let procEdit=null; // seleção transitória do card (predecessores)
 function mProc(id){
   const p=db.macro_processes.find(x=>x.id===id),hoje=hojeStr();
+  procEdit={seq:p.seq,predecessores:[...predsDe(p)]};
   const pan=panoramaCronograma(hoje),st=situacaoProc(p,pan.proj,pan.mg);
   const preds=predsDe(p).map(n=>{const q=procsCol().find(x=>x.seq===n);return q?`${n}. ${q.name}`:`${n}`});
   const sucs=(sucessoresPorSeq()[p.seq]||[]).map(n=>{const q=procsCol().find(x=>x.seq===n);return q?`${n}. ${q.name}`:`${n}`});
@@ -2251,6 +2298,14 @@ function mProc(id){
      ${st.margemBloqueada?'<br><span style="color:var(--warn)">Margem não calculável: uma etapa do caminho até o PCP está sem data na planilha.</span>':''}
    </div>
    <div class="frm w">
+     <div><label>Depende de (predecessores)</label>
+       <div id="m-preds">${chipsPredecessores()}</div>
+       <div class="chip-add">
+         <select id="m-pred-add">${opcoesPredecessor(p.seq)}</select>
+         <button class="btn btn-o btn-sm" data-action="proc-pred-add">＋ incluir</button>
+       </div>
+       <div id="m-pred-txt" class="pred-txt">${htmlTextoPred()}</div>
+     </div>
      <div><label>Dono desta etapa (quem entrega)</label>${selDono}</div>
      <div class="frm-row">
        <div><label>Início real</label><input type="date" id="m-ini-real" value="${p.inicio_real||''}"></div>
@@ -2278,6 +2333,27 @@ function mProc(id){
      <button class="btn btn-o w" data-action="proc-done" data-id="${id}">✓ Concluir hoje</button>
      <button class="btn btn-p w" data-action="proc-save" data-id="${id}">Salvar</button>
    </div>`);
+}
+function chipsPredecessores(){
+  const sel=procEdit.predecessores;
+  if(!sel.length)return'<div class="pred-vazio">Nenhum — esta etapa <b>roda em paralelo</b> e nenhum atraso de fora a empurra.</div>';
+  return [...sel].sort((a,b)=>a-b).map(n=>{
+    const q=procsCol().find(x=>x.seq===n);
+    return `<span class="chip on">${n}. ${esc(q?q.name:'—')}
+      <button data-action="proc-pred-del" data-v="${n}" title="deixar de depender desta etapa">✕</button></span>`}).join('');
+}
+// Só oferece etapas que não criam dependência circular.
+function opcoesPredecessor(seq){
+  const sel=procEdit.predecessores;
+  const livres=procsOrdenados().filter(x=>x.seq!==seq&&!sel.includes(x.seq)&&!criariaCiclo(seq,x.seq));
+  if(!livres.length)return'<option value="">— nenhuma etapa disponível —</option>';
+  return'<option value="">— escolha a etapa anterior —</option>'+
+    livres.map(x=>`<option value="${x.seq}">${x.seq}. ${esc(x.name)}</option>`).join('');
+}
+function htmlTextoPred(){
+  const t=textoPredecessores(procEdit.predecessores);
+  return t?`Na planilha, a coluna <b>Predecessor</b> ficaria: <b>${esc(t)}</b>`
+          :'Na planilha, a coluna <b>Predecessor</b> ficaria vazia.';
 }
 /* Resposta à pergunta do Cairo, em português de chão de fábrica. */
 function htmlSimulacao(seq,dias,hoje){
@@ -2557,6 +2633,12 @@ const ACTIONS={
     commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);
       p.percent_complete=pct;p.inicio_real=ini||null;p.fim_real=fim||null;p.completed_at=fim||null;
       if($('#m-dono'))p.responsavel_user_id=dono||null;
+      if(procEdit&&procEdit.seq===p.seq){
+        const mudou=textoPredecessores(procEdit.predecessores)!==textoPredecessores(predsDe(p));
+        p.predecessores=[...procEdit.predecessores].sort((a,b)=>a-b);
+        // marca a edição para a planilha não desfazer o que o time ajustou aqui
+        if(mudou)p.predecessores_editados=true;
+      }
       if($('#m-motivo'))p.motivo_atraso=motivo||null;
       // promessa é append-only: o histórico é o que permite medir prometido x cumprido
       if(prom){p.promessas=p.promessas||[];
@@ -2566,6 +2648,18 @@ const ACTIONS={
   'proc-done':d=>{commit(x=>{const p=x.macro_processes.find(y=>y.id===d.id);
     p.fim_real=hojeStr();p.completed_at=hojeStr();p.percent_complete=100;if(!p.inicio_real)p.inicio_real=p.start_date||null});
     closeModal();toast('Processo concluído ✓')},
+  'proc-pred-add':()=>{const v=Number($('#m-pred-add').value||0);
+    if(!v){toast('Escolha a etapa anterior.');return}
+    if(criariaCiclo(procEdit.seq,v)){toast('Isso criaria uma dependência circular.');return}
+    procEdit.predecessores.push(v);
+    $('#m-preds').innerHTML=chipsPredecessores();
+    $('#m-pred-add').innerHTML=opcoesPredecessor(procEdit.seq);
+    $('#m-pred-txt').innerHTML=htmlTextoPred()},
+  'proc-pred-del':d=>{const v=Number(d.v);
+    procEdit.predecessores=procEdit.predecessores.filter(x=>x!==v);
+    $('#m-preds').innerHTML=chipsPredecessores();
+    $('#m-pred-add').innerHTML=opcoesPredecessor(procEdit.seq);
+    $('#m-pred-txt').innerHTML=htmlTextoPred()},
   'proc-sim':d=>{const n=Math.max(0,Number($('#m-sim').value||0));
     $('#m-sim-res').innerHTML=htmlSimulacao(Number(d.seq),n,hojeStr())},
   /* coleção */
