@@ -4,7 +4,7 @@ Documento para o **time de TI da Liebe** assumir a aplicação e construir o bac
 
 > **Status:** protótipo validado e em uso real pelo setor de Estilo & Produto. Roda como site estático, sem backend, com os dados no `localStorage` do navegador. **Operadora principal: Joice (Coordenadora de Produto) — a máquina dela é hoje a fonte da verdade.**
 >
-> **O que se pede ao TI:** construir o backend que remove essa limitação, **sem reimplementar errado as regras de cronograma** descritas na §5. Elas são o produto.
+> **O que se pede ao TI:** construir o backend que remove essa limitação, **sem reimplementar errado as regras de cronograma** descritas na §6. Elas são o produto.
 
 ---
 
@@ -30,7 +30,7 @@ HTML + CSS + JavaScript **vanilla**, sem framework e **sem etapa de build**. Dep
 python -m http.server 4173     # precisa ser via HTTP, não file://
 ```
 
-Login atual: escolher o usuário e digitar o PIN (padrão `1234`). **Isso é identificação para autoria, não autenticação** — ver §7.
+Login atual: escolher o usuário e digitar o PIN (padrão `1234`). **Isso é identificação para autoria, não autenticação** — ver §8.
 
 ## 2. O que o backend precisa resolver
 
@@ -44,7 +44,21 @@ Em ordem de dor:
 
 O que **não** se pede mudar: a linguagem da interface (pt-BR, vocabulário de chão de fábrica, sem jargão de gestão de projetos em inglês) e a identidade visual da Liebe. São decisões do cliente, registradas no `CLAUDE.md`.
 
-## 3. Trabalhar nesta base (manutenção e evolução)
+## 3. O que NÃO está neste repositório (peça antes de começar)
+
+O código está completo aqui. Estes cinco itens não estão, e sem eles vocês travam:
+
+| Item | Onde está | Por que precisa |
+|---|---|---|
+| **Export JSON da máquina da Joice** | navegador dela (⛃ Dados → "Exportar backup") | **É a fonte da verdade dos dados operacionais.** O `data.js` tem só o catálogo vindo da planilha; o realizado, os donos, as promessas, os motivos de atraso, as fotos, os catálogos do produto, tarefas e atas **só existem no navegador dela**. Sem esse arquivo, a migração perde o trabalho de meses |
+| **Planilhas-fonte `.xlsx`** | **fora do Git**, com o Vanderlei | contêm custos e margens (aba PRÉ-CUSTOS) e por isso não são versionadas. Alimentam `scripts/gerar_seed.py`. Sem elas dá para rodar a aplicação (o `data.js` já vem gerado), mas não dá para regenerar quando chegar coleção nova. **Ao recebê-las, ponha em `planilhas/` na raiz** — o gerador procura lá sozinho e a pasta está no `.gitignore` |
+| **Acesso ao repositório GitHub** | conta `vanderleisilva-pwr` (privado) | óbvio, mas costuma ser esquecido: peçam acesso de escrita, não só o clone |
+| **Acesso ao projeto na Vercel** | conta do Vanderlei (PWR) | o deploy é automático a partir da `main`. Sem acesso, vocês não veem logs nem configuram domínio. **Transferir o projeto para uma conta da Liebe** é o caminho natural |
+| **Contexto da reunião de 02/09/2026** | ata com o Vanderlei | é de onde saíram as regras da §6. O documento explica *o quê*; a ata explica o *porquê* nas palavras do cliente |
+
+Sobre o export da Joice: peçam **antes** de qualquer mudança que toque o `localStorage`, e guardem uma cópia. É o único backup que existe hoje.
+
+## 4. Trabalhar nesta base (manutenção e evolução)
 
 A aplicação inteira é um arquivo: `index.html` — CSS no `<head>`, um `<script>` no fim. Não há framework, bundler nem etapa de build. Isso é decisão consciente (validação rápida sem infraestrutura) e deve ser mantida **até** a migração para o backend; a partir daí, a escolha de stack é de vocês.
 
@@ -72,7 +86,7 @@ Não reordene os blocos. As views chamam os selectors, que chamam os helpers; as
 
 ### Como fazer as alterações mais comuns
 
-- **Campo novo numa entidade** → acrescente uma função ao array `MIGRATIONS` (idempotente), ajuste o modal e, se o dado for digitado na plataforma, **inclua-o na preservação** do `applyNewSeed()` (ver §6). Esquecer esse último passo apaga o dado do time na próxima planilha.
+- **Campo novo numa entidade** → acrescente uma função ao array `MIGRATIONS` (idempotente), ajuste o modal e, se o dado for digitado na plataforma, **inclua-o na preservação** do `applyNewSeed()` (ver §6.5). Esquecer esse último passo apaga o dado do time na próxima planilha.
 - **Tela nova** → função `vNome()` + entrada em `ROUTES`. O menu lateral se monta sozinho a partir de `ROUTES`.
 - **Botão novo** → `data-action` no markup + `ACTIONS['...']`. Se for de escrita, dê a classe `.w` (o CSS esconde para o perfil `leitura`).
 - **Coluna nova vinda da planilha** → ajuste `scripts/gerar_seed.py`. Cabeçalhos e colunas são localizados **pelo nome** (`achar_linha`, `mapa_colunas`), nunca por posição fixa — a planilha do cliente já ganhou colunas no meio duas vezes e quebrou o gerador em silêncio.
@@ -124,7 +138,7 @@ O `seed_version` é o **maior mtime entre todas as planilhas** — é o que disp
 - **`docs/PROJETO.md`** — histórico das decisões e o contexto de cada uma.
 - **Mensagens de commit** — cada uma explica o problema que resolveu, não só o que mudou.
 
-## 4. Modelo de dados
+## 5. Modelo de dados
 
 O modelo já nasceu espelhando tabelas relacionais (snake_case, FKs, datas ISO `YYYY-MM-DD`). O estado atual está em `schema_version = 7`, com 6 migrações aplicadas em sequência (o array `MIGRATIONS` no `index.html` é o histórico — vale ler antes de modelar, porque cada migração existe por um motivo).
 
@@ -150,7 +164,7 @@ create table users (
   job_title  text,
   role       text not null check (role in ('admin','equipe','leitura')),
   active     boolean default true
-  -- 'pin' NÃO migra: ver §7
+  -- 'pin' NÃO migra: ver §8
 );
 
 -- catálogo fixo das 19 fases (não é por coleção)
@@ -180,7 +194,7 @@ create table macro_processes (
   macro_tema    text,                       -- Estilo | Desenvolvimento | Mostruário | Catálogo | Plano de Produção/Mostruário
   predecessores int[] default '{}',         -- seq de outras etapas DA MESMA coleção
   predecessores_editados boolean default false,
-  -- LINHA DE BASE CONGELADA: nunca reescrita pela aplicação (ver §5.1)
+  -- LINHA DE BASE CONGELADA: nunca reescrita pela aplicação (ver §6.1)
   start_date    date,
   end_date      date,
   -- REALIZADO: digitado na plataforma
@@ -197,7 +211,7 @@ create table macro_processes (
   unique (collection_id, seq)
 );
 
--- promessas de recuperação: APPEND-ONLY, nunca update (ver §5.6)
+-- promessas de recuperação: APPEND-ONLY, nunca update (ver §6.6)
 create table process_promises (
   id          bigserial primary key,
   process_id  text not null references macro_processes(id) on delete cascade,
@@ -296,7 +310,7 @@ create table kpi_entries (
   unique (kpi_key, period)
 );
 
--- catálogos do produto: listas de NOMES (ver §5.11)
+-- catálogos do produto: listas de NOMES (ver §6.11)
 create table catalog_items (
   id   bigserial primary key,
   kind text not null check (kind in ('tipos','cores','tamanhos','tecidos')),
@@ -312,7 +326,7 @@ create table bypass_log (         -- modelado, UI prevista para v2
 
 **`charges`** existe no modelo atual mas a UI saiu do ar (a cobrança migrou para o Quadro de Tarefas). Decidir com o Vanderlei antes de migrar: provavelmente descartar.
 
-## 5. As regras que não podem ser reimplementadas errado
+## 6. As regras que não podem ser reimplementadas errado
 
 Esta seção é a mais importante do documento. Cada regra abaixo foi definida com o cliente na reunião de 02/09/2026 (Anna, gestora, e Cairo, diretor) ou emergiu de um bug real em produção. Reimplementá-las de outro jeito quebra o produto de formas silenciosas.
 
@@ -388,7 +402,7 @@ O quadro "Referências por tecido principal" inclui **"— não informado —"**
 ### 4.13 Dependência circular é barrada
 Ao editar predecessores: etapas que criariam ciclo não aparecem entre as opções, e a inclusão é recusada se forçada. Sem isso a projeção entra em loop.
 
-## 6. O que é DERIVADO (não persistir)
+## 7. O que é DERIVADO (não persistir)
 
 Calcular a cada leitura, nunca gravar:
 
@@ -396,7 +410,7 @@ Calcular a cada leitura, nunca gravar:
 |---|---|
 | Status da etapa (em dia / vence em X / atrasada / concluída) | compara `end_date` e `fim_real` com hoje |
 | Status da célula do grid | compara evento com `phase_deadlines` |
-| Projeção (início/fim previstos) | forward pass da §5.3 |
+| Projeção (início/fim previstos) | forward pass da §6.3 |
 | Margem de manobra / caminho crítico | backward pass a partir do marco da coleção |
 | Cadeia de impacto ("o que empurra") | percorre sucessores |
 | Desfecho da promessa | `fim_real` vs. última promessa |
@@ -404,7 +418,7 @@ Calcular a cada leitura, nunca gravar:
 
 Persistir qualquer um deles gera divergência entre telas. No front atual isso é garantido por construção: as funções de cálculo rodam a cada render.
 
-## 7. Autenticação e permissões
+## 8. Autenticação e permissões
 
 **O PIN não migra.** Trocar por autenticação real — a preferência do cliente é login Google do domínio da Liebe (Supabase Auth ou equivalente).
 
@@ -420,7 +434,7 @@ Três papéis, já implementados na UI:
 - **Cancelar/reativar referência é exclusivo da Joice** (`canCancelRefs()`, hoje travado no id `user-joice`). É governança: toda ação entra no `reference_log`.
 - **Criar coleção** é só `admin`.
 
-## 8. Migrar os dados atuais
+## 9. Migrar os dados atuais
 
 A fonte da verdade hoje é o navegador da Joice. **Antes de qualquer coisa, peça a ela o export JSON** (botão ⛃ Dados → "Exportar backup (JSON)"). Esse arquivo é o banco inteiro, já no schema 7.
 
@@ -428,18 +442,18 @@ Passos sugeridos:
 1. Export JSON da máquina da Joice (e de qualquer outra que tenha sido usada).
 2. Rodar as migrações do array `MIGRATIONS` se o export vier de schema anterior — ou simplesmente abrir o export no app publicado, que migra sozinho, e reexportar.
 3. `INSERT` por entidade, respeitando a ordem das FKs: `users → collections → phases → phase_deadlines → macro_processes → references_ → reference_phases → reference_phase_events → o resto`.
-4. Conferir os números de controle (§12).
+4. Conferir os números de controle (§13).
 
 `data.js` é gerado da planilha e serve de referência de catálogo, **não** como fonte do trabalho operacional — o realizado, os donos, promessas, fotos e catálogos só existem no navegador.
 
-## 9. Fotos das peças
+## 10. Fotos das peças
 
 Hoje cada foto é reduzida no cliente (320 px, JPEG 0.72 ≈ 15 KB) e guardada como data-URL dentro do JSON, porque não há storage. No backend:
 - Subir para um bucket (Supabase Storage / S3) e guardar a URL em `references_.foto_url`.
 - **Manter a redução no cliente antes do upload** — a rede do setor é lenta e o ganho é grande (2,4 MB → 15 KB nos testes).
 - Na migração, converter as data-URLs existentes em arquivos.
 
-## 10. API — endpoints mínimos
+## 11. API — endpoints mínimos
 
 Se usar Supabase, boa parte sai de graça via PostgREST + RLS. Se for API própria, o mínimo é:
 
@@ -449,7 +463,7 @@ POST   /collections                      cria a partir de um modelo (copia etapa
 GET    /collections/:id/schedule         etapas + projeção + margem calculadas no servidor
 PATCH  /processes/:id                    realizado, dono, motivo, predecessores, % avanço
 POST   /processes/:id/promises           nova promessa (append-only)
-GET    /processes/:id/simulate?days=N    simulação de atraso (ver §5.7)
+GET    /processes/:id/simulate?days=N    simulação de atraso (ver §6.7)
 GET    /collections/:id/references       grade
 POST   /collections/:id/references       cadastro manual
 PATCH  /references/:id                   dados descritivos
@@ -462,19 +476,19 @@ GET    /collections/:id/agenda           pauta do ritual gerada do cronograma
 
 **Onde fica o cálculo?** Recomendo **no servidor**, exposto pelo endpoint de schedule, para que web e um futuro app móvel não divirjam. O código de referência está em `index.html`, bloco "cronograma: linha de base, projeção, margem e cadeia de impacto" — é JS puro, sem dependências, portável quase 1:1.
 
-## 11. Roteiro sugerido
+## 12. Roteiro sugerido
 
-1. **Banco + migração dos dados** (§3, §8) — sem isso nada mais importa.
-2. **Auth + RLS** (§7) — antes de abrir para o time, senão vira bagunça de autoria.
+1. **Banco + migração dos dados** (§5, §9) — sem isso nada mais importa.
+2. **Auth + RLS** (§8) — antes de abrir para o time, senão vira bagunça de autoria.
 3. **CRUD e leitura**, mantendo o front atual como cliente, se quiser validar rápido.
-4. **Motor de cronograma no servidor** (§5.3–4.9) com a suíte de testes da §12.
+4. **Motor de cronograma no servidor** (§6.3–6.9) com a suíte de testes da §13.
 5. **Fotos para storage** (§9).
 6. **Tempo real** (subscriptions) — resolve a dor nº 2.
-7. **Backlog v2** (§13).
+7. **Backlog v2** (§14).
 
 Dá para entregar valor já no passo 1+2: o front atual consumindo a API resolve "dados por-máquina" e multiusuário, que são as duas dores maiores.
 
-## 12. Como saber que o backend está correto
+## 13. Como saber que o backend está correto
 
 Testes de aceite que o motor atual passa — replique-os:
 
@@ -492,7 +506,7 @@ Testes de aceite que o motor atual passa — replique-os:
 
 Números de controle da carga: **2 coleções com cronograma, 81 etapas macro, 112 referências, 772 células de fase, 19 fases, 15 prazos de fase, 11 usuários.**
 
-## 13. Backlog conhecido / v2
+## 14. Backlog conhecido / v2
 
 - **Pré-custos por referência** — a aba existe na planilha, hoje quase vazia.
 - **Reporte mensal à Diretoria** gerado automaticamente dos dados.

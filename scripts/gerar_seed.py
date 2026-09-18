@@ -19,10 +19,26 @@ from pathlib import Path
 
 import openpyxl
 
-XLSX_PADRAO = (
+# Onde procurar a planilha quando nenhum caminho vem na linha de comando.
+# 1º a pasta "planilhas/" do próprio projeto (funciona em qualquer máquina);
+# 2º a Área de Trabalho do autor original, por compatibilidade.
+PASTA_PLANILHAS = Path(__file__).resolve().parent.parent / "planilhas"
+XLSX_FALLBACK = (
     r"C:\Users\vande\OneDrive\Pasta de Trabalho\Área de Trabalho"
     r"\GESTÃO DA COLEÇÃO - INVERNO & ALTO 27.xlsx"
 )
+
+
+def xlsx_padrao():
+    """A planilha principal é a que tem a aba CRONOGRAMA.V2 (grade + cronograma)."""
+    if PASTA_PLANILHAS.is_dir():
+        for arq in sorted(PASTA_PLANILHAS.glob("*.xlsx")):
+            try:
+                if "CRONOGRAMA.V2" in openpyxl.load_workbook(arq, read_only=True).sheetnames:
+                    return str(arq)
+            except Exception:
+                continue
+    return XLSX_FALLBACK
 SAIDA = Path(__file__).resolve().parent.parent / "data.js"
 HOJE = "2026-06-10"  # data da geração do seed (created_at dos registros importados)
 SEED_BY = "user-vanderlei"
@@ -267,9 +283,13 @@ def ler_colecao_extra(caminho, catalogo, seq_pcp_modelo):
 
 def main():
     args = sys.argv[1:]
-    caminho = args[0] if args else XLSX_PADRAO
     # planilhas de coleções adicionais (só cronograma): --colecao "caminho.xlsx"
     extras = [args[i + 1] for i, a in enumerate(args) if a == "--colecao" and i + 1 < len(args)]
+    # o caminho da principal é o primeiro argumento solto (nem flag, nem valor de flag)
+    consumidos = {i for i, a in enumerate(args) if a == "--colecao"}
+    consumidos |= {i + 1 for i in consumidos}
+    soltos = [a for i, a in enumerate(args) if i not in consumidos and not a.startswith("--")]
+    caminho = soltos[0] if soltos else xlsx_padrao()
     wb = openpyxl.load_workbook(caminho, data_only=True)
 
     users = [

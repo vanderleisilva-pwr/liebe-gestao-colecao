@@ -22,3 +22,8 @@ venv/
 
 # saída de scripts/extrai_script.py (checagem de sintaxe e suíte do motor)
 .tmp/
+
+# Planilhas-fonte: contêm custos e margens (aba PRÉ-CUSTOS).
+# Ficam fora do Git — entregues por canal próprio. Coloque-as aqui para o
+# gerador encontrá-las sozinho: python scripts/gerar_seed.py
+planilhas/
