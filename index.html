@@ -691,6 +691,23 @@ function duracaoProc(p){return(p.start_date&&p.end_date)?Math.max(diffDias(p.sta
 function procPorSeq(){const m={};procsCol().forEach(p=>m[p.seq]=p);return m}
 function sucessoresPorSeq(){const m={};procsCol().forEach(p=>predsDe(p).forEach(s=>{(m[s]=m[s]||[]).push(p.seq)}));return m}
 function rodaEmParalelo(p){return predsDe(p).length===0}
+// Tudo que vem depois de uma etapa, andando pelos sucessores.
+function cadeiaAFrente(seq,suc){const out={},fila=[...(suc[seq]||[])];
+  while(fila.length){const x=fila.shift();if(out[x])continue;out[x]=true;(suc[x]||[]).forEach(y=>fila.push(y))}
+  return out}
+// Dependência circular trava a projeção (A espera B que espera A). Antes de aceitar
+// um predecessor novo, conferimos se ele já está na cadeia DEPOIS desta etapa.
+function criariaCiclo(seq,novoPred){
+  if(seq===novoPred)return true;
+  return !!cadeiaAFrente(seq,sucessoresPorSeq())[novoPred];
+}
+// Formato da coluna "Predecessor" da planilha: 1 → "1"; [6,7,15] → "6, 7 e 15".
+function textoPredecessores(lista){
+  const l=[...lista].sort((a,b)=>a-b);
+  if(!l.length)return'';
+  if(l.length===1)return String(l[0]);
+  return l.slice(0,-1).join(', ')+' e '+l[l.length-1];
+}
 
 // Projeção de cada processo. `extra` = {seq: diasDeAtrasoSimulado} para a simulação.
 // Devolve {seq:{ini,fim,origem:'real'|'projetado'|'indefinido',incompleto}}
@@ -795,8 +812,14 @@ function simularAtraso(seq,dias,hoje){
   });
   afetados.sort((x,y)=>y.dias-x.dias||x.seq-y.seq);
   const pcp=seqPcp();
+  // Por que nada se moveu? São três motivos bem diferentes, e a tela precisa dizer qual.
+  const suc=sucessoresPorSeq(),aFrente=cadeiaAFrente(seq,suc);
+  const temSucessores=(suc[seq]||[]).length>0;
+  const semDataNaCadeia=Object.keys(aFrente).map(Number)
+    .filter(n=>base[n]&&base[n].origem==='indefinido')
+    .map(n=>{const q=bySeq[n];return{seq:n,name:q?q.name:'—'}});
   return{
-    seq,dias,afetados,jaConcluida,
+    seq,dias,afetados,jaConcluida,temSucessores,semDataNaCadeia,
     // etapa já concluída não comporta simulação: o que aconteceu, aconteceu
     empurra:!jaConcluida&&afetados.length>0,
     pcp:(pcp&&base[pcp]&&sim[pcp]&&base[pcp].fim&&sim[pcp].fim)?diffDias(base[pcp].fim,sim[pcp].fim):0,
@@ -927,6 +950,17 @@ function pautaDoCronograma(hoje){
   return L.join('\n');
 }
 
+// A partir de quantos dias de atraso esta etapa começa a empurrar alguém.
+// É a folga real dela contra a próxima da fila — normalmente a etapa não é a que
+// segura o sucessor, e por isso um atraso pequeno não move nada.
+function limiarImpacto(seq,hoje,max){
+  max=max||180;
+  if(!simularAtraso(seq,max,hoje).afetados.length)return null;
+  let lo=1,hi=max;
+  while(lo<hi){const m=Math.floor((lo+hi)/2);
+    if(simularAtraso(seq,m,hoje).afetados.length)hi=m;else lo=m+1}
+  return lo;
+}
 // Situação de um processo somando linha de base, realizado e projeção.
 function situacaoProc(p,proj,margem){
   const pr=proj[p.seq]||{},mg=(margem&&margem[p.seq])||{};
@@ -1537,23 +1571,6 @@ function vGantt(ps,hoje,pan){
 }
 function fmtMesCurto(d){const M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
   const p=d.split('-');return M[Number(p[1])-1]+(p[1]==='01'?'/'+p[0].slice(2):'')}
-// Dependência circular trava a projeção (A espera B que espera A). Antes de aceitar
-// um predecessor novo, conferimos se ele já está na cadeia DEPOIS desta etapa.
-function criariaCiclo(seq,novoPred){
-  if(seq===novoPred)return true;
-  return !!cadeiaAFrente(seq,sucessoresPorSeq())[novoPred];
-}
-// Formato da coluna "Predecessor" da planilha: 1 → "1"; [6,7,15] → "6, 7 e 15".
-function textoPredecessores(lista){
-  const l=[...lista].sort((a,b)=>a-b);
-  if(!l.length)return'';
-  if(l.length===1)return String(l[0]);
-  return l.slice(0,-1).join(', ')+' e '+l[l.length-1];
-}
-// Tudo que vem depois de uma etapa, andando pelos sucessores.
-function cadeiaAFrente(seq,suc){const out={},fila=[...(suc[seq]||[])];
-  while(fila.length){const x=fila.shift();if(out[x])continue;out[x]=true;(suc[x]||[]).forEach(y=>fila.push(y))}
-  return out}
 
 /* ---------------------------- GESTÃO DA COLEÇÃO ---------------------------- */
 function vColecao(){
@@ -2359,12 +2376,31 @@ function htmlTextoPred(){
 function htmlSimulacao(seq,dias,hoje){
   const r=simularAtraso(seq,dias,hoje);
   if(r.jaConcluida)return'<span style="color:var(--muted)">Esta etapa já foi concluída — não há o que simular.</span>';
-  if(!r.empurra)return'<b style="color:var(--ok)">Não empurra nenhuma outra etapa.</b> O atraso fica contido aqui.';
+  // aviso sobre trechos da cadeia que não dá para calcular (vale em qualquer caso)
+  const semData=r.semDataNaCadeia.length?`<div style="color:var(--warn);margin-top:6px;font-size:11.5px">Parte da cadeia à frente passa por
+      ${r.semDataNaCadeia.map(x=>'<b>#'+x.seq+' '+esc(x.name)+'</b>').join(' · ')},
+      ${r.semDataNaCadeia.length>1?'que estão sem data':'que está sem data'} — o alcance real pode ir além do que aparece aqui.</div>`:'';
+  if(!r.empurra){
+    if(!r.temSucessores)
+      return'<b style="color:var(--ok)">Não empurra nenhuma outra etapa.</b> Nada depende dela, então o atraso fica contido aqui.';
+    // a folga explica mais casos que a falta de data: checar primeiro, senão a
+    // mensagem culpa o dado faltante quando na verdade havia margem de sobra
+    const lim=limiarImpacto(seq,hoje);
+    if(lim!=null)
+      return`<b style="color:var(--ok)">Com ${dias} dia(s), nada se move ainda.</b> Esta etapa só começa a empurrar a partir de
+        <b>${lim} dia(s)</b> de atraso — a margem dela é de <b>${lim-1} dia(s)</b>.${semData}`;
+    if(r.semDataNaCadeia.length)
+      return`<b style="color:var(--warn)">Não dá para calcular o impacto.</b> Esta etapa empurra outras, mas a cadeia à frente passa por
+        ${r.semDataNaCadeia.map(x=>'<b>#'+x.seq+' '+esc(x.name)+'</b>').join(' · ')},
+        ${r.semDataNaCadeia.length>1?'que estão sem data':'que está sem data'}.
+        <br>${r.semDataNaCadeia.length>1?'Defina as datas dessas etapas':'Defina a data dessa etapa'} para enxergar até onde o atraso chega.`;
+    return`<b style="color:var(--ok)">Com ${dias} dia(s), nada se move.</b> Quem vem depois está sendo segurado por outra etapa, não por esta — há bastante margem aqui.`;
+  }
   const linhas=r.afetados.map(a=>`<div>#${a.seq} ${esc(a.name)} <b>+${a.dias}d</b> <span style="color:var(--muted)">${fmtBR(a.de)} → ${fmtBR(a.para)}</span></div>`).join('');
   const pcp=r.pcp>0?`<br>Atrasa a <b>liberação para o PCP em ${r.pcp} dia(s)</b>.`
                    :'<br>Não mexe na liberação para o PCP.';
   return `Empurra <b>${r.afetados.length} etapa(s)</b>${r.temas.length?' em: '+esc(r.temas.join(', ')):''}.${pcp}
-    <div class="cadeia">${linhas}</div>`;
+    <div class="cadeia">${linhas}</div>${semData}`;
 }
 function mTask(id){
   const t=id?db.tasks.find(x=>x.id===id):null;
