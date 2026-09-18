@@ -211,6 +211,31 @@ tr:hover td{background:#fdfcf9}
 .passos{background:var(--cream);border-radius:10px;padding:10px 12px;margin:8px 0}
 .passo{font-size:12px;line-height:1.55;padding:3px 0;color:var(--ink)}
 .passo b{color:var(--rose-dark)}
+.chip{display:inline-block;border:1.5px solid var(--line);border-radius:20px;padding:4px 12px;font-size:12px;
+  margin:0 5px 5px 0;cursor:pointer;background:var(--white);user-select:none;transition:.12s}
+.chip:hover{border-color:var(--rose-soft)}
+.chip.on{background:var(--rose);border-color:var(--rose);color:#fff;font-weight:600}
+.chip-add{display:flex;gap:7px;margin-top:6px}
+.chip-add input{flex:1}
+.foto-box{margin-top:5px}
+.foto-box img{max-width:150px;max-height:150px;border-radius:10px;border:1px solid var(--line);display:block}
+.foto-acts{display:flex;gap:6px;margin-top:6px}
+.foto-vazia{border:1.5px dashed var(--beige);border-radius:10px;padding:16px;text-align:center;cursor:pointer;
+  color:var(--muted);font-size:12px;line-height:1.5;background:var(--cream)}
+.foto-vazia:hover{border-color:var(--rose-soft);color:var(--rose-dark)}
+.ref-foto{width:34px;height:34px;border-radius:7px;object-fit:cover;border:1px solid var(--line);flex-shrink:0}
+.cat-hero{background:var(--rose);color:#fff;border-radius:var(--radius);padding:18px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.cat-hero h2{font-size:18px;font-weight:600;margin-bottom:4px}
+.cat-hero p{font-size:12.5px;opacity:.92;line-height:1.5}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.cat-card .cat-ds{font-size:11.5px;color:var(--muted);margin:-4px 0 10px;line-height:1.45}
+.cat-add{display:flex;gap:7px;margin-bottom:10px}
+.cat-add input{flex:1}
+.cat-itens{display:flex;flex-wrap:wrap;gap:6px}
+.cat-chip{display:inline-flex;align-items:center;gap:5px;background:var(--blush);border-radius:20px;padding:4px 6px 4px 12px;font-size:12px}
+.cat-chip i{font-style:normal;background:var(--rose-pale);color:var(--rose-dark);border-radius:10px;padding:1px 6px;font-size:10px;font-weight:700}
+.cat-chip button{width:20px;height:20px;border-radius:50%;color:var(--muted);font-size:11px;line-height:1}
+.cat-chip button:hover{background:var(--late-bg);color:var(--late)}
 .promessa{border-radius:10px;padding:7px 11px;font-size:12px;font-weight:600;margin:8px 0}
 .promessa.cumprida{background:var(--ok-bg);color:var(--ok)}
 .promessa.quebrada{background:var(--late-bg);color:var(--late)}
@@ -447,6 +472,20 @@ const MIGRATIONS=[
     if(!('motivo_atraso' in p))p.motivo_atraso=null;
     if(!Array.isArray(p.promessas))p.promessas=[];
   })},
+  // v5 → v6: catálogos do produto + campos descritivos da referência
+  d=>{
+    d.catalogos=d.catalogos||{};
+    Object.keys(CATALOGO_PADRAO).forEach(k=>{
+      if(!Array.isArray(d.catalogos[k])||!d.catalogos[k].length)d.catalogos[k]=[...CATALOGO_PADRAO[k]];
+    });
+    (d.references||[]).forEach(r=>{
+      if(!('tipo_produto' in r))r.tipo_produto=null;
+      if(!('tecido_principal' in r))r.tecido_principal=null;
+      if(!Array.isArray(r.cores))r.cores=[];
+      if(!Array.isArray(r.tamanhos))r.tamanhos=[];
+      if(!('foto' in r))r.foto=null;
+    });
+  },
 ]; // futuras migrações de schema (mesmo padrão no Supabase)
 function migrate(d){let v=d.schema_version||1;while(v<MIGRATIONS.length+1){MIGRATIONS[v-1](d);v++;d.schema_version=v}return d}
 function loadDb(){
@@ -466,7 +505,11 @@ function applyNewSeed(){
   const seed=window.LIEBE_SEED;
   const realizado=guardarRealizado(); // o que a equipe digitou aqui não pode voltar atrás
   const refsManuais=guardarRefsManuais();
+  const catalogosAtuais=clone(db.catalogos||{});
+  const descritivos=guardarDescritivosRef();
   ['users','collections','phases','phase_deadlines','macro_processes','references','reference_phases'].forEach(k=>db[k]=clone(seed[k]));
+  db.catalogos=catalogosAtuais;
+  reaplicarDescritivos(descritivos);
   db.marcos=clone(seed.marcos||{});
   reaplicarRealizado(realizado);
   reaplicarRefsManuais(refsManuais);
@@ -483,6 +526,27 @@ function applyNewSeed(){
 // Guardamos antes da troca de catálogo e recolamos depois, casando por seq.
 // Referências criadas aqui (id 'ref-m-…') não existem na planilha: se o catálogo
 // fosse simplesmente sobrescrito, o cadastro manual do time sumiria sem aviso.
+// Tipo, tecido, cores, tamanhos e foto são digitados aqui — a planilha não os traz.
+// Sem isso, uma atualização de planilha apagaria a descrição de todas as peças.
+function guardarDescritivosRef(){
+  const m={};
+  (db.references||[]).forEach(r=>{
+    if(r.tipo_produto||r.tecido_principal||r.foto||(r.cores||[]).length||(r.tamanhos||[]).length)
+      m[r.collection_id+'|'+r.code]={tipo_produto:r.tipo_produto||null,tecido_principal:r.tecido_principal||null,
+        cores:r.cores||[],tamanhos:r.tamanhos||[],foto:r.foto||null};
+  });
+  return m;
+}
+function reaplicarDescritivos(m){
+  if(!m)return;
+  db.references.forEach(r=>{const d=m[r.collection_id+'|'+r.code];if(!d)return;
+    r.tipo_produto=r.tipo_produto||d.tipo_produto;
+    r.tecido_principal=r.tecido_principal||d.tecido_principal;
+    if(!(r.cores||[]).length)r.cores=d.cores;
+    if(!(r.tamanhos||[]).length)r.tamanhos=d.tamanhos;
+    r.foto=r.foto||d.foto;
+  });
+}
 function guardarRefsManuais(){
   const refs=(db.references||[]).filter(r=>String(r.id).startsWith('ref-m-'));
   const ids=new Set(refs.map(r=>r.id));
@@ -774,6 +838,18 @@ function motivosAgregados(){
   procsCol().forEach(p=>{if(p.motivo_atraso)m[p.motivo_atraso]=(m[p.motivo_atraso]||0)+1});
   return Object.entries(m).sort((a,b)=>b[1]-a[1]);
 }
+// "Quanto da coleção depende de cada tecido?" — renda importada foi o que
+// derrubou o mostruário, então isso precisa ser visível, não descoberto depois.
+function tecidosAgregados(){
+  const refs=refsCol().filter(r=>r.status!=='cancelada');
+  const total=refs.length;
+  const m={};
+  refs.forEach(r=>{const t=r.tecido_principal||'— não informado —';m[t]=(m[t]||0)+1});
+  const linhas=Object.entries(m).sort((a,b)=>b[1]-a[1])
+    .map(([nome,n])=>({nome,n,pct:total?Math.round(n/total*100):0}));
+  const semInfo=m['— não informado —']||0;
+  return{total,linhas,semInfo};
+}
 function donoProc(p){return p.responsavel_user_id?ix.userById[p.responsavel_user_id]:null}
 function nomeDono(p){const u=donoProc(p);return u?u.name:(p.owner_team||null)}
 
@@ -894,7 +970,7 @@ function kpis(){
   const semDono=procsCol().filter(p=>!p.responsavel_user_id&&!(p.fim_real||p.completed_at)).length;
   const entrega=pan.entrega?{alvo:pan.entrega,previsto:pan.fimGeral,
     desvio:pan.fimGeral?diffDias(pan.entrega,pan.fimGeral):null,incompleta:pan.indefinidas>0}:null;
-  return{macro,piloto,atas,rnc:manual('rnc'),otif:manual('otif_mp'),pcp,semMargem,entrega,promessa,semDono,motivos:motivosAgregados(),hoje};
+  return{macro,piloto,atas,rnc:manual('rnc'),otif:manual('otif_mp'),pcp,semMargem,entrega,promessa,semDono,motivos:motivosAgregados(),tecidos:tecidosAgregados(),hoje};
 }
 function kpiClass(val,meta,alerta,inverso){
   if(val==null)return'';
@@ -934,6 +1010,7 @@ const ROUTES={
   '#/colecao':{t:'Gestão da Coleção',sub:'Referências × fases de desenvolvimento',ic:'❀',fn:vColecao},
   '#/tarefas':{t:'Quadro de Tarefas',sub:'Encaminhamentos por pessoa — adeus, caderno',ic:'☰',fn:vTarefas},
   '#/rituais':{t:'Rituais & Atas',sub:'Reuniões, pauta automática e atas em 24h',ic:'✎',fn:vRituais},
+  '#/cadastros':{t:'Cadastros do Produto',sub:'Tipos, cores, tamanhos e tecidos',ic:'⌗',fn:vCadastros},
   '#/manual':{t:'Manual de Uso',sub:'Passo a passo de toda a plataforma',ic:'📖',fn:vManual},
 };
 const ST={colecao:{linha:'',familia:'',estilista:'',fluxo:'',status:'',busca:''},cronograma:{view:'lista',tema:'',sit:'',sel:null,zoom:'mes',foco:null},tarefas:{pessoa:'',so_minhas:false,prazo:'',ata:''}};
@@ -962,7 +1039,7 @@ function render(){
         <button class="burger" data-action="burger" title="Mostrar/ocultar menu" aria-label="Mostrar ou ocultar menu">☰</button>
         <div><h1>${r.t}</h1><div class="sub">${r.sub}</div></div>
         <div class="sp"></div>
-        ${['#/dashboard','#/cronograma'].includes(h)?seletorColecao():''}
+        ${['#/dashboard','#/cronograma','#/colecao','#/tarefas','#/rituais'].includes(h)?seletorColecao():''}
         ${h==='#/manual'?'':`<button class="btn btn-g btn-sm" data-action="tour">✦ Tour guiado</button>`}
         <a href="#/manual" class="btn btn-g btn-sm" ${h==='#/manual'?'style="display:none"':''}>📖 Manual</a>
         <button class="btn btn-g btn-sm" data-action="menu-dados">⛃ Dados</button>
@@ -1066,6 +1143,13 @@ function vDashboard(){
         :'<div class="empty">Sem motivos registrados ainda — ao atualizar uma etapa em atraso, escolha por que atrasou.</div>'}
       ${k.semDono?`<div style="font-size:11.5px;color:var(--late);margin-top:8px"><b>${k.semDono} etapa(s) em aberto sem dono definido.</b> Equipe não entrega — pessoa entrega.</div>`:''}
     </div>
+    <div class="card"><h3>⌘ Referências por tecido principal</h3>
+      ${k.tecidos.linhas.length?`<ul class="alert-list">${k.tecidos.linhas.slice(0,8).map(t=>
+        `<li><span>${esc(t.nome)}</span><span class="d"><b>${t.n}</b> <span class="badge ${t.nome.startsWith('—')?'b-warn':'b-rose'}">${t.pct}%</span></span></li>`).join('')}</ul>
+        ${k.tecidos.semInfo?`<div style="font-size:11px;color:var(--warn);margin-top:6px">${k.tecidos.semInfo} referência(s) ainda sem tecido informado — o percentual só fecha quando todas tiverem.</div>`
+          :'<div style="font-size:11px;color:var(--muted);margin-top:6px">Base: ${k.tecidos.total} referências ativas desta coleção.</div>'}`
+        :'<div class="empty">Nenhuma referência nesta coleção. Cadastre o tecido principal de cada peça para acompanhar a dependência de cada material.</div>'}
+    </div>
     <div class="card"><h3>❀ Fases com referências em atraso</h3>
       ${fasesCrit.length?`<ul class="alert-list">${fasesCrit.slice(0,8).map(x=>`<li><span>${esc(x.ph.name)}</span><span class="d badge b-late">${x.c.late} ref.</span></li>`).join('')}</ul>`:'<div class="empty">Nenhuma fase com atraso ✔</div>'}
     </div>
@@ -1147,6 +1231,75 @@ function resumoColecao(c,ps,hoje){
     }
   });
   return{total,concluidas,atrasadas,semData,semDono,pct,pcpDesvio,pcpPrevisto};
+}
+
+/* ---------- catálogos do produto ----------
+   Listas simples de nomes, usadas como opções no cadastro de referência.
+   Guardamos o NOME na referência (não um id): o export sai legível, e renomear
+   aqui nunca quebra o cadastro de uma peça. O time mantém as listas sozinho. */
+const CATALOGOS={
+  tipos:{nm:'Tipos de produto',ds:'O que é a peça: sutiã, calcinha, body…',ic:'✿'},
+  cores:{nm:'Cores',ds:'As cores em que as referências saem.',ic:'◐'},
+  tamanhos:{nm:'Tamanhos',ds:'A grade de tamanhos da peça.',ic:'⊞'},
+  tecidos:{nm:'Tecidos principais',ds:'O tecido que define a peça — vira indicador no Painel.',ic:'⌘'},
+};
+const CATALOGO_PADRAO={
+  tipos:['Sutiã','Calcinha','Body','Camisola','Top','Short Doll','Robe','Corset','Pijama','Cinta'],
+  cores:['Preto','Branco','Off White','Nude','Rosa','Vermelho','Azul Marinho'],
+  tamanhos:['PP','P','M','G','GG','XGG'],
+  tecidos:['Renda','Microfibra','Algodão','Tule','Cetim','Malha','Viscose'],
+};
+function catalogo(k){const c=db.catalogos||{};return Array.isArray(c[k])?c[k]:[]}
+function catalogoAdd(k,nome){
+  nome=String(nome||'').trim();
+  if(!nome)return false;
+  const lista=catalogo(k);
+  if(lista.some(x=>x.toLowerCase()===nome.toLowerCase()))return false;
+  commit(x=>{x.catalogos=x.catalogos||{};x.catalogos[k]=[...(x.catalogos[k]||[]),nome].sort((a,b)=>a.localeCompare(b,'pt-BR'))});
+  return true;
+}
+// Quantas referências usam este item — para avisar antes de remover do catálogo.
+function catalogoEmUso(k,nome){
+  const n=String(nome).toLowerCase();
+  return (db.references||[]).filter(r=>{
+    if(k==='tipos')return String(r.tipo_produto||'').toLowerCase()===n;
+    if(k==='tecidos')return String(r.tecido_principal||'').toLowerCase()===n;
+    if(k==='cores')return (r.cores||[]).some(c=>String(c).toLowerCase()===n);
+    if(k==='tamanhos')return (r.tamanhos||[]).some(t=>String(t).toLowerCase()===n);
+    return false;
+  }).length;
+}
+
+/* ---------- tela de cadastros ---------- */
+function vCadastros(){
+  const podeEditar=can('write');
+  const blocos=Object.entries(CATALOGOS).map(([k,meta])=>{
+    const itens=catalogo(k);
+    return `<div class="card cat-card">
+      <h3><span class="nicon">${meta.ic}</span> ${meta.nm}</h3>
+      <div class="cat-ds">${esc(meta.ds)}</div>
+      ${podeEditar?`<div class="cat-add w">
+        <input id="cat-in-${k}" placeholder="digite e clique em adicionar" autocomplete="off" data-cat-input="${k}">
+        <button class="btn btn-o btn-sm" data-action="cat-add" data-k="${k}">＋ adicionar</button>
+      </div>`:''}
+      <div class="cat-itens">${itens.length?itens.map(nome=>{
+        const uso=catalogoEmUso(k,nome);
+        return `<span class="cat-chip">${esc(nome)}${uso?`<i title="usado em ${uso} referência(s)">${uso}</i>`:''}
+          ${podeEditar?`<button class="w" data-action="cat-del" data-k="${k}" data-nome="${esc(nome)}" title="remover da lista">✕</button>`:''}</span>`
+      }).join(''):'<div class="empty" style="padding:14px">Nada cadastrado ainda.</div>'}</div>
+    </div>`}).join('');
+  return `<div class="cat-hero">
+      <h2>Cadastros do produto</h2>
+      <p>São as listas que aparecem na hora de cadastrar uma referência. Mantenha-as enxutas e com o nome que o time usa no dia a dia — quanto mais limpa a lista, mais confiável fica o indicador.</p>
+    </div>
+    <div class="cat-grid">${blocos}</div>
+    <div class="card" style="margin-top:16px">
+      <h3>Como isso vira gestão</h3>
+      <div style="font-size:12.5px;line-height:1.6;color:var(--ink)">
+        O <b>tecido principal</b> de cada referência alimenta o quadro <b>"Referências por tecido principal"</b> no Painel, com a quantidade e o percentual de cada tecido. É o que responde perguntas como "quanto da coleção depende de renda importada?" — e renda importada foi exatamente o que atrasou o mostruário.<br>
+        <b>Tipo de produto</b>, <b>cores</b> e <b>tamanhos</b> descrevem a peça e viajam junto no export para o Excel.
+      </div>
+    </div>`;
 }
 
 /* ---------------------------- CRONOGRAMA ---------------------------- */
@@ -1413,7 +1566,11 @@ function vColecao(){
       const cancelTip=cancelada?`Cancelada em ${fmtBRfull(r.canceled_at)} por ${esc(ix.userById[r.canceled_by]?.name||'?')} — ${esc(r.cancel_category||'')}: ${esc(r.cancel_reason||'')}`:'';
       return `<tr class="${cancelada?'cancelled':''}">
       <td class="fix c1">${i+1}</td>
-      <td class="fix c2"><span class="ref-code ${cancelada?'ref-cancelled':''}">${esc(r.code)}</span>${cancelada?'':`<button class="ref-act w" data-action="ref-edit" data-id="${r.id}" title="Editar dados da referência">✎</button>`}${acaoBtn}</td>
+      <td class="fix c2"><div style="display:flex;align-items:center;gap:7px">
+        ${r.foto?`<img class="ref-foto" src="${r.foto}" alt="foto da ref. ${esc(r.code)}" loading="lazy">`:''}
+        <div><span class="ref-code ${cancelada?'ref-cancelled':''}">${esc(r.code)}</span>${cancelada?'':`<button class="ref-act w" data-action="ref-edit" data-id="${r.id}" title="Editar dados da referência">✎</button>`}${acaoBtn}
+        ${r.tipo_produto||r.tecido_principal?`<div style="font-size:10px;color:var(--muted);line-height:1.3">${esc([r.tipo_produto,r.tecido_principal].filter(Boolean).join(' · '))}</div>`:''}</div>
+      </div></td>
       <td class="fix c3"${cancelada?` title="${cancelTip}"`:''}><div>${esc(r.family)} ${cancelada?'<span class="badge b-cancel" style="font-size:8.5px;padding:1px 5px">CANCELADA</span>':''}</div><div class="ref-fam">${esc(r.line)} · ${esc(r.stylist)}</div></td>
       ${cancelada
         ? db.phases.map(()=>`<td><span class="cell cancel" title="${cancelTip}">—</span></td>`).join('')
@@ -1760,8 +1917,16 @@ function vManual(){
           <div><b>Fluxo</b> — <i>coleção nova</i> passa por todas as fases; <i>continuada</i> entra só em cadastro de cores, liberação para o PCP e catálogo. É isso que faz a grade marcar "não se aplica" nas colunas certas.</div>
           <div><b>Linha</b> e <b>Família</b> — pode digitar ou escolher entre as que já existem.</div>
           <div><b>Estilista</b> — quem responde pela peça.</div>
+          <div><b>Tipo de produto</b> — sutiã, calcinha, body, camisola… É o que descreve a peça de bate-pronto na grade.</div>
+          <div><b>Tecido principal</b> — o tecido que define a peça. Vira indicador no Painel (veja abaixo), então vale preencher sempre.</div>
+          <div><b>Cores</b> — clique nas cores da peça. Se faltar alguma, digite em "outra cor" e inclua: ela entra na lista e fica disponível para as próximas peças.</div>
+          <div><b>Tamanhos</b> — clique nos tamanhos da grade da peça.</div>
+          <div><b>Foto da peça</b> — clique na área tracejada e escolha a imagem. Ela é reduzida automaticamente antes de ser guardada e aparece como miniatura na grade.</div>
           <div><b>Rótulo da coleção</b> — o nome que o time usa na planilha (ex.: "INVERNO 27"). Serve para conferência e não muda a coleção em que a peça está.</div>
         </div>
+        <p>As opções de tipo, cor, tamanho e tecido saem de <b>Cadastros do Produto</b>, no menu da esquerda. Lá o time mantém as listas — e quanto mais limpas elas estiverem, mais confiável fica o indicador.</p>
+        <p><b>Por que o tecido principal importa:</b> no Painel há o quadro <b>"Referências por tecido principal"</b>, com quantas peças usam cada tecido e quanto isso representa da coleção. É o que responde "quanto da coleção depende de renda importada?" — e renda importada foi exatamente o que atrasou o último mostruário. Enquanto houver peças sem tecido informado, o quadro avisa: o percentual só fecha quando todas tiverem.</p>
+        <p style="font-size:12px;color:var(--muted)">As fotos ficam guardadas neste navegador, junto com o resto dos dados. Em <b>⛃ Dados</b> há um medidor do espaço usado — se chegar perto do limite, exporte um backup.</p>
         <p>A referência entra na <b>coleção que estiver selecionada</b>, com todas as fases em branco. As datas de cada fase você registra depois, clicando nas células da grade, como sempre. Para corrigir os dados de uma peça, use o <b>✎</b> ao lado do código.</p>
         <p style="font-size:12px;color:var(--muted)">Referência cadastrada aqui não se perde quando chega planilha nova — nem ela, nem as datas de fase já registradas nela. Se um dia a planilha passar a trazer o mesmo código, a planilha manda e o cadastro manual sai de cena, para não duplicar a peça.</p>
 
@@ -1852,28 +2017,33 @@ function closeModal(){$('#modal').classList.remove('open');$('#modal').innerHTML
 function selUsers(id,val,filtro){return `<select id="${id}">${db.users.filter(u=>u.active&&(!filtro||u.role!=='leitura')).map(u=>`<option value="${u.id}" ${val===u.id?'selected':''}>${esc(u.name)} — ${esc(u.job_title)}</option>`).join('')}</select>`}
 
 /* ---------- cadastro de referência direto na plataforma ----------
-   Mesmos campos da grade da planilha: COLEÇÃO · LINHA · FAMÍLIA · ESTILISTA ·
-   REFERÊNCIA. A referência nasce na coleção em uso e com todas as fases em
-   branco — as datas de cada fase são registradas na própria grade, como sempre. */
+   Campos da grade da planilha (COLEÇÃO · LINHA · FAMÍLIA · ESTILISTA · REFERÊNCIA)
+   somados ao que o time pediu para descrever a peça: tipo de produto, tecido
+   principal, cores, tamanhos e a foto. As opções vêm de Cadastros do Produto. */
+let refEdit=null; // seleção transitória do modal (cores, tamanhos, foto)
 function mRef(id){
   const r=id?db.references.find(x=>x.id===id):null;
   const col=colecaoAtiva();
-  const refs=refsCol();
-  const opcoes=(campo,valor)=>{
-    const vals=[...new Set(db.references.map(x=>x[campo]).filter(Boolean))].sort();
-    return vals.map(v=>`<option value="${esc(v)}" ${valor===v?'selected':''}>${esc(v)}</option>`).join('');
-  };
+  refEdit={cores:[...((r&&r.cores)||[])],tamanhos:[...((r&&r.tamanhos)||[])],foto:(r&&r.foto)||null};
+  const opcoes=campo=>[...new Set(db.references.map(x=>x[campo]).filter(Boolean))].sort()
+    .map(v=>`<option value="${esc(v)}"></option>`).join('');
   const estilistas=[...new Set(db.references.map(x=>x.stylist).filter(Boolean))].sort();
+  const selCat=(k,id_,valor,vazio)=>`<select id="${id_}"><option value="">${vazio}</option>${
+    catalogo(k).map(v=>`<option ${valor===v?'selected':''}>${esc(v)}</option>`).join('')}</select>`;
   openModal(`
    <h3>${r?'Editar referência '+esc(r.code):'Nova referência'}</h3>
    <div class="sub">${r?'':'Entra na coleção <b>'+esc(col?col.name:'—')+'</b>, com todas as fases em branco.'}</div>
    <div class="frm">
      <div class="frm-row">
        <div><label>Código da referência *</label><input id="m-rf-code" value="${esc(r?r.code:'')}" placeholder="ex.: 503151" autocomplete="off"></div>
+       <div><label>Tipo de produto</label>${selCat('tipos','m-rf-tipo',r&&r.tipo_produto,'— não definido —')}</div>
+     </div>
+     <div class="frm-row">
        <div><label>Fluxo *</label><select id="m-rf-fluxo">
          <option value="nova" ${!r||r.flow_type==='nova'?'selected':''}>Coleção nova (passa por todas as fases)</option>
-         <option value="continuado" ${r&&r.flow_type==='continuado'?'selected':''}>Continuada (só cadastro de cores, PCP e catálogo)</option>
+         <option value="continuado" ${r&&r.flow_type==='continuado'?'selected':''}>Continuada (cadastro de cores, PCP e catálogo)</option>
        </select></div>
+       <div><label>Tecido principal</label>${selCat('tecidos','m-rf-tecido',r&&r.tecido_principal,'— não definido —')}</div>
      </div>
      <div class="frm-row">
        <div><label>Linha</label><input id="m-rf-linha" list="dl-linha" value="${esc(r?r.line:'')}" placeholder="ex.: FASHION" autocomplete="off">
@@ -1886,18 +2056,75 @@ function mRef(id){
          <option value="">— não definida —</option>
          ${estilistas.map(e=>`<option ${r&&r.stylist===e?'selected':''}>${esc(e)}</option>`).join('')}
        </select></div>
-       <div><label>Rótulo da coleção (coluna da planilha)</label><input id="m-rf-rotulo" value="${esc(r?(r.collection_name||''):(col?col.name:''))}" placeholder="ex.: INVERNO 27" autocomplete="off"></div>
+       <div><label>Rótulo da coleção (coluna da planilha)</label><input id="m-rf-rotulo" value="${esc(r?(r.collection_name||''):(col?col.name:''))}" autocomplete="off"></div>
      </div>
+
+     <div><label>Cores desta referência</label>
+       <div id="m-rf-cores">${chipsCores()}</div>
+       <div class="chip-add w">
+         <input id="m-rf-cor-nova" placeholder="outra cor…" autocomplete="off">
+         <button class="btn btn-o btn-sm" data-action="ref-cor-add">＋ incluir cor</button>
+       </div>
+     </div>
+
+     <div><label>Tamanhos</label><div id="m-rf-tams">${chipsTamanhos()}</div></div>
+
+     <div><label>Foto da peça</label>
+       <div class="foto-box" id="m-rf-foto">${htmlFoto()}</div>
+       <input type="file" id="m-rf-file" accept="image/*" style="display:none" data-fotoinput="1">
+     </div>
+
      <div><label>Observações</label><input id="m-rf-obs" value="${esc(r?(r.notes||''):'')}" placeholder="opcional"></div>
    </div>
    <div style="font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:8px">
-     O <b>fluxo</b> decide quais fases se aplicam a esta peça — é o que faz a grade mostrar "não se aplica" nas colunas certas. As datas de cada fase você registra depois, clicando nas células da grade.
+     As opções de tipo, cor, tamanho e tecido saem de <b>Cadastros do Produto</b>, no menu. O <b>fluxo</b> decide quais fases se aplicam à peça; as datas de cada fase você registra depois, nas células da grade.
    </div>
    <div class="modal-acts">
      <button class="btn btn-g" data-action="modal-close">Cancelar</button>
      <button class="btn btn-p" data-action="ref-save" data-id="${id||''}">${r?'Salvar':'Cadastrar referência'}</button>
    </div>`);
   setTimeout(()=>$('#m-rf-code')?.focus(),60);
+}
+function chipsCores(){
+  const sel=refEdit.cores,lista=[...new Set([...catalogo('cores'),...sel])];
+  if(!lista.length)return'<div class="empty" style="padding:10px">Nenhuma cor cadastrada — inclua abaixo ou em Cadastros do Produto.</div>';
+  return lista.map(c=>`<span class="chip ${sel.includes(c)?'on':''}" data-action="ref-cor" data-v="${esc(c)}">${esc(c)}</span>`).join('');
+}
+function chipsTamanhos(){
+  const sel=refEdit.tamanhos,lista=catalogo('tamanhos');
+  if(!lista.length)return'<div class="empty" style="padding:10px">Nenhum tamanho cadastrado — veja Cadastros do Produto.</div>';
+  return lista.map(t=>`<span class="chip ${sel.includes(t)?'on':''}" data-action="ref-tam" data-v="${esc(t)}">${esc(t)}</span>`).join('');
+}
+function htmlFoto(){
+  if(refEdit.foto)return`<img src="${refEdit.foto}" alt="foto da peça">
+    <div class="foto-acts w"><button class="btn btn-g btn-sm" data-action="ref-foto-pick">trocar</button>
+    <button class="btn btn-g btn-sm" data-action="ref-foto-del">remover</button></div>`;
+  return`<div class="foto-vazia w" data-action="ref-foto-pick">
+    <div style="font-size:24px;line-height:1">⬚</div>
+    <div>clique para escolher uma foto</div>
+    <div style="font-size:10.5px;color:var(--muted)">a imagem é reduzida automaticamente para não pesar no armazenamento</div></div>`;
+}
+/* A foto vive no localStorage junto com o resto: guardar o arquivo original
+   estouraria o limite em poucas peças. Reduzimos para ~320px antes de gravar. */
+function fotoReduzida(file,maxPx,q){
+  return new Promise((ok,erro)=>{
+    if(!file||!/^image\//.test(file.type))return erro(new Error('Escolha um arquivo de imagem.'));
+    const fr=new FileReader();
+    fr.onerror=()=>erro(new Error('Não consegui ler o arquivo.'));
+    fr.onload=()=>{
+      const img=new Image();
+      img.onerror=()=>erro(new Error('Arquivo de imagem inválido.'));
+      img.onload=()=>{
+        const esc_=Math.min(1,maxPx/Math.max(img.width,img.height));
+        const w=Math.max(1,Math.round(img.width*esc_)),h=Math.max(1,Math.round(img.height*esc_));
+        const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+        const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(img,0,0,w,h);
+        ok(cv.toDataURL('image/jpeg',q));
+      };
+      img.src=fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
 }
 let cellEdit=null; // estado transitório do modal de eventos da célula
 function mCell(refId,phaseId){
@@ -2225,10 +2452,27 @@ function mKpi(){
      <button class="btn btn-p" data-action="kpi-save">Salvar</button>
    </div>`);
 }
+// O navegador guarda uns 5 MB por site. Com fotos das peças isso passa a importar,
+// então o uso fica visível antes de virar erro de "armazenamento cheio".
+function usoArmazenamento(){
+  const bytes=JSON.stringify(db).length;
+  const fotos=(db.references||[]).filter(r=>r.foto).length;
+  const bytesFotos=(db.references||[]).reduce((t,r)=>t+(r.foto?r.foto.length:0),0);
+  const limite=5*1024*1024;
+  return{mb:(bytes/1048576).toFixed(1),pct:Math.min(100,Math.round(bytes/limite*100)),
+    fotos,mbFotos:(bytesFotos/1048576).toFixed(1)};
+}
 function mDados(){
+  const u=usoArmazenamento();
+  const cls=u.pct>=85?'s-late':u.pct>=60?'s-warn':'s-ok';
   openModal(`
    <h3>Dados & backup</h3>
    <div class="sub">Os dados vivem neste navegador. A máquina da Joice é a fonte da verdade — exporte backup toda sexta e guarde no Drive.</div>
+   <div class="kpi ${cls}" style="margin-bottom:10px">
+     <div class="t">Espaço usado neste navegador</div>
+     <div class="v">${u.mb} MB <small>de ~5 MB</small></div>
+     <div class="m">${u.fotos} foto(s) de peça ocupando ${u.mbFotos} MB${u.pct>=85?' · perto do limite: exporte um backup e considere remover fotos antigas':''}</div>
+   </div>
    <div class="frm" style="gap:9px">
      <button class="btn btn-o" data-action="export-json">⬇ Exportar backup (JSON)</button>
      <button class="btn btn-o" data-action="export-xlsx">⬇ Exportar planilha (Excel)</button>
@@ -2325,8 +2569,31 @@ const ACTIONS={
   'proc-sim':d=>{const n=Math.max(0,Number($('#m-sim').value||0));
     $('#m-sim-res').innerHTML=htmlSimulacao(Number(d.seq),n,hojeStr())},
   /* coleção */
+  'cat-add':d=>{const inp=document.querySelector(`[data-cat-input="${d.k}"]`);if(!inp)return;
+    const v=inp.value.trim();
+    if(!v){toast('Digite o nome antes de adicionar.');return}
+    if(!catalogoAdd(d.k,v)){toast('"'+v+'" já está na lista.');return}
+    inp.value='';render();toast('"'+v+'" adicionado.')},
+  'cat-del':d=>{const uso=catalogoEmUso(d.k,d.nome);
+    if(uso&&!confirm(`"${d.nome}" está em uso em ${uso} referência(s). Remover da lista não apaga o que já foi cadastrado nelas — só deixa de aparecer como opção. Remover?`))return;
+    commit(x=>{x.catalogos[d.k]=(x.catalogos[d.k]||[]).filter(n=>n!==d.nome)});
+    toast('"'+d.nome+'" removido da lista.')},
   'ref-nova':()=>mRef(null),
   'ref-edit':d=>mRef(d.id),
+  'ref-cor':d=>{const i=refEdit.cores.indexOf(d.v);
+    if(i<0)refEdit.cores.push(d.v);else refEdit.cores.splice(i,1);
+    $('#m-rf-cores').innerHTML=chipsCores()},
+  'ref-tam':d=>{const i=refEdit.tamanhos.indexOf(d.v);
+    if(i<0)refEdit.tamanhos.push(d.v);else refEdit.tamanhos.splice(i,1);
+    $('#m-rf-tams').innerHTML=chipsTamanhos()},
+  'ref-cor-add':()=>{const inp=$('#m-rf-cor-nova'),v=(inp.value||'').trim();
+    if(!v){toast('Digite a cor.');return}
+    if(refEdit.cores.some(c=>c.toLowerCase()===v.toLowerCase())){toast('Essa cor já está selecionada.');return}
+    catalogoAdd('cores',v);            // entra no catálogo para as próximas peças
+    refEdit.cores.push(v);inp.value='';
+    $('#m-rf-cores').innerHTML=chipsCores()},
+  'ref-foto-pick':()=>$('#m-rf-file')?.click(),
+  'ref-foto-del':()=>{refEdit.foto=null;$('#m-rf-foto').innerHTML=htmlFoto()},
   'ref-save':d=>{
     const code=$('#m-rf-code').value.trim();
     if(!code){toast('Informe o código da referência.');return}
@@ -2337,6 +2604,9 @@ const ACTIONS={
       family:($('#m-rf-familia').value||'').trim().toUpperCase(),
       stylist:$('#m-rf-estilista').value||'',
       flow_type:$('#m-rf-fluxo').value,
+      tipo_produto:$('#m-rf-tipo').value||null,
+      tecido_principal:$('#m-rf-tecido').value||null,
+      cores:[...refEdit.cores],tamanhos:[...refEdit.tamanhos],foto:refEdit.foto||null,
       collection_name:($('#m-rf-rotulo').value||'').trim()||null,
       notes:($('#m-rf-obs').value||'').trim()||null};
     const eu=currentUser();
@@ -2448,9 +2718,11 @@ function baixar(blob,nome){const a=document.createElement('a');a.href=URL.create
 /* ---------------------------- export Excel (SheetJS lazy + fallback CSV) ---------------------------- */
 function gridLinhas(){
   const hoje=hojeStr();
-  const head=['#','COLEÇÃO','LINHA','FAMÍLIA','ESTILISTA','REFERÊNCIA','FLUXO','SITUAÇÃO',...db.phases.map(p=>p.name)];
+  const head=['#','COLEÇÃO','LINHA','FAMÍLIA','ESTILISTA','REFERÊNCIA','TIPO DE PRODUTO','TECIDO PRINCIPAL','CORES','TAMANHOS','FLUXO','SITUAÇÃO',...db.phases.map(p=>p.name)];
   const rows=refsCol().map((r,i)=>{const cancelada=r.status==='cancelada';
-    return [i+1,r.collection_name,r.line,r.family,r.stylist,r.code,r.flow_type,cancelada?'CANCELADA':'Ativa',
+    return [i+1,r.collection_name,r.line,r.family,r.stylist,r.code,
+    r.tipo_produto||'',r.tecido_principal||'',(r.cores||[]).join(', '),(r.tamanhos||[]).join(', '),
+    r.flow_type,cancelada?'CANCELADA':'Ativa',
     ...db.phases.map(ph=>{if(cancelada)return'';const s=statusCelula(r,ph,hoje);
       return s.k==='na'?'N/A':(s.k==='done'||s.k==='donelate')?s.date+(s.n>1?` (${s.n}x)`:''):s.k==='late'?s.days+' dias em atraso':''})]});
   return[head,...rows];
@@ -2589,6 +2861,10 @@ document.addEventListener('change',e=>{
   if(f){ST.colecao[f]=e.target.value;render()}
   if(cf){ST.cronograma[cf]=e.target.value;render()}
   if(e.target.dataset.colsel){setColecaoAtiva(e.target.value);render()}
+  if(e.target.dataset.fotoinput){const f=e.target.files&&e.target.files[0];if(!f)return;
+    fotoReduzida(f,320,.72).then(d=>{refEdit.foto=d;$('#m-rf-foto').innerHTML=htmlFoto()})
+      .catch(err=>toast(err.message||'Não consegui usar essa imagem.'));
+    e.target.value='';}
   if(tf){ST.tarefas[tf]=e.target.type==='checkbox'?e.target.checked:e.target.value;render()}
 });
 document.addEventListener('input',e=>{

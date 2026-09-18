@@ -18,7 +18,8 @@ Sistema online de gestão do cronograma de coleção do setor de **Estilo & Prod
 ## Módulos
 
 1. **Painel de Indicadores** — KPIs com meta, gatilho de alerta e responsável. Automáticos: % cumprimento do cronograma, % peças no prazo, Tempo de Piloto, Atas em 24h. Manuais (lançamento mensal): RNCs (nº absoluto) e Atraso de MP. Nomenclatura do chão de fábrica (decisão do Cairo, 12/05/2026).
-2. **Cronograma Macro** — um cronograma independente por coleção (seletor no topo), com os processos e status derivado ("Em dia" / "vence em X dias" / "X dias em atraso" / "Concluído"), **prazo congelado x realizado/previsto**, margem de manobra e cadeia de impacto (o que cada atraso empurra) + linha do tempo com zoom **mês/semana/dia**, marcos e a linha "hoje". Governança embutida: dono por pessoa, data prometida de recuperação, motivo do atraso e pauta de reunião gerada do cronograma.
+2. **Cadastros do Produto** — tipos, cores, tamanhos e tecidos que alimentam o cadastro de referências.
+3. **Cronograma Macro** — um cronograma independente por coleção (seletor no topo), com os processos e status derivado ("Em dia" / "vence em X dias" / "X dias em atraso" / "Concluído"), **prazo congelado x realizado/previsto**, margem de manobra e cadeia de impacto (o que cada atraso empurra) + linha do tempo com zoom **mês/semana/dia**, marcos e a linha "hoje". Governança embutida: dono por pessoa, data prometida de recuperação, motivo do atraso e pauta de reunião gerada do cronograma.
 3. **Gestão da Coleção** — grid 112 referências × 19 fases com data-limite por fase, contadores no prazo/atraso/pendente, filtros e registro de conclusão com autoria.
 4. **Quadro de Tarefas** — kanban por pessoa (substitui o caderno).
 5. **Rituais & Atas** — os 4 rituais oficiais, **pauta gerada automaticamente dos dados**, cronômetro de ata em 24h, presença e **cobranças documentadas** com evidência e escalonamento.

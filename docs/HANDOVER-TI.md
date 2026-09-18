@@ -83,6 +83,7 @@ Cada coleção do `LIEBE_SEED` vira uma tabela 1:1 (snake_case, UUIDs, FKs, data
 | `users` | `users` | trocar `pin` por Supabase Auth (Google domínio `@liebe...`) |
 | `collections` | `collections` | |
 | `collections` | `collections` | uma linha por coleção; `marcos {entrega_mostruario, liberacao_pcp_seq}` define o alvo do caminho crítico daquela coleção. Todo o cronograma é filtrado por `collection_id` |
+| `catalogos` | `product_types` / `colors` / `sizes` / `fabrics` | listas de nomes (tipos, cores, tamanhos, tecidos) editadas em `#/cadastros`; a referência guarda o nome, não o id |
 | `phases` | `phases` | catálogo das 19 fases |
 | `phase_deadlines` | `phase_deadlines` | data-limite por fase × coleção |
 | `macro_processes` | `macro_processes` | 40 processos; `start_date`/`end_date` = linha de base congelada · `inicio_real`/`fim_real` = realizado (digitado na plataforma) · `predecessores` (array de `seq`) · `macro_tema` · `responsavel_user_id` (dono, FK users) · `motivo_atraso` (enum `MOTIVOS_ATRASO`) · `promessas[]` (append-only: `{data, feita_em, feita_por}` → vira tabela própria no Postgres). Status, projeção, margem, caminho crítico e desfecho das promessas são **derivados**, nunca persistidos |
