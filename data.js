@@ -1,7 +1,7 @@
 // Gerado por scripts/gerar_seed.py em 2026-06-10 — NÃO editar à mão; re-rode o script.
 window.LIEBE_SEED = {
  "schema_version": 1,
- "seed_version": 1789760919,
+ "seed_version": 1789670260,
  "generated_at": "2026-06-10",
  "marcos": {
   "fim_colecao_anterior": "2026-05-05",
