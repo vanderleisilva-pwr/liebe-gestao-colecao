@@ -19,3 +19,6 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+
+# saída de scripts/extrai_script.py (checagem de sintaxe e suíte do motor)
+.tmp/
