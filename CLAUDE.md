@@ -24,6 +24,7 @@ Sem Node, sem npm, **sem etapa de build**. Deploy: `git push` na branch `main` �
 - **Rotas** (hash router, objeto `ROUTES`): `#/colecoes` (porta de entrada), `#/dashboard`, `#/cronograma`, `#/colecao`, `#/tarefas`, `#/rituais`, `#/cadastros`, `#/manual`. O seletor de coleção aparece em todas as telas escopadas — sem ele o time não sabe em qual coleção está nem consegue trocar.
 - **Motor do cronograma** (bloco em SELECTORS, antes de `statusProcesso`): `projetarCronograma` · `margemCronograma` · `simularAtraso` · `panoramaCronograma` · `situacaoProc`. Tudo derivado a cada render.
 - **Zoom da linha do tempo**: `NIVEIS` = mes|semana|dia, com `janelaGantt()` (janela de datas) + `reguaGantt()` (marcas). Estado em `ST.cronograma.{zoom,foco}`; ações `cr-zoom`, `cr-drill` (aproximar/afastar), `cr-nav`, `cr-hoje`. Fora da janela, a barra vira seta `‹`/`›` — nunca um sliver colado na borda.
+- **Cabeçalho congelado do Cronograma**: filtros, contadores e barra de zoom vivem num `<div class="cr-head">` `sticky`; a régua de meses (`.g-regua`) e o cabeçalho da tabela da Lista grudam logo abaixo. Os deslocamentos (`--topbar-h`, `--cr-stick`) são **medidos** por `medirTravas()` a cada render e no resize — a barra de cima quebra de linha em tela estreita e valor fixo deixaria a régua escondida. Por isso `.gantt` usa `overflow-x:clip` (e não `auto`): caixa de rolagem própria faria o `sticky` se resolver dentro do cartão, que não rola. Quando o bloco passaria de 38% da altura da tela (celular), `medirTravas` liga `body.sem-trava` e tudo volta a rolar junto. Os rótulos `hoje` / `PCP` / `mostruário` moram na régua, não nas linhas verticais, para continuarem visíveis com a lista rolando.
 - **Governança** (bloco antes de `situacaoProc`): `situacaoPromessa` · `placarPromessas` · `motivosAgregados` · `atencaoProc` (fila da reunião) · `pautaDoCronograma` (alimenta `agenda_text` do ritual via ação `rit-pauta`).
 
 ## Convenções que NÃO podem ser quebradas
@@ -93,4 +94,4 @@ Apenas Google Fonts (Montserrat) e SheetJS (xlsx, carregado sob demanda no momen
 1. Editar `index.html` (ou `scripts/gerar_seed.py` + regenerar `data.js`).
 2. Validar rodando local (`python -m http.server 4173`) e conferir no navegador.
 3. Commit descritivo em pt-BR. Push na `main` publica na Vercel automaticamente.
-4. Só fazer commit/push quando o Vanderlei aprovar.
+4. **Commitar e dar push ao fim de todo ajuste**, sem precisar perguntar — autorização permanente do Vanderlei (19/09/2026). Ele valida direto na Vercel, então trabalho parado no local não serve para nada. Validar antes de subir continua valendo: o passo 2 não é opcional.

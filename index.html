@@ -153,7 +153,7 @@ tr:hover td{background:#fdfcf9}
 .seg{display:inline-flex;border:1.5px solid var(--rose);border-radius:10px;overflow:hidden}
 .seg button{padding:7px 16px;font-weight:600;color:var(--rose-dark);font-size:12px}
 .seg button.on{background:var(--rose);color:#fff}
-.gantt{position:relative;overflow-x:auto;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:14px 0}
+.gantt{position:relative;overflow-x:clip;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:14px 0}
 .g-row{display:flex;align-items:center;height:30px;position:relative}
 .g-label{width:290px;min-width:290px;font-size:11.5px;padding:0 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--white);z-index:2}
 .g-track{position:relative;flex:1;height:100%;border-left:1px solid var(--line)}
@@ -163,7 +163,12 @@ tr:hover td{background:#fdfcf9}
 .g-bar.done{background:var(--ok-bg)}.g-bar.done .fill{background:var(--ok)}
 .g-marcos{position:absolute;left:320px;right:0;top:40px;bottom:14px;pointer-events:none;z-index:4}
 .g-today{position:absolute;top:0;bottom:0;width:2px;background:var(--rose-dark);z-index:1}
-.g-today::after{content:'hoje';position:absolute;top:-13px;left:4px;font-size:9px;color:var(--rose-dark);font-weight:700;background:var(--white);padding:0 3px}
+/* O rótulo do marco mora na régua, não na linha vertical: a linha rola com
+   as etapas e o rótulo precisa continuar visível com o cabeçalho congelado. */
+.g-rot{position:absolute;bottom:2px;margin-left:4px;font-size:9px;font-weight:700;white-space:nowrap;background:var(--white);padding:0 3px;z-index:2}
+.g-rot.hoje{color:var(--rose-dark)}
+.g-rot.marco{color:var(--late)}
+.g-rot.fim{margin-left:0;transform:translateX(calc(-100% - 4px))}
 @media(max-width:820px){.g-marcos{left:170px}}
 /* --- linha de base congelada x realizado/projetado --- */
 .g-row{height:38px}
@@ -183,6 +188,22 @@ tr:hover td{background:#fdfcf9}
 .g-bar.semdata{background:transparent;outline:1.5px dashed var(--na);min-width:40px}
 .g-bar.critica{box-shadow:0 0 0 2px var(--late)}
 .g-desvio{position:absolute;top:18px;font-size:9.5px;font-weight:700;color:var(--late);white-space:nowrap;padding-left:5px}
+/* Cabeçalho da seção congelado: com 40 etapas na tela, quem rola perde de
+   vista o filtro que aplicou e o mês em que está olhando. --topbar-h e
+   --cr-stick são medidos em tempo de execução (medirTravas) porque a barra
+   de cima quebra em duas linhas no celular. */
+.cr-head{position:sticky;top:var(--topbar-h,68px);z-index:22;background:var(--cream);padding:10px 0 8px;margin-top:-10px}
+.cr-head .toolbar{margin-bottom:0}
+.cr-head .g-zoom{margin-bottom:0;margin-top:10px}
+/* Em tela estreita o cabeçalho quebra em várias linhas e congelá-lo comeria
+   metade do que se quer ler: medirTravas() desliga a trava nesse caso. */
+body.sem-trava .cr-head,body.sem-trava .g-regua{position:static}
+/* a tabela da Lista só congela o cabeçalho onde ela cabe sem rolagem lateral:
+   abaixo disso o cartão precisa rolar na horizontal e o sticky não funciona. */
+#cr-tabela{overflow:auto}
+@media(min-width:1024px){#cr-tabela{overflow-x:clip;overflow-y:visible}
+  #cr-tabela thead th{position:sticky;top:var(--cr-stick,150px);z-index:5}}
+body.sem-trava #cr-tabela thead th{position:static}
 .g-zoom{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px}
 .g-zoom .seg button{padding:5px 12px;font-size:11.5px}
 .g-zoom .btn[disabled]{opacity:.4;cursor:default}
@@ -190,13 +211,12 @@ tr:hover td{background:#fdfcf9}
 .g-mes.forte{border-left-color:var(--rose-pale);color:var(--rose-dark);font-weight:600}
 .g-fora{position:absolute;top:16px;font-size:13px;color:var(--na);font-weight:700;line-height:15px}
 .g-fora.esq{left:2px}.g-fora.dir{right:2px}
-.g-regua{display:flex;position:sticky;top:0;z-index:3;background:var(--white);border-bottom:1px solid var(--line);height:26px}
+.g-regua{display:flex;position:sticky;top:var(--cr-stick,150px);z-index:6;background:var(--white);border-bottom:1px solid var(--line);height:26px}
+.g-regua .g-track{background:var(--white)}
 .g-regua .g-label{background:var(--white);font-weight:700;color:var(--muted);font-size:10px;text-transform:uppercase}
 .g-regua .g-track{border-left:1px solid var(--line)}
 .g-mes{position:absolute;top:0;bottom:0;border-left:1px solid var(--line);font-size:9.5px;color:var(--muted);padding-left:3px;white-space:nowrap}
 .g-marco{position:absolute;top:0;bottom:0;width:2px;background:var(--late);z-index:1;opacity:.65}
-.g-marco::after{content:attr(data-rot);position:absolute;top:-13px;left:4px;font-size:9px;color:var(--late);font-weight:700;white-space:nowrap;background:var(--white);padding:0 3px}
-.g-marco.fim::after{left:auto;right:4px}
 .g-grade{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.6}
 /* --- faixa "o que impacta o mostruário" --- */
 .impacto{display:flex;flex-wrap:wrap;gap:12px;background:var(--white);border:1px solid var(--line);
@@ -1115,6 +1135,7 @@ function render(){
     </div>
   </div>`;
   applyNav();
+  medirTravas();
   autoTour(h);
 }
 /* Cada coleção é um cronograma separado. Trocar aqui troca Painel e Cronograma. */
@@ -1382,7 +1403,7 @@ function vCronograma(){
     return a&&a.k===f.sit;
   });
   const temas=[...new Set(procsOrdenados().map(p=>p.macro_tema||'—'))].sort((a,b)=>ordemTema(a)-ordemTema(b));
-  const head=faixaImpacto(pan,hoje)+`<div class="toolbar">
+  const barraFiltros=`<div class="toolbar">
     <div class="seg" id="cr-toggle"><button class="${v==='lista'?'on':''}" data-action="cr-view" data-v="lista">Lista</button><button class="${v==='gantt'?'on':''}" data-action="cr-view" data-v="gantt">Linha do tempo</button></div>
     <div class="f"><label>Macro tema</label><select data-cfilter="tema"><option value="">Todos</option>${temas.map(t=>`<option ${f.tema===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
     <div class="f"><label>Situação</label><select data-cfilter="sit">
@@ -1399,8 +1420,9 @@ function vCronograma(){
     <span class="badge b-late">Em atraso: ${ps.filter(p=>statusProcesso(p,hoje).k==='late').length}</span>
     <span class="badge b-rose">Concluídos: ${ps.filter(p=>statusProcesso(p,hoje).k==='done').length}</span>
   </div>`;
-  if(v==='gantt')return head+vGantt(ps,hoje,pan);
-  return head+`<div class="card" style="padding:0;overflow:auto" id="cr-tabela"><table>
+  const head=faixaImpacto(pan,hoje);
+  if(v==='gantt')return head+vGantt(ps,hoje,pan,barraFiltros);
+  return head+`<div class="cr-head">${barraFiltros}</div><div class="card" style="padding:0" id="cr-tabela"><table>
     <thead><tr><th>#</th><th>Processo</th><th>Dono</th><th>Macro tema</th><th>Prazo congelado</th><th>Real / previsto</th><th>Desvio</th><th>Margem até o PCP</th><th>Situação</th><th class="w"></th></tr></thead>
     <tbody>${ps.map(p=>{const st=situacaoProc(p,pan.proj,pan.mg);
       return `<tr>
@@ -1493,7 +1515,7 @@ function reguaGantt(nivel,ini,fim,pos){
   }
   return out;
 }
-function vGantt(ps,hoje,pan){
+function vGantt(ps,hoje,pan,barraFiltros){
   const proj=pan.proj,mg=pan.mg,f=ST.cronograma;
   const datas=[];
   ps.forEach(p=>{[p.start_date,p.end_date,proj[p.seq].ini,proj[p.seq].fim].forEach(d=>{if(d)datas.push(d)})});
@@ -1514,6 +1536,8 @@ function vGantt(ps,hoje,pan){
   const marcos=(dentro(hoje)?`<div class="g-today" style="left:${pos(hoje)}%"></div>`:'')+
     (pan.pcp&&dentro(pan.pcp.congelado)?`<div class="g-marco ${pos(pan.pcp.congelado)>85?'fim':''}" data-rot="PCP" style="left:${pos(pan.pcp.congelado)}%"></div>`:'')+
     (dentro(pan.entrega)?`<div class="g-marco ${pos(pan.entrega)>85?'fim':''}" data-rot="mostruário" style="left:${pos(pan.entrega)}%"></div>`:'');
+  const rot=(d,cls,txt)=>dentro(d)?`<span class="g-rot ${cls} ${pos(d)>85?'fim':''}" style="left:${pos(d)}%">${txt}</span>`:'';
+  const rotulos=rot(hoje,'hoje','hoje')+(pan.pcp?rot(pan.pcp.congelado,'marco','PCP'):'')+rot(pan.entrega,'marco','mostruário');
   const idxNivel=NIVEIS.indexOf(nivel);
   const barraZoom=`<div class="g-zoom">
     <div class="seg">${NIVEIS.map(z=>`<button class="${z===nivel?'on':''}" data-action="cr-zoom" data-z="${z}">${NIVEL_ROT[z]}</button>`).join('')}</div>
@@ -1559,7 +1583,7 @@ function vGantt(ps,hoje,pan){
   });
   const selP=sel?ps.find(x=>x.seq===sel):null;
   const aviso=selP?`<div style="font-size:11.5px;color:var(--rose-dark);margin:8px 2px">Destacando o que <b>${esc(selP.name)}</b> empurra: ${Object.keys(naCadeiaSel).length} etapa(s) à frente. <button class="btn btn-g btn-sm" data-action="cr-sel" data-seq="">limpar</button></div>`:'';
-  return barraZoom+`<div class="gantt" id="cr-gantt"><div class="g-regua"><div class="g-label">${NIVEL_ROT[nivel].toUpperCase()}</div><div class="g-track">${regua}</div></div><div class="g-marcos">${marcos}</div>${html}</div>${aviso}
+  return `<div class="cr-head">${barraFiltros}${barraZoom}</div><div class="gantt" id="cr-gantt"><div class="g-regua"><div class="g-label">${NIVEL_ROT[nivel].toUpperCase()}</div><div class="g-track">${regua}${rotulos}</div></div><div class="g-marcos">${marcos}</div>${html}</div>${aviso}
   <div class="legend">
     <span><span class="sw" style="background:var(--rose-pale);height:7px;border-radius:4px"></span>prazo congelado</span>
     <span><span class="sw" style="background:var(--ok-bg)"></span>realizado no prazo</span>
@@ -3005,7 +3029,20 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&$('#pin')&&document.activeElement===$('#pin'))ACTIONS['do-login']();
 });
 window.addEventListener('hashchange',()=>{if(isMobile())setNav(true);render()});
-window.addEventListener('resize',()=>{if(tourState)tourStep(tourState.i)});
+/* Quanto o conteúdo precisa descer para não sumir atrás do que está congelado.
+   Medido, não chutado: a barra de cima quebra de linha em tela estreita e um
+   valor fixo deixaria a régua escondida ou flutuando longe do cabeçalho. */
+function medirTravas(){
+  const raiz=document.documentElement.style;
+  const alt=sel=>{const el=document.querySelector(sel);return el?Math.round(el.getBoundingClientRect().height):0};
+  const topo=alt('.topbar')||68;
+  raiz.setProperty('--topbar-h',topo+'px');
+  const cabecalho=topo+alt('.cr-head');
+  raiz.setProperty('--cr-stick',cabecalho+'px');
+  // Só vale congelar enquanto sobra tela para a lista embaixo.
+  document.body.classList.toggle('sem-trava',cabecalho>window.innerHeight*0.38);
+}
+window.addEventListener('resize',()=>{medirTravas();if(tourState)tourStep(tourState.i)});
 
 /* ---------------------------- init ---------------------------- */
 loadDb();
