@@ -227,6 +227,25 @@ body.sem-trava #cr-tabela thead th{position:static}
 .impacto .it .v{font-size:19px;font-weight:700;color:var(--ink);line-height:1.25}
 .impacto .it .v.mal{color:var(--late)}.impacto .it .v.bem{color:var(--ok)}
 .impacto .it .m{font-size:10.5px;color:var(--muted)}
+/* --- "por que o marco atrasou": a fila que leva até a liberação --- */
+/* a cascata precisa de trilho: em 560px a barra fica curta demais para ler */
+.modal-card:has(.fila){max-width:760px}
+.fila{margin:12px 0 6px}
+.fila-l{display:flex;align-items:center;gap:10px;padding:8px 6px;border-top:1px solid var(--line)}
+.fila-l:first-child{border-top:0}
+.fila-l.origem{background:var(--late-bg);border-radius:9px;border-top-color:transparent}
+.fila-n{width:210px;min-width:210px;font-size:12px;line-height:1.35}
+.fila-n b{display:block;font-weight:600}
+.fila-n span{color:var(--muted);font-size:10.5px}
+.fila-b{flex:1;min-width:70px;height:16px;background:var(--cream);border-radius:8px;position:relative;overflow:hidden}
+.fila-b .ac{position:absolute;left:0;top:0;bottom:0;background:var(--rose-pale);border-radius:8px}
+.fila-b .ad{position:absolute;top:0;bottom:0;background:var(--late);opacity:.8}
+.fila-d{width:120px;min-width:120px;text-align:right;font-size:11.5px;line-height:1.35;color:var(--muted)}
+.fila-d b{color:var(--late);font-size:12.5px}
+.fila-tag{display:inline-block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--late)}
+.porque{background:none;padding:0;margin-top:5px;font-size:10.5px;color:var(--rose-dark);text-align:left;line-height:1.4;text-decoration:underline;text-underline-offset:2px}
+.porque:hover{color:var(--late)}
+@media(max-width:820px){.fila-n{width:130px;min-width:130px}.fila-d{width:92px;min-width:92px}}
 /* --- simulação no modal --- */
 .passos{background:var(--cream);border-radius:10px;padding:10px 12px;margin:8px 0}
 .passo{font-size:12px;line-height:1.55;padding:3px 0;color:var(--ink)}
@@ -877,6 +896,52 @@ function panoramaCronograma(hoje){
             desvio:(pp.end_date&&proj[sp].fim)?diffDias(pp.end_date,proj[sp].fim):null}:null};
 }
 
+/* -------- de onde vem o atraso do marco --------
+   A pergunta do dono da empresa é "por que 86 dias?". A resposta honesta é a
+   fila: a liberação é a última de uma sequência em que cada etapa espera a
+   anterior, então o atraso não nasce inteiro num lugar — vai sendo somado.
+   Andamos para trás pelo predecessor que MANDA hoje (o que termina por último,
+   que é o que a projeção usa) e mostramos onde o número deu salto.
+   Devolve a fila em ordem cronológica, com o quanto cada etapa somou. */
+function origemAtraso(hoje,proj){
+  const sp=seqPcp();if(!sp)return null;
+  proj=proj||projetarCronograma(hoje);
+  const bySeq=procPorSeq(),marco=bySeq[sp];
+  if(!marco||!marco.end_date||!proj[sp]||!proj[sp].fim)return null;
+  const total=diffDias(marco.end_date,proj[sp].fim);
+  const fila=[],semData=[];let cur=sp,guarda=0;
+  while(cur&&guarda++<200){
+    const p=bySeq[cur];if(!p)break;
+    fila.unshift(p);
+    const preds=predsDe(p);
+    preds.forEach(sq=>{if(bySeq[sq]&&(!proj[sq]||!proj[sq].fim))semData.push(bySeq[sq])});
+    const datados=preds.filter(sq=>proj[sq]&&proj[sq].fim).sort((a,b)=>proj[a].fim<proj[b].fim?1:-1);
+    if(!datados.length)break;
+    cur=datados[0];
+  }
+  let acum=0;const foraDeOrdem=[];
+  const etapas=fila.map(p=>{
+    const pr=proj[p.seq];
+    const dv=(p.end_date&&pr&&pr.fim)?diffDias(p.end_date,pr.fim):null;
+    const somou=dv==null?null:Math.max(dv-acum,0);
+    // Acumulado que CAI quer dizer que esta etapa terminou sem esperar a
+    // anterior — acontece no realizado e quebra a leitura de "fila". Uma
+    // semana é a folga que separa isso de diferença de calendário.
+    if(dv!=null&&dv<acum-7)foraDeOrdem.push(p);
+    if(dv!=null)acum=dv;
+    return{p,dv,somou,acumulado:acum,aberta:!(p.fim_real||p.completed_at),fim:pr?pr.fim:null};
+  });
+  let pior=null;etapas.forEach(e=>{if(e.somou>0&&(!pior||e.somou>pior.somou))pior=e});
+  // Onde ainda dá para recuperar dia: as etapas em aberto que estão somando
+  // atraso. Listar toda a fila em aberto dilui — o time atrás de seis etapas
+  // não sabe por onde começar. Se nenhuma soma, aí sim vale a fila inteira.
+  const emAberto=etapas.filter(e=>e.aberta&&e.p.seq!==sp);
+  const somando=emAberto.filter(e=>e.somou>0);
+  const abertas=somando.length?somando:emAberto;
+  return{total,etapas,pior,abertas,marco,foraDeOrdem,fecha:!foraDeOrdem.length,
+         semData:semData.filter((x,i,a)=>a.indexOf(x)===i)};
+}
+
 /* -------- governança do cronograma: dono, promessa de recuperação e motivo --------
    Tudo aqui nasceu da reunião de 02/09: atraso descoberto tarde, sem dono e sem
    data nova combinada. "Vamos correr" não é plano; "a Fulana entrega quinta" é. */
@@ -1199,7 +1264,8 @@ function vDashboard(){
   </div>
   <div class="kpi-grid" id="kpi-grid">
     ${card('kpi-macro','Cumprimento do Cronograma',k.macro?k.macro.v+'<small>%</small>':'<small>sem baseline</small>','Realizado vs Previsto · Meta ≥ 95% · alerta &lt; 90%'+(k.macro?` · Realizado ${k.macro.realizado}% vs Previsto ${k.macro.previsto}%`:' · começa a medir nesta coleção'),'Joice',k.macro?kpiClass(k.macro.v,95,90):'')}
-    ${card('kpi-pcp','Liberação para o PCP',k.pcp?(k.pcp.v>0?k.pcp.v+'<small> dias de atraso</small>':'<small>no prazo</small>'):'<small>sem data</small>','A data que não pode furar (lead time de compra)'+(k.pcp?` · congelado ${fmtBR(k.pcp.congelado)} · previsto ${fmtBR(k.pcp.previsto)}`:''),'Joice',k.pcp?(k.pcp.v>0?'s-late':'s-ok'):'')}
+    ${card('kpi-pcp','Liberação para o PCP',k.pcp?(k.pcp.v>0?k.pcp.v+'<small> dias de atraso</small>':'<small>no prazo</small>'):'<small>sem data</small>','A data que não pode furar (lead time de compra)'+(k.pcp?` · congelado ${fmtBR(k.pcp.congelado)} · previsto ${fmtBR(k.pcp.previsto)}`:''),'Joice',k.pcp?(k.pcp.v>0?'s-late':'s-ok'):'',
+      k.pcp&&k.pcp.v>0?`<button class="btn btn-g btn-sm" data-action="pcp-porque" style="margin-top:4px">por que ${k.pcp.v} dias? →</button>`:'')}
     ${card('kpi-entrega','Previsão da Entrega do Mostruário',
       k.entrega?(k.entrega.incompleta?'<small>não dá para prever</small>':(k.entrega.previsto?fmtBR(k.entrega.previsto):'<small>sem previsão</small>')):'<small>sem previsão</small>',
       'Alvo '+(k.entrega?fmtBRfull(k.entrega.alvo):'—')+(
@@ -1462,16 +1528,26 @@ function textoMargem(st){
   return`<span style="color:var(--ok)">${st.margem} d</span>`;
 }
 /* Faixa de topo: "tem alguma coisa que impacta o mostruário?" — a pergunta do Cairo. */
+/* O cartão do PCP já responde "por quê" numa linha: onde o atraso nasceu.
+   A fila inteira fica a um clique, para não poluir a faixa de indicadores. */
+function linkPorque(hoje,proj){
+  const oa=origemAtraso(hoje,proj);
+  if(!oa)return'';
+  const onde=oa.pior?`nasce em <b>${oa.pior.p.seq}. ${esc(oa.pior.p.name)}</b> (+${oa.pior.somou} d)`
+                    :'veja a fila que leva até ela';
+  return `<button class="porque" data-action="pcp-porque">↳ ${onde} — por que ${oa.total} dias?</button>`;
+}
 function faixaImpacto(pan,hoje){
   const p=pan.pcp,alerta=(p&&p.desvio>0)||pan.semMargem>0;
-  const item=(t,v,cls,m)=>`<div class="it"><div class="t">${t}</div><div class="v ${cls||''}">${v}</div><div class="m">${m||''}</div></div>`;
+  const item=(t,v,cls,m,pq)=>`<div class="it"><div class="t">${t}</div><div class="v ${cls||''}">${v}</div><div class="m">${m||''}</div>${pq||''}</div>`;
   return `<div class="impacto ${alerta?'alerta':''}">
     ${item('Etapas fora do prazo congelado',pan.atrasadas,pan.atrasadas?'mal':'bem',
        pan.empurram?`${pan.empurram} ainda em aberto empurram a cadeia`:'nenhuma em aberto empurra a cadeia')}
     ${p?item('Liberação para o PCP',
        p.desvio==null?'—':(p.desvio>0?`${p.desvio} dias de atraso`:'no prazo'),
        p.desvio>0?'mal':'bem',
-       `congelado ${fmtBR(p.congelado)} · previsto ${fmtBR(p.previsto)}`):''}
+       `congelado ${fmtBR(p.congelado)} · previsto ${fmtBR(p.previsto)}`,
+       p.desvio>0?linkPorque(hoje,pan.proj):''):''}
     ${item('Entrega do mostruário',fmtBR(pan.entrega),'',
        pan.indefinidas?`previsão indisponível: ${pan.indefinidas} etapa(s) sem data na planilha`
                       :(pan.fimGeral?`cadeia hoje termina em ${fmtBR(pan.fimGeral)}`:''))}
@@ -1857,6 +1933,11 @@ function vManual(){
         <h4>"Se isso atrasar, atrasa o mostruário?"</h4>
         <p>Abra a etapa em "editar", digite quantos dias de atraso quer testar e clique em <b>ver o impacto</b>. O sistema responde quais etapas seriam empurradas, em quantos dias cada uma, e se a liberação para o PCP é afetada. Serve para decidir na hora se dá para absorver o atraso ou se precisa de plano de ação.</p>
         <p>A faixa no topo da tela já traz o resumo: quantas etapas saíram do prazo, como está a liberação para o PCP e para quando a cadeia está empurrando a entrega do mostruário.</p>
+
+        <h4>"Por que está atrasado?" — a pergunta da diretoria</h4>
+        <p>No cartão <b>Liberação para o PCP</b> há uma linha que já responde o começo da história: <i>"nasce em 18. Comitê Operacional (+56 d)"</i>. Clique nela para ver a <b>fila inteira</b>.</p>
+        <p>A liberação é a última de uma fila: cada etapa só começa quando a anterior termina. Por isso o atraso quase nunca nasce inteiro num lugar — ele vai sendo somado. A tela mostra uma barra por etapa: a <b>parte clara</b> é o atraso que ela já recebeu pronto da etapa anterior, e a <b>parte escura</b> é o que ela mesma somou. A etapa marcada com <b>"começa aqui"</b> é onde o buraco abriu.</p>
+        <div class="callout dica">Leve essa tela para a reunião. Ela separa duas conversas que costumam virar uma só: <b>de onde veio o atraso</b> (história, serve para não repetir) e <b>onde ainda dá para recuperar dia</b> (as etapas em aberto listadas no fim, que é onde vale gastar energia hoje). Cobrar quem já entregou não devolve nenhum dia.</div>
 
         <h4>Atualizar um processo (faça na reunião de segunda)</h4>
         <div class="steps">
@@ -2426,6 +2507,53 @@ function htmlSimulacao(seq,dias,hoje){
   return `Empurra <b>${r.afetados.length} etapa(s)</b>${r.temas.length?' em: '+esc(r.temas.join(', ')):''}.${pcp}
     <div class="cadeia">${linhas}</div>${semData}`;
 }
+/* Por que o marco atrasou, em linguagem de chão de fábrica.
+   Uma barra por etapa da fila: o claro é o atraso que ela já recebeu pronto,
+   o escuro é o que ela somou. Assim o dono vê num relance onde o tempo entrou
+   e o time de produto vê o que ainda dá para recuperar. */
+function mPorquePcp(){
+  const hoje=hojeStr(),oa=origemAtraso(hoje);
+  if(!oa)return openModal(`<h3>Liberação para o PCP</h3>
+    <div class="sub">Ainda não dá para explicar o atraso: falta data congelada ou previsão nesta etapa.</div>
+    <div class="modal-acts"><button class="btn btn-g" data-action="modal-close">Fechar</button></div>`);
+  const maior=Math.max(...oa.etapas.map(e=>e.dv||0),1);
+  const linhas=oa.etapas.map(e=>{
+    const ehOrigem=oa.pior&&oa.pior.p.seq===e.p.seq;
+    const dono=nomeDono(e.p);
+    const larg=Math.max((e.dv||0)/maior*100,0);
+    const add=e.somou?e.somou/maior*100:0;
+    return `<div class="fila-l ${ehOrigem?'origem':''}">
+      <div class="fila-n"><b>${e.p.seq}. ${esc(e.p.name)}</b>
+        <span>${dono?esc(dono):'sem dono'} · ${e.aberta?'em aberto':'concluída'}${e.fim?' · '+(e.aberta?'previsto ':'')+fmtBR(e.fim):''}</span></div>
+      <div class="fila-b"><div class="ac" style="width:${larg}%"></div>
+        ${add?`<div class="ad" style="left:${larg-add}%;width:${add}%"></div>`:''}</div>
+      <div class="fila-d">${e.somou?`<b>+${e.somou} d aqui</b><br>`:''}${e.dv==null?'sem data congelada':(e.dv>0?`acumulado: ${e.dv} d`:'no prazo')}
+        ${ehOrigem?'<br><span class="fila-tag">começa aqui</span>':''}</div>
+    </div>`}).join('');
+  const agora=oa.abertas.length
+    ? `<b>O que dá para fazer agora.</b> Estas etapas da fila ainda estão em aberto — é nelas que dá para recuperar dia.
+       Abra cada uma, combine a data de entrega com o dono e registre o motivo do atraso.
+       <div class="pred-txt" style="margin-top:8px">${oa.abertas.map(e=>
+         `<button class="btn btn-g btn-sm" data-action="proc-edit" data-id="${e.p.id}" style="margin:0 6px 6px 0">${e.p.seq}. ${esc(e.p.name)} →</button>`).join('')}</div>`
+    : '<b>Toda a fila já foi concluída.</b> Este atraso é histórico: não há o que recuperar aqui, mas serve para o planejamento da próxima coleção — foi nesta fila que os dias se perderam.';
+  const aviso=oa.semData.length?`<div style="color:var(--warn);font-size:11.5px;margin-top:10px">A fila passa por
+      ${oa.semData.map(x=>`<b>#${x.seq} ${esc(x.name)}</b>`).join(' · ')}, sem data na planilha —
+      o atraso real pode ser maior do que o que aparece aqui.</div>`:'';
+  openModal(`
+   <h3>Por que a liberação para o PCP está ${oa.total} dias atrasada?</h3>
+   <div class="sub">A liberação é a última de uma fila de ${oa.etapas.length} etapas: cada uma só começa quando a anterior termina.
+     Por isso o atraso não nasce inteiro num lugar — ele vai sendo somado ao longo da fila.
+     A barra clara é o atraso que a etapa já recebeu pronto; a <b style="color:var(--late)">parte escura</b> é o que ela somou.</div>
+   <div class="fila">${linhas}</div>
+   ${oa.fecha?'':`<div style="font-size:11px;color:var(--muted);line-height:1.5;margin:2px 4px 0">
+     ${oa.foraDeOrdem.map(x=>`<b>#${x.seq} ${esc(x.name)}</b>`).join(' · ')}
+     ${oa.foraDeOrdem.length>1?'não esperaram':'não esperou'} a etapa anterior — ${oa.foraDeOrdem.length>1?'aconteceram':'aconteceu'}
+     fora da ordem da fila. Por isso o acumulado cai no meio do caminho e os saltos não somam
+     exatamente os ${oa.total} dias.</div>`}
+   <div class="passos">${agora}</div>
+   ${aviso}
+   <div class="modal-acts"><button class="btn btn-p" data-action="modal-close">Fechar</button></div>`);
+}
 function mTask(id){
   const t=id?db.tasks.find(x=>x.id===id):null;
   const ataSel=t?(t.ritual_id||''):(mTask._rit||'');
@@ -2660,6 +2788,7 @@ const ACTIONS={
     if(c.sel&&c.zoom!=='mes'){const p=procsCol().find(x=>x.seq===c.sel),pr=projetarCronograma(hojeStr())[c.sel];
       c.foco=(pr&&pr.ini)||p.start_date||c.foco}
     render()},
+  'pcp-porque':()=>mPorquePcp(),
   'cr-zoom':d=>{const c=ST.cronograma;c.zoom=d.z;if(!c.foco)c.foco=focoPadrao();render()},
   'cr-drill':d=>{const c=ST.cronograma,i=NIVEIS.indexOf(c.zoom||'mes');
     const j=d.dir==='in'?Math.min(i+1,NIVEIS.length-1):Math.max(i-1,0);

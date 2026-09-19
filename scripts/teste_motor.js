@@ -61,5 +61,21 @@ abertas.forEach(s=>{const r=simularAtraso(s,10,HOJE);
   else console.log('    #'+s+' +10d -> nao empurra ninguem'+(r.jaConcluida?' (concluida)':''))});
 ok(algumEmpurra,'ao menos uma etapa em aberto propaga atraso (a cadeia esta viva)');
 
+console.log('\n=== 8. De onde vem o atraso do PCP ===');
+const oa=origemAtraso(HOJE);
+// A decomposicao precisa FECHAR: se a soma do que cada etapa somou nao bate com
+// o atraso do marco, a explicacao mostrada ao dono da empresa esta mentindo.
+const somaEtapas=oa.etapas.reduce((t,e)=>t+(e.somou||0),0);
+ok(oa.total===61,'atraso do marco = 61 dias (calculado '+oa.total+')');
+ok(oa.etapas[oa.etapas.length-1].dv===oa.total,'o acumulado da ultima etapa da fila e o proprio atraso do marco');
+ok(oa.fecha===!oa.foraDeOrdem.length,'a flag fecha acompanha as etapas fora de ordem');
+ok(oa.foraDeOrdem.some(x=>x.seq===22),'#22 (terminou sem esperar a #21) aparece como fora de ordem');
+console.log('  soma dos saltos='+somaEtapas+' | fecha='+oa.fecha+' (falso = fila andou fora de ordem)');
+ok(oa.etapas[oa.etapas.length-1].p.seq===25,'a fila termina no proprio marco #25');
+ok(oa.etapas.every(e=>e.somou===null||e.somou>=0),'nenhuma etapa aparece somando atraso negativo');
+oa.etapas.forEach(e=>console.log('    #'+e.p.seq+' '+e.p.name.slice(0,40).padEnd(42)+
+  ' somou '+String(e.somou).padStart(3)+'d | acumulado '+String(e.dv).padStart(3)+'d'));
+console.log('  origem: '+(oa.pior?'#'+oa.pior.p.seq+' '+oa.pior.p.name+' (+'+oa.pior.somou+'d)':'nenhuma'));
+
 console.log(falhas?'\n'+falhas+' FALHA(S)':'\nTODOS OS TESTES PASSARAM');
 process.exit(falhas?1:0);
